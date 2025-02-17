@@ -1,0 +1,9 @@
+@import './variables';
+@import './mixins';
+
+body {  
+    background-color: $secondary-color;
+    color: $primary-color;
+    margin: 0;
+    padding: 0;
+}

@@ -71,7 +71,8 @@ onMounted(() => {
 <style scoped>
 header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   padding: 1rem;
   background-color: #f8f9fa;
@@ -80,13 +81,19 @@ header {
   font-size: 1.5rem;
   font-weight: bold;
 }
+nav {
+  margin-top: 1rem;
+}
 nav a {
-  margin: 0 1rem;
+  margin: 0.5rem 0;
   text-decoration: none;
   color: #333;
 }
+.actions {
+  margin-top: 1rem;
+}
 .actions button {
-  margin-left: 1rem;
+  margin: 0.5rem 0;
   padding: 0.5rem 1rem;
   border: none;
   background-color: #FF0000;
@@ -142,5 +149,24 @@ button {
 }
 #closeModal:hover {
   background-color: #aaa;
+}
+@media (min-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  nav {
+    margin-top: 0;
+  }
+  nav a {
+    margin: 0 1rem;
+  }
+  .actions {
+    margin-top: 0;
+  }
+  .actions button {
+    margin-left: 1rem;
+    margin-top: 0;
+  }
 }
 </style>

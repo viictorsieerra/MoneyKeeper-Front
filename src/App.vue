@@ -1,10 +1,10 @@
 <template>
   <div>
     <Header />
-    <NombreDinamico />
     <Features />
     <Hero />
-    <Objetivos />
+    <Comentarios />
+    <Opiniones />
     <Footer />
   </div>
 </template>
@@ -14,8 +14,8 @@ import Header from './components/Header.vue';
 import Hero from './components/Hero.vue';
 import Features from './components/Features.vue';
 import Footer from './components/Footer.vue';
-import NombreDinamico from './components/NombreDinamico.vue';
-import Objetivos from './components/Objetivos.vue'
+import Comentarios from './components/Comentarios.vue';
+import Opiniones from './components/Opiniones.vue'
 </script>
 
 <style>

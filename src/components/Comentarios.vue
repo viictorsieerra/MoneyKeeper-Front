@@ -1,6 +1,6 @@
 <template>
     <section class="comments-section">
-      <h2>Dinos como ha sido tu experiencia utilizando tus servicios!</h2>
+      <h2>Dinos como ha sido tu experiencia utilizando nuestros servicios!</h2>
       <form @submit.prevent="addComment">
         <input v-model="newComment" type="text" placeholder="Escribe tu comentario" required />
         <button type="submit">Enviar</button>

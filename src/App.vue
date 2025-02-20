@@ -1,6 +1,7 @@
 <template>
   <div>
     <Header />
+    <NombreDinamico />
     <Features />
     <Hero />
     <Comentarios />
@@ -16,6 +17,7 @@ import Features from './components/Features.vue';
 import Footer from './components/Footer.vue';
 import Comentarios from './components/Comentarios.vue';
 import Opiniones from './components/Opiniones.vue'
+import NombreDinamico from './components/NombreDinamico.vue';
 </script>
 
 <style>

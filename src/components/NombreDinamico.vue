@@ -1,7 +1,7 @@
 <template>
   <div class="greeting">
-    <h1>{{ greetingMessage }}</h1>
-    <p>{{ userDescription }}</p>
+    <h1 class="greeting__title">{{ greetingMessage }}</h1>
+    <p class="greeting__description">{{ userDescription }}</p>
   </div>
 </template>
 
@@ -58,16 +58,16 @@ onUnmounted(() => {
   max-width: 100%;
   margin: 75px auto;
 }
-.greeting h1 {
+.greeting__title {
   font-size: 2rem;
   margin-bottom: 1rem;
   transition: opacity 0.5s ease-in-out;
 }
-.greeting p {
+.greeting__description {
   font-size: 1.2rem;
   margin-bottom: 2rem;
 }
-.greeting button {
+.greeting__button {
   padding: 0.75rem 1.5rem;
   background-color: #FF0000;
   color: white;
@@ -75,7 +75,7 @@ onUnmounted(() => {
   border-radius: 5px;
   cursor: pointer;
 }
-.greeting button:hover {
+.greeting__button:hover {
   background-color: #a80404;
 }
 @media (min-width: 768px) {

@@ -1,26 +1,26 @@
 <template>
-  <header>
-    <div class="logo">MiLogo</div>
-    <nav>
-      <a href="#">Inicio</a>
-      <a href="#">Cómo funciona</a>
-      <a href="#">Precios</a>
-      <a href="#">Ayuda</a>
+  <header class="header">
+    <div class="header__logo">MiLogo</div>
+    <nav class="header__nav">
+      <router-link to="/" class="header__nav-link">Inicio</router-link>
+      <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
+      <router-link to="/precios" class="header__nav-link">Precios</router-link>
+      <router-link to="/ayuda" class="header__nav-link">Ayuda</router-link>
     </nav>
-    <div class="actions">
-      <button id="loginBtn">Iniciar sesión</button>
-      <button id="registerBtn">Registrarse</button>
+    <div class="header__actions">
+      <button id="loginBtn" class="header__button">Iniciar sesión</button>
+      <button id="registerBtn" class="header__button">Registrarse</button>
     </div>
   </header>
 
   <div id="modalOverlay" class="modal-overlay">
     <div class="modal">
-      <h2 id="modalTitle">Iniciar sesión</h2>
-      <form id="modalForm">
-        <input type="email" id="emailInput" placeholder="Correo electrónico" required />
-        <input type="password" id="passwordInput" placeholder="Contraseña" required />
-        <button type="submit" id="submitBtn">Iniciar sesión</button>
-        <button type="button" id="closeModal">Cancelar</button>
+      <h2 id="modalTitle" class="modal__title">Iniciar sesión</h2>
+      <form id="modalForm" class="modal__form">
+        <input type="email" id="emailInput" class="modal__input" placeholder="Correo electrónico" required />
+        <input type="password" id="passwordInput" class="modal__input" placeholder="Contraseña" required />
+        <button type="submit" id="submitBtn" class="modal__button">Iniciar sesión</button>
+        <button type="button" id="closeModal" class="modal__button modal__button--close">Cancelar</button>
       </form>
     </div>
   </div>
@@ -69,7 +69,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-header {
+.header {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -77,22 +77,22 @@ header {
   padding: 1rem;
   background-color: #f8f9fa;
 }
-.logo {
+.header__logo {
   font-size: 1.5rem;
   font-weight: bold;
 }
-nav {
+.header__nav {
   margin-top: 1rem;
 }
-nav a {
+.header__nav-link {
   margin: 0.5rem 0;
   text-decoration: none;
   color: #333;
 }
-.actions {
+.header__actions {
   margin-top: 1rem;
 }
-.actions button {
+.header__button {
   margin: 0.5rem 0;
   padding: 0.5rem 1rem;
   border: none;
@@ -119,17 +119,17 @@ nav a {
   text-align: center;
   width: 300px;
 }
-h2 {
+.modal__title {
   margin-bottom: 1rem;
 }
-input {
+.modal__input {
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-button {
+.modal__button {
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.5rem;
@@ -137,34 +137,34 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-#submitBtn {
+.modal__button--submit {
   background-color: #007bff;
   color: white;
 }
-#submitBtn:hover {
+.modal__button--submit:hover {
   background-color: #0056b3;
 }
-#closeModal {
+.modal__button--close {
   background-color: #ccc;
 }
-#closeModal:hover {
+.modal__button--close:hover {
   background-color: #aaa;
 }
 @media (min-width: 768px) {
-  header {
+  .header {
     flex-direction: row;
     justify-content: space-between;
   }
-  nav {
+  .header__nav {
     margin-top: 0;
   }
-  nav a {
+  .header__nav-link {
     margin: 0 1rem;
   }
-  .actions {
+  .header__actions {
     margin-top: 0;
   }
-  .actions button {
+  .header__button {
     margin-left: 1rem;
     margin-top: 0;
   }

@@ -1,10 +1,10 @@
 <template>
-  <footer>
-    <p>&copy; 2023 MiPágina. Todos los derechos reservados.</p>
-    <div class="social-links">
-      <a href="#">Facebook</a>
-      <a href="#">Twitter</a>
-      <a href="#">Instagram</a>
+  <footer class="footer">
+    <p class="footer__text">&copy; 2023 MiPágina. Todos los derechos reservados.</p>
+    <div class="footer__social-links">
+      <a href="#" class="footer__social-link">Facebook</a>
+      <a href="#" class="footer__social-link">Twitter</a>
+      <a href="#" class="footer__social-link">Instagram</a>
     </div>
   </footer>
 </template>
@@ -13,28 +13,28 @@
 </script>
 
 <style scoped>
-footer {
+.footer {
   padding: 1rem;
   background-color: #333;
   color: white;
   text-align: center;
 }
-.social-links {
+.footer__social-links {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin-top: 1rem;
 }
-.social-links a {
+.footer__social-link {
   color: white;
   text-decoration: none;
 }
 @media (min-width: 768px) {
-  .social-links {
+  .footer__social-links {
     flex-direction: row;
     justify-content: center;
   }
-  .social-links a {
+  .footer__social-link {
     margin: 0 1rem;
   }
 }

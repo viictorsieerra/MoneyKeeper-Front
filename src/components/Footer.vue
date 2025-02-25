@@ -12,30 +12,61 @@
 <script setup>
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .footer {
-  padding: 1rem;
   background-color: #333;
   color: white;
+  padding: 20px;
   text-align: center;
+  font-size: 14px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
+
+.footer__text {
+  margin: 0;
+  font-size: 1rem;
+}
+
 .footer__social-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 10px;
 }
+
 .footer__social-link {
+  margin: 0 15px;
   color: white;
   text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s;
 }
-@media (min-width: 768px) {
-  .footer__social-links {
-    flex-direction: row;
-    justify-content: center;
+
+.footer__social-link:hover {
+  color: #FFD700; 
+}
+
+
+@media (min-width: 600px) {
+  .footer__text {
+    font-size: 1.1rem;
   }
+
   .footer__social-link {
-    margin: 0 1rem;
+    font-size: 1.4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer {
+    padding: 30px;
+  }
+
+  .footer__text {
+    font-size: 1.2rem;
+  }
+
+  .footer__social-link {
+    font-size: 1.5rem;
   }
 }
 </style>

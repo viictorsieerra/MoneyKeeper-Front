@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ComoFunciona from '@/components/ComoFunciona.vue';
+import ComoFunciona from '@/views/ComoFunciona.vue';
 import Transacciones from '@/views/TransaccionesView.vue';
+import SobreNosotrosView from '@/views/SobreNosotrosView.vue';
+import ConsejosView from '@/views/ConsejosView.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -17,6 +19,14 @@ const router = createRouter({
     {
       path: '/transacciones',
       component: Transacciones
+    },
+    {
+      path: '/sobre-nosotros',
+      component: SobreNosotrosView
+    },
+    {
+      path: '/consejos',
+      component: ConsejosView
     },
     {
       path: '/about',

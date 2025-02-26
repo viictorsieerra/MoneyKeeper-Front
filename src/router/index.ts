@@ -4,6 +4,7 @@ import ComoFunciona from '@/views/ComoFunciona.vue';
 import Transacciones from '@/views/TransaccionesView.vue';
 import SobreNosotrosView from '@/views/SobreNosotrosView.vue';
 import ConsejosView from '@/views/ConsejosView.vue';
+import PrivateHomeView from '@/views/PrivateViews/PrivateHomeView.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -27,6 +28,10 @@ const router = createRouter({
     {
       path: '/consejos',
       component: ConsejosView
+    },
+    {
+      path: '/zona-privada',
+      component: PrivateHomeView
     },
     {
       path: '/about',

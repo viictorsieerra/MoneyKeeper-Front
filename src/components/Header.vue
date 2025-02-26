@@ -6,6 +6,7 @@
       <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
       <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
       <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
+      <router-link to="/zona-privada" class="header__nav-link">zona privada</router-link>
     </nav>
     <div class="header__actions">
       <button id="loginBtn" class="header__button">Iniciar sesión</button>

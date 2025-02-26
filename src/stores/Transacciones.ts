@@ -1,11 +1,15 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useJWTStore } from '@/stores/JWT'
 
 export const useTransaccionStore = defineStore('transaccion', () => {
+  const store = useJWTStore()
+  const strToken = computed(() => store.token).value
   const transacciones = ref(new Array())
   function findByUser() {
+    console.log("PRUEBA" + strToken)
     fetch("https://localhost:7053/Transaccion/transacciones",
-      { headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzIiwiZW1haWwiOiJqdWFuLnBlcmV6QGVtYWlsLmNvbSIsInJvbGUiOiJDbGllbnRlIiwibmJmIjoxNzQwNTA5MTA2LCJleHAiOjE3NDA1OTU1MDYsImlhdCI6MTc0MDUwOTEwNiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA1MyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTMifQ.H9yPd42-_Jb61fgEvCZzuUMzDNI6BHXpG5e8vuYsa5I' } })
+      { headers: { 'Authorization': `Bearer ${strToken}` } })
       .then(res => res.json())
       .then(data => {
         console.log(data)

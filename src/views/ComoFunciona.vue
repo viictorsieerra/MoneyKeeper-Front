@@ -16,7 +16,7 @@
   <script setup>
   </script>
   
-  <style scoped>
+  <style scoped lang="scss">
   .how-it-works {
     padding: 2rem;
     background-color: #f8f9fa;

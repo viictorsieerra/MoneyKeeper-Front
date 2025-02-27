@@ -1,31 +1,3 @@
-<template>
-  <header class="header">
-    <div class="header__logo">MiLogo</div>
-    <nav class="header__nav">
-      <router-link to="/" class="header__nav-link">Inicio</router-link>
-      <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
-      <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
-      <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
-      <router-link to="/zona-privada" class="header__nav-link">zona privada</router-link>
-    </nav>
-    <div class="header__actions">
-      <button id="loginBtn" class="header__button">Iniciar sesión</button>
-      <button id="registerBtn" class="header__button">Registrarse</button>
-    </div>
-  </header>
-
-  <div id="modalOverlay" class="modal-overlay">
-    <div class="modal">
-      <h2 id="modalTitle" class="modal__title">Iniciar sesión</h2>
-      <form id="modalForm" class="modal__form">
-        <input type="email" id="emailInput" class="modal__input" placeholder="Correo electrónico" required />
-        <input type="password" id="passwordInput" class="modal__input" placeholder="Contraseña" required />
-        <button type="submit" id="submitBtn" class="modal__button">Iniciar sesión</button>
-        <button type="button" id="closeModal" class="modal__button modal__button--close">Cancelar</button>
-      </form>
-    </div>
-  </div>
-</template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
@@ -69,8 +41,9 @@ onMounted(() => {
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
       <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
-      <router-link to="/precios" class="header__nav-link">Precios</router-link>
-      <router-link to="/ayuda" class="header__nav-link">Ayuda</router-link>
+      <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
+      <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
+      <router-link to="/zona-privada" class="header__nav-link">zona privada</router-link>
     </nav>
     <div class="header__actions">
       <button id="loginBtn" class="header__button">Iniciar sesión</button>

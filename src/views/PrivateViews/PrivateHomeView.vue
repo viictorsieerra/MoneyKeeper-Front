@@ -12,7 +12,7 @@
             <router-link to="/gestion-gastos" class="private-home__nav-link">Gestión de gastos</router-link>
           </li>
           <li class="private-home__nav-item">
-            <router-link to="/informes" class="private-home__nav-link">Informes</router-link>
+            <router-link to="/cuenta-bancaria" class="private-home__nav-link">Cuentas</router-link>
           </li>
         </ul>
       </nav>

@@ -14,12 +14,10 @@ console.log(store)
         Listado de cuentas
         <div class="cuentas__views" v-for="cuenta in store.cuentas">
             <div class="cuentas__views-card">
-                idCuenta : {{ cuenta.idCuenta }} <br>
-                idUsuario: {{ cuenta.idUsuario }}€<br>
-                dineroCuenta : {{ cuenta.dineroCuenta }}<br>
-                activa: {{cuenta.activa }}<br>
-                Fecha de la creacion : {{ cuenta.fechaCreacion }}<br>
-                nombreCuenta : {{ cuenta.nombreCuenta }}<br>
+                dineroCuenta : {{ cuenta._dineroCuenta }}<br>
+                activa: {{cuenta._activa }}<br>
+                Fecha de la creacion : {{ cuenta._fechaCreacion }}<br>
+                nombreCuenta : {{ cuenta._nombreCuenta }}<br>
             </div>
         </div>
     </main>

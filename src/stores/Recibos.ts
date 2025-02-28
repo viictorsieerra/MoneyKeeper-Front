@@ -2,13 +2,13 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
 
-export const useCuentaBancariaStore = defineStore('cuenta', () => {
+export const useReciboStore = defineStore('recibo', () => {
 
-  const cuentas = ref(new Array())
+  const recibos = ref(new Array())
   const jwtStore = useJWTStore()
   console.log(jwtStore)
   function findByUser() {
-
+    console.log("DDD " +jwtStore.jwt)
     const strToken = jwtStore.jwt
     
     if (strToken != ""){
@@ -16,18 +16,18 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
     }
     else (console.log("Token no pillado correctamente"))
 
-    fetch("https://localhost:7053/Cuenta/cuentas",
+    fetch("https://localhost:7053/Recibo/recibos",
       { headers: { 'Authorization': `Bearer ${strToken}` } })
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        data.forEach(cuentas => {
-          cuentas._fechaCreacion = new Date(cuentas._fechaCreacion).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+        data.forEach(recibos => {
+          recibos._fecRecibo = new Date(recibos._fecRecibo).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
         });
-        cuentas.value.splice(0, cuentas.value.length, ...data)
+        recibos.value.splice(0, recibos.value.length, ...data)
       })
       .catch(error => console.log(error))
   }
 
-  return { cuentas, findByUser }
+  return { recibos, findByUser }
 }, {persist: true})

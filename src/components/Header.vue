@@ -56,7 +56,7 @@ onMounted(() => {
       <form id="modalForm" class="modal__form">
         <input type="email" v-model="loginDTO._correo" id="emailInput" class="modal__input" placeholder="Correo electrónico" required />
         <input type="password" v-model="loginDTO._contrasena" id="passwordInput" class="modal__input" placeholder="Contraseña" required />
-        <RouterLink to="/transacciones"><button type="input" @click="store.loginUser(loginDTO)" id="submitBtn" class="modal__button" >Iniciar sesión</button></RouterLink>
+        <RouterLink to="/PrivateHomeView"><button type="input" @click="store.loginUser(loginDTO)" id="submitBtn" class="modal__button" >Iniciar sesión</button></RouterLink>
         <button type="button" id="closeModal" class="modal__button modal__button--close">Cancelar</button>
       </form>
     </div>

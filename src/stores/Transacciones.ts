@@ -3,11 +3,19 @@ import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
 
 export const useTransaccionStore = defineStore('transaccion', () => {
-  const store = useJWTStore()
-  const strToken = computed(() => store.token).value
+
   const transacciones = ref(new Array())
+  const jwtStore = useJWTStore()
+  console.log(jwtStore)
   function findByUser() {
-    console.log("PRUEBA" + strToken)
+    console.log("DDD " +jwtStore.jwt)
+    const strToken = jwtStore.jwt
+    
+    if (strToken != ""){
+    console.log("PRUEBA" + jwtStore.jwt)
+    }
+    else (console.log("Token no pillado correctamente"))
+
     fetch("https://localhost:7053/Transaccion/transacciones",
       { headers: { 'Authorization': `Bearer ${strToken}` } })
       .then(res => res.json())
@@ -20,5 +28,6 @@ export const useTransaccionStore = defineStore('transaccion', () => {
       })
       .catch(error => console.log(error))
   }
+
   return { transacciones, findByUser }
-})
+}, {persist: true})

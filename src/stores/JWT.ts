@@ -3,8 +3,9 @@ import { defineStore } from 'pinia'
 import LoginDTO from './DTO/LoginDTO'
 
 export const useJWTStore = defineStore('jwt', () => {
-  var token = ref('')
-  function LoginUser(loginUser: LoginDTO) {
+  var jwt = ref('')
+  
+  function loginUser(loginUser: LoginDTO) {
     console.log(loginUser._contrasena)
     fetch("https://localhost:7053/JWT/Login", {
       method: 'POST',
@@ -19,10 +20,11 @@ export const useJWTStore = defineStore('jwt', () => {
       .then(res => res.text())
       .then(data => {
         console.log(data)
-        token.value = data
-        console.log(`Token: ${token}`)
+        jwt.value = data
+        console.log(`Token: ${jwt}`)
       })
       .catch(error => console.log(error))
   }
-  return { token, LoginUser }
-})
+
+  return { jwt, loginUser }
+}, {persist: true})

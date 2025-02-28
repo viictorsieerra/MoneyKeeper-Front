@@ -3,6 +3,9 @@ import { useTransaccionStore } from '@/stores/Transacciones'
 
 const store = useTransaccionStore()
 
+console.log(store)
+
+
 store.findByUser()
 
 console.log(store)

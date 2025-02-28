@@ -31,6 +31,7 @@
 import { onMounted, ref } from 'vue';
 import { useJWTStore } from '@/stores/JWT'
 import LoginDTO from '@/stores/DTO/LoginDTO'
+import { RouterLink } from 'vue-router';
 
 const store = useJWTStore()
 const loginDTO = ref(LoginDTO)
@@ -84,7 +85,7 @@ onMounted(() => {
       <form id="modalForm" class="modal__form">
         <input type="email" v-model="loginDTO._correo" id="emailInput" class="modal__input" placeholder="Correo electrónico" required />
         <input type="password" v-model="loginDTO._contrasena" id="passwordInput" class="modal__input" placeholder="Contraseña" required />
-        <button type="button" @click="store.LoginUser(loginDTO)" id="submitBtn" class="modal__button">Iniciar sesión</button>
+        <RouterLink to="/transacciones"><button type="input" @click="store.loginUser(loginDTO)" id="submitBtn" class="modal__button" >Iniciar sesión</button></RouterLink>
         <button type="button" id="closeModal" class="modal__button modal__button--close">Cancelar</button>
       </form>
     </div>

@@ -41,8 +41,8 @@ onMounted(() => {
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
       <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
-      <router-link to="/precios" class="header__nav-link">Precios</router-link>
-      <router-link to="/ayuda" class="header__nav-link">Ayuda</router-link>
+      <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
+      <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
     </nav>
     <div class="header__actions">
       <button id="loginBtn" class="header__button">Iniciar sesión</button>

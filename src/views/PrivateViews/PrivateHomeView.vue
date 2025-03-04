@@ -3,16 +3,16 @@
       <nav class="private-home__navbar">
         <ul class="private-home__nav-list">
           <li class="private-home__nav-item">
-            <router-link to="/ahorros" class="private-home__nav-link">Ahorros</router-link>
+            <router-link to="/meta-ahorro" class="private-home__nav-link">Ahorros</router-link>
           </li>
           <li class="private-home__nav-item">
             <router-link to="/transacciones" class="private-home__nav-link">Transacciones</router-link>
           </li>
           <li class="private-home__nav-item">
-            <router-link to="/gestion-gastos" class="private-home__nav-link">Gestión de gastos</router-link>
+            <router-link to="/recibos" class="private-home__nav-link">Recibos</router-link>
           </li>
           <li class="private-home__nav-item">
-            <router-link to="/informes" class="private-home__nav-link">Informes</router-link>
+            <router-link to="/cuenta-bancaria" class="private-home__nav-link">Cuentas</router-link>
           </li>
         </ul>
       </nav>

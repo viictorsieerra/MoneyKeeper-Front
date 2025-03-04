@@ -41,8 +41,8 @@ onMounted(() => {
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
       <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
-      <router-link to="/precios" class="header__nav-link">Precios</router-link>
-      <router-link to="/ayuda" class="header__nav-link">Ayuda</router-link>
+      <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
+      <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
     </nav>
     <div class="header__actions">
       <button id="loginBtn" class="header__button">Iniciar sesión</button>
@@ -56,7 +56,7 @@ onMounted(() => {
       <form id="modalForm" class="modal__form">
         <input type="email" v-model="loginDTO._correo" id="emailInput" class="modal__input" placeholder="Correo electrónico" required />
         <input type="password" v-model="loginDTO._contrasena" id="passwordInput" class="modal__input" placeholder="Contraseña" required />
-        <RouterLink to="/transacciones"><button type="input" @click="store.loginUser(loginDTO)" id="submitBtn" class="modal__button" >Iniciar sesión</button></RouterLink>
+        <RouterLink to="/PrivateHomeView"><button type="input" @click="store.loginUser(loginDTO)" id="submitBtn" class="modal__button" >Iniciar sesión</button></RouterLink>
         <button type="button" id="closeModal" class="modal__button modal__button--close">Cancelar</button>
       </form>
     </div>

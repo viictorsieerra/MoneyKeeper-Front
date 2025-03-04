@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ComoFunciona from '@/components/ComoFunciona.vue';
+import ComoFunciona from '@/views/ComoFunciona.vue';
 import Transacciones from '@/views/PrivateViews/TransaccionesView.vue';
 import PrivateHomeView from '@/views/PrivateViews/PrivateHomeView.vue';
 import CuentaBancariaView from '@/views/PrivateViews/CuentaBancariaView.vue';

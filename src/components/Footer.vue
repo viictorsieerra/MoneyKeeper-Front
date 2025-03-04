@@ -58,7 +58,10 @@
 
 @media (min-width: 1024px) {
   .footer {
-    padding: 30px;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    text-align: center;
   }
 
   .footer__text {

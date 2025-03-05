@@ -13,38 +13,51 @@
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/_variables.scss';
+@import '@/assets/styles/_mixins.scss';
+
 .hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  background-color: #e9ecef;
+  background-color: $hero-background-color;
   margin: 1%;
   border-radius: 10px;
 }
+
 .hero__content {
   max-width: 100%;
   text-align: center;
 }
+
 .hero__title {
-  font-size: 2rem;
+  @include responsive-font-size(2rem);
   margin-bottom: 1rem;
+  color: $secondary-color;
 }
+
 .hero__description {
-  font-size: 1rem;
+  @include responsive-font-size(1rem);
   margin-bottom: 2rem;
+  color: $text-color;
 }
+
 .hero__button {
   padding: 0.75rem 1.5rem;
-  background-color: #FF0000;
-  color: white;
+  background-color: $primary-color;
+  color: $background-color;
   border: none;
   cursor: pointer;
+  border-radius: 4px;
 }
+
 .hero__image {
   max-width: 100%;
   margin-top: 2rem;
+  border-radius: 10px;
 }
+
 @media (min-width: 768px) {
   .hero {
     flex-direction: row;

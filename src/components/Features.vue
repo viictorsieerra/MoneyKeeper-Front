@@ -41,47 +41,62 @@ const features = [
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/_variables.scss';
+@import '@/assets/styles/_mixins.scss';
+
 .features {
   padding: 1rem;
   text-align: center;
 }
+
+.features__title {
+  @include responsive-font-size(1.5rem);
+  color: $secondary-color;
+}
+
 .features__list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
 }
+
 .features__card {
   padding: 1rem;
-  background-color: #f8f9fa;
+  background-color: $background-color;
   border-radius: 10px;
   text-align: center;
+  border: 1px solid $border-color;
+
+  @media (min-width: 768px) {
+    max-width: 45%;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 30%;
+  }
 }
+
 .features__icon {
   width: 170px;
   height: 120px;
   margin-bottom: 1rem;
 }
+
 .features__card-title {
-  font-size: 1.5rem;
+  @include responsive-font-size(1.25rem);
   margin-bottom: 0.5rem;
+  color: $secondary-color;
 }
+
 .features__card-description {
   font-size: 1rem;
-}
-@media (min-width: 768px) {
-  .features__list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  .features__card {
-    max-width: 45%;
-  }
-}
-@media (min-width: 1024px) {
-  .features__card {
-    max-width: 30%;
-  }
+  color: $text-color;
 }
 </style>

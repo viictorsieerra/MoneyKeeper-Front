@@ -49,38 +49,46 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/assets/styles/_variables.scss';
+@import '@/assets/styles/_mixins.scss';
+
 .greeting {
   text-align: center;
   padding: 2rem;
-  background-color: #f8f9fa;
+  background-color: $hero-background-color;
   border-radius: 10px;
   max-width: 100%;
   margin: 75px auto;
+
+  @media (min-width: 768px) {
+    max-width: 80%; 
+  }
 }
+
 .greeting__title {
-  font-size: 2rem;
+  @include responsive-font-size(2rem);
   margin-bottom: 1rem;
   transition: opacity 0.5s ease-in-out;
+  color: $secondary-color;
 }
+
 .greeting__description {
-  font-size: 1.2rem;
+  @include responsive-font-size(1rem);
   margin-bottom: 2rem;
+  color: $text-color;
 }
+
 .greeting__button {
   padding: 0.75rem 1.5rem;
-  background-color: #FF0000;
-  color: white;
+  background-color: $primary-color;
+  color: $background-color;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-.greeting__button:hover {
-  background-color: #a80404;
-}
-@media (min-width: 768px) {
-  .greeting {
-    max-width: 600px;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
   }
 }
 </style>

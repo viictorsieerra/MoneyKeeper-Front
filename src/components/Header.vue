@@ -1,3 +1,52 @@
+<template>
+  <header class="header">
+    <!-- Logo en canvas -->
+    <canvas id="logoCanvas" class="header__logo"></canvas>
+
+    <nav class="header__nav">
+      <router-link to="/" class="header__nav-link">Inicio</router-link>
+      <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
+      <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
+      <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
+    </nav>
+
+    <div class="header__actions">
+      <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
+      <button @click="openModal('register')" class="header__button">Registrarse</button>
+    </div>
+  </header>
+
+  <!-- Modal -->
+  <div v-if="isModalOpen" class="modal-overlay">
+    <div class="modal">
+      <h2 class="modal__title">{{ modalType === 'login' ? 'Iniciar sesión' : 'Registrarse' }}</h2>
+      <form @submit="submitForm" class="modal__form">
+
+        <!-- L O G I N -->
+        <template v-if="modalType === 'login'">
+          <input type="email" v-model="loginDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
+          <input type="password" v-model="loginDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
+        </template>
+        <!-- R E G I S T R O -->
+        <template v-if="modalType === 'register'">
+          <input type="email" v-model="registerDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
+          <input type="password" v-model="registerDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
+          <input type="text" v-model="registerDTO._nombre" class="modal__input" placeholder="Nombre" required />
+          <input type="text" v-model="registerDTO._apellido" class="modal__input" placeholder="Apellido" required />
+          <input type="date" v-model="registerDTO._fechaNacimiento" class="modal__input" required />
+          <input type="text" v-model="registerDTO._dni" class="modal__input" placeholder="DNI" required />
+        </template>
+
+        <button type="submit" class="modal__button">
+          {{ modalType === 'login' ? 'Iniciar sesión' : 'Registrarse' }}
+        </button>
+        <button type="button" @click="closeModal" class="modal__button modal__button--close">Cancelar</button>
+      </form>
+
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useJWTStore } from '@/stores/JWT';
@@ -51,63 +100,18 @@ onMounted(() => {
 });
 </script>
 
-<template>
-  <header class="header">
-    <!-- Logo en canvas -->
-    <canvas id="logoCanvas" class="header__logo"></canvas>
-
-    <nav class="header__nav">
-      <router-link to="/" class="header__nav-link">Inicio</router-link>
-      <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
-      <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
-      <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
-    </nav>
-
-    <div class="header__actions">
-      <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
-      <button @click="openModal('register')" class="header__button">Registrarse</button>
-    </div>
-  </header>
-
-  <!-- Modal -->
-  <div v-if="isModalOpen" class="modal-overlay">
-    <div class="modal">
-      <h2 class="modal__title">{{ modalType === 'login' ? 'Iniciar sesión' : 'Registrarse' }}</h2>
-      <form @submit="submitForm" class="modal__form">
-
-        <!-- L O G I N -->
-        <template v-if="modalType === 'login'">
-          <input type="email" v-model="loginDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
-          <input type="password" v-model="loginDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
-        </template>
-        <!-- R E G I S T R O -->
-        <template v-if="modalType === 'register'">
-          <input type="email" v-model="registerDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
-          <input type="password" v-model="registerDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
-          <input type="text" v-model="registerDTO._nombre" class="modal__input" placeholder="Nombre" required />
-          <input type="text" v-model="registerDTO._apellido" class="modal__input" placeholder="Apellido" required />
-          <input type="date" v-model="registerDTO._fechaNacimiento" class="modal__input" required />
-          <input type="text" v-model="registerDTO._dni" class="modal__input" placeholder="DNI" required />
-        </template>
-
-        <button type="submit" class="modal__button">
-          {{ modalType === 'login' ? 'Iniciar sesión' : 'Registrarse' }}
-        </button>
-        <button type="button" @click="closeModal" class="modal__button modal__button--close">Cancelar</button>
-      </form>
-
-    </div>
-  </div>
-</template>
-
 <style scoped lang="scss">
+@import '@/assets/styles/_variables.scss';
+@import '@/assets/styles/_mixins.scss';
+
 .header {
   display: flex;
   flex-direction: column;
+  z-index: 1000;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background-color: #f8f9fa;
+  background-color: $header-background-color;
 
   &__logo {
     width: 120px;
@@ -122,7 +126,7 @@ onMounted(() => {
     &-link {
       margin: 0.5rem 0;
       text-decoration: none;
-      color: #333;
+      color: $text-color;
     }
   }
 
@@ -134,14 +138,14 @@ onMounted(() => {
     margin: 0.5rem 0;
     padding: 0.5rem 1rem;
     border: none;
-    background-color: #FF0000;
-    color: white;
+    background-color: $primary-color;
+    color: $background-color;
     cursor: pointer;
   }
 }
 
 .modal {
-  background: white;
+  background: $background-color;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -168,7 +172,7 @@ onMounted(() => {
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid $border-color;
     border-radius: 4px;
   }
 
@@ -179,8 +183,8 @@ onMounted(() => {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #007bff;
-    color: white;
+    background-color: $primary-color;
+    color: $background-color;
 
     &--close {
       background-color: #ccc;

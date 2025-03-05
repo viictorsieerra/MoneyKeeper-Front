@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Header />
+    <header class="header">
+      <Header />
+    </header>
 <RouterView />
     <Footer />
   </div>
@@ -15,5 +17,8 @@ import Footer from './components/Footer.vue';
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+}
+.header {
+ z-index: 1;
 }
 </style>

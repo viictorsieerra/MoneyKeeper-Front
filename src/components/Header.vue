@@ -1,64 +1,101 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useJWTStore } from '@/stores/JWT'
-import LoginDTO from '@/stores/DTO/LoginDTO'
-import { RouterLink } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useJWTStore } from '@/stores/JWT';
+import LoginDTO from '@/stores/DTO/LoginDTO';
+import RegisterDTO from '@/stores/DTO/RegistroDTO';
 
-const store = useJWTStore()
-const loginDTO = ref(LoginDTO)
+const store = useJWTStore();
+const loginDTO = ref(new LoginDTO());
+const registerDTO = ref(new RegisterDTO());
 
+const isModalOpen = ref(false);
+const modalType = ref<'login' | 'register'>('login');
+
+const openModal = (type: 'login' | 'register') => {
+  modalType.value = type;
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+};
+
+const submitForm = () => {
+  if (modalType.value === 'login') {
+    store.loginUser(loginDTO.value);
+  } else {
+    store.registerUser(registerDTO.value);
+  }
+  closeModal();
+};
+
+// Dibuja el logo en el canvas
 onMounted(() => {
-  const modalOverlay = document.getElementById('modalOverlay');
-  const loginBtn = document.getElementById('loginBtn');
-  const registerBtn = document.getElementById('registerBtn');
-  const closeModalBtn = document.getElementById('closeModal');
-  const modalTitle = document.getElementById('modalTitle');
-  const submitBtn = document.getElementById('submitBtn');
-  const modalForm = document.getElementById('modalForm');
+  const canvas = document.getElementById('logoCanvas') as HTMLCanvasElement;
+  if (!canvas) return;
 
-  modalOverlay.style.display = 'none';
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
 
-  function openModal(type) {
-    modalTitle.textContent = type === 'login' ? 'Iniciar sesión' : 'Registrarse';
-    submitBtn.textContent = type === 'login' ? 'Iniciar sesión' : 'Registrarse';
-    submitBtn.dataset.action = type;
-    modalOverlay.style.display = 'flex';
-  }
+  canvas.width = 120;
+  canvas.height = 50;
 
-  function closeModal() {
-    modalOverlay.style.display = 'none';
-  }
+  ctx.fillStyle = '#FF0000';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  loginBtn.addEventListener('click', () => openModal('login'));
-  registerBtn.addEventListener('click', () => openModal('register'));
-  closeModalBtn.addEventListener('click', closeModal);
+  ctx.font = 'bold 20px Arial';
+  ctx.fillStyle = 'white';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('MiLogo', canvas.width / 2, canvas.height / 2);
 });
 </script>
 
 <template>
   <header class="header">
-    <div class="header__logo">MiLogo</div>
+    <!-- Logo en canvas -->
+    <canvas id="logoCanvas" class="header__logo"></canvas>
+
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
       <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
       <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
       <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
     </nav>
+
     <div class="header__actions">
-      <button id="loginBtn" class="header__button">Iniciar sesión</button>
-      <button id="registerBtn" class="header__button">Registrarse</button>
+      <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
+      <button @click="openModal('register')" class="header__button">Registrarse</button>
     </div>
   </header>
 
-  <div id="modalOverlay" class="modal-overlay">
+  <!-- Modal -->
+  <div v-if="isModalOpen" class="modal-overlay">
     <div class="modal">
-      <h2 id="modalTitle" class="modal__title">Iniciar sesión</h2>
-      <form id="modalForm" class="modal__form">
-        <input type="email" v-model="loginDTO._correo" id="emailInput" class="modal__input" placeholder="Correo electrónico" required />
-        <input type="password" v-model="loginDTO._contrasena" id="passwordInput" class="modal__input" placeholder="Contraseña" required />
-        <RouterLink to="/PrivateHomeView"><button type="input" @click="store.loginUser(loginDTO)" id="submitBtn" class="modal__button" >Iniciar sesión</button></RouterLink>
-        <button type="button" id="closeModal" class="modal__button modal__button--close">Cancelar</button>
+      <h2 class="modal__title">{{ modalType === 'login' ? 'Iniciar sesión' : 'Registrarse' }}</h2>
+      <form @submit="submitForm" class="modal__form">
+
+        <!-- L O G I N -->
+        <template v-if="modalType === 'login'">
+          <input type="email" v-model="loginDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
+          <input type="password" v-model="loginDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
+        </template>
+        <!-- R E G I S T R O -->
+        <template v-if="modalType === 'register'">
+          <input type="email" v-model="registerDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
+          <input type="password" v-model="registerDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
+          <input type="text" v-model="registerDTO._nombre" class="modal__input" placeholder="Nombre" required />
+          <input type="text" v-model="registerDTO._apellido" class="modal__input" placeholder="Apellido" required />
+          <input type="date" v-model="registerDTO._fechaNacimiento" class="modal__input" required />
+          <input type="text" v-model="registerDTO._dni" class="modal__input" placeholder="DNI" required />
+        </template>
+
+        <button type="submit" class="modal__button">
+          {{ modalType === 'login' ? 'Iniciar sesión' : 'Registrarse' }}
+        </button>
+        <button type="button" @click="closeModal" class="modal__button modal__button--close">Cancelar</button>
       </form>
+
     </div>
   </div>
 </template>
@@ -73,8 +110,10 @@ onMounted(() => {
   background-color: #f8f9fa;
 
   &__logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+    width: 120px;
+    height: 50px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 
   &__nav {
@@ -86,7 +125,6 @@ onMounted(() => {
       color: #333;
     }
   }
-
 
   &__actions {
     margin-top: 1rem;
@@ -117,7 +155,7 @@ onMounted(() => {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
   }
@@ -141,25 +179,17 @@ onMounted(() => {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    background-color: #007bff;
+    color: white;
 
-    &--submit {
-      background-color: #007bff;
-      color: white;
+    &--close {
+      background-color: #ccc;
     }
 
-    &--submit:hover {
-      background-color: #0056b3;
+    &--close:hover {
+      background-color: #aaa;
     }
   }
-}
-
-
-.modal__button .modal__button--close {
-  background-color: #ccc;
-}
-
-.modal__button--close:hover {
-  background-color: #aaa;
 }
 
 @media (min-width: 768px) {

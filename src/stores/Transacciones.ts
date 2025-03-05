@@ -4,15 +4,16 @@ import { useJWTStore } from '@/stores/JWT'
 
 export const useTransaccionStore = defineStore('transaccion', () => {
 
-  const transacciones = ref(new Array())
+  var transacciones = ref(new Array())
   const jwtStore = useJWTStore()
   console.log(jwtStore)
   function findByUser() {
-    console.log("DDD " +jwtStore.jwt)
     const strToken = jwtStore.jwt
+
+    transacciones.value = []
     
     if (strToken != ""){
-    console.log("PRUEBA" + jwtStore.jwt)
+    console.log("Token: " + jwtStore.jwt)
     }
     else (console.log("Token no pillado correctamente"))
 
@@ -23,8 +24,9 @@ export const useTransaccionStore = defineStore('transaccion', () => {
         console.log(data)
         data.forEach(transaccion => {
           transaccion._fecTransaccion = new Date(transaccion._fecTransaccion).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+          transacciones.value.push(transaccion)
         });
-        transacciones.value.splice(0, transacciones.value.length, ...data)
+        // transacciones.value.splice(0, 1, ...data)
       })
       .catch(error => console.log(error))
   }

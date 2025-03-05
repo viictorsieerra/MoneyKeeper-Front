@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useJWTStore } from '@/stores/JWT';
+import { useUsuarioStore } from '@/stores/Usuario';
 import LoginDTO from '@/stores/DTO/LoginDTO';
 import RegisterDTO from '@/stores/DTO/RegistroDTO';
 
 const store = useJWTStore();
 const loginDTO = ref(new LoginDTO());
 const registerDTO = ref(new RegisterDTO());
-
+console.log(store)
+store.getUser()
+const user =  computed(() => store.usuario);
+console.log("Nombre del usuario " + user._nombre)
 const isModalOpen = ref(false);
 const modalType = ref<'login' | 'register'>('login');
 
@@ -64,8 +68,13 @@ onMounted(() => {
     </nav>
 
     <div class="header__actions">
-      <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
-      <button @click="openModal('register')" class="header__button">Registrarse</button>
+      <div v-if="user._nombre === undefined">
+        <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
+        <button @click="openModal('register')" class="header__button">Registrarse</button>
+      </div>
+      <div v-if="user._nombre != ''">
+        {{ user._nombre }}
+      </div>
     </div>
   </header>
 
@@ -77,13 +86,17 @@ onMounted(() => {
 
         <!-- L O G I N -->
         <template v-if="modalType === 'login'">
-          <input type="email" v-model="loginDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
-          <input type="password" v-model="loginDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
+          <input type="email" v-model="loginDTO._correo" class="modal__input" placeholder="Correo electrónico"
+            required />
+          <input type="password" v-model="loginDTO._contrasena" class="modal__input" placeholder="Contraseña"
+            required />
         </template>
         <!-- R E G I S T R O -->
         <template v-if="modalType === 'register'">
-          <input type="email" v-model="registerDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
-          <input type="password" v-model="registerDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
+          <input type="email" v-model="registerDTO._correo" class="modal__input" placeholder="Correo electrónico"
+            required />
+          <input type="password" v-model="registerDTO._contrasena" class="modal__input" placeholder="Contraseña"
+            required />
           <input type="text" v-model="registerDTO._nombre" class="modal__input" placeholder="Nombre" required />
           <input type="text" v-model="registerDTO._apellido" class="modal__input" placeholder="Apellido" required />
           <input type="date" v-model="registerDTO._fechaNacimiento" class="modal__input" required />

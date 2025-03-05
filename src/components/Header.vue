@@ -9,9 +9,9 @@ const store = useJWTStore();
 const loginDTO = ref(new LoginDTO());
 const registerDTO = ref(new RegisterDTO());
 console.log(store)
-store.getUser()
+
 const user =  computed(() => store.usuario);
-console.log("Nombre del usuario " + user._nombre)
+
 const isModalOpen = ref(false);
 const modalType = ref<'login' | 'register'>('login');
 
@@ -53,6 +53,7 @@ onMounted(() => {
   ctx.textBaseline = 'middle';
   ctx.fillText('MiLogo', canvas.width / 2, canvas.height / 2);
 });
+
 </script>
 
 <template>
@@ -72,8 +73,10 @@ onMounted(() => {
         <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
         <button @click="openModal('register')" class="header__button">Registrarse</button>
       </div>
-      <div v-if="user._nombre != ''">
-        {{ user._nombre }}
+      <div v-if="user && user._nombre">
+        <div class="header__actions__usuario-logo">
+          <p>{{ user._nombre.charAt(0) }}</p>
+        </div>
       </div>
     </div>
   </header>
@@ -141,6 +144,21 @@ onMounted(() => {
 
   &__actions {
     margin-top: 1rem;
+    &__usuario{
+      &-logo{
+        height: 40px;
+        width: 40px;
+        display: flex;
+        place-items: center;
+        justify-content: center;
+        background-color: red;
+        border-radius: 100%;
+        color: black;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
   }
 
   &__button {

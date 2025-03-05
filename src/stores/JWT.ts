@@ -59,7 +59,6 @@ export const useJWTStore = defineStore('jwt', () => {
 
     let token = jwt.value
     console.log(`Token guardado: ${token}`)
-    // usuario.value = new UsuarioDTO()
     fetch("https://localhost:7053/Usuario/Auth",
       { headers: { 'Authorization': `Bearer ${token}` } })
       .then(res => res.json())

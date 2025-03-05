@@ -60,6 +60,7 @@ onUnmounted(() => {
   border-radius: 10px;
   max-width: 100%;
   margin: 75px auto;
+  margin-left: 5%;
 
   @media (min-width: 768px) {
     max-width: 80%; 

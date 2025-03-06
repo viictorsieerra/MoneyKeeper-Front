@@ -1,8 +1,12 @@
 <template>
-  <canvas id="canvas" height="400" width="400"></canvas>
+  <canvas id="canvas"></canvas>
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+
+onMounted(() => {
+
 var canvas = document.getElementById('canvas') as HTMLCanvasElement;
 var ctx = canvas.getContext('2d');
 let raton = { x: undefined, y: undefined };
@@ -198,6 +202,16 @@ function dibujar() {
 }
 
 dibujar();
+});
+
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+#canvas{
+  display: grid;
+  height: 80px;
+  &:hover{
+    cursor: pointer;
+  }
+}
+</style>

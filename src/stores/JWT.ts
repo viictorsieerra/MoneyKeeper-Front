@@ -69,6 +69,10 @@ export const useJWTStore = defineStore('jwt', () => {
       })
       .catch(error => console.log(error))
   }
+  function logOut(){
+    usuario.value = new UsuarioDTO()
+    jwt.value = ""
+  }
 
-  return { jwt, usuario, loginUser, registerUser, getUser }
+  return { jwt, usuario, loginUser, registerUser, getUser, logOut }
 }, { persist: true })

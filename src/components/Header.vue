@@ -4,13 +4,14 @@ import { useJWTStore } from '@/stores/JWT';
 import { useUsuarioStore } from '@/stores/Usuario';
 import LoginDTO from '@/stores/DTO/LoginDTO';
 import RegisterDTO from '@/stores/DTO/RegistroDTO';
+import LogoCanvas from './LogoCanvas.vue'
 
 const store = useJWTStore();
 const loginDTO = ref(new LoginDTO());
 const registerDTO = ref(new RegisterDTO());
 console.log(store)
 
-const user =  computed(() => store.usuario);
+const user = computed(() => store.usuario);
 
 const isModalOpen = ref(false);
 const modalType = ref<'login' | 'register'>('login');
@@ -33,34 +34,18 @@ const submitForm = () => {
   closeModal();
 };
 
-// Dibuja el logo en el canvas
-onMounted(() => {
-  const canvas = document.getElementById('logoCanvas') as HTMLCanvasElement;
-  if (!canvas) return;
-
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  canvas.width = 120;
-  canvas.height = 50;
-
-  ctx.fillStyle = '#FF0000';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.font = 'bold 20px Arial';
-  ctx.fillStyle = 'white';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('MiLogo', canvas.width / 2, canvas.height / 2);
-});
+const items = [
+  { title: 'Perfil' },
+  { title: 'Zona Privada' },
+  { title: 'Cerrar Sesión' }
+]
 
 </script>
 
 <template>
   <header class="header">
     <!-- Logo en canvas -->
-    <canvas id="logoCanvas" class="header__logo"></canvas>
-
+    <LogoCanvas />
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
       <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
@@ -73,10 +58,25 @@ onMounted(() => {
         <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
         <button @click="openModal('register')" class="header__button">Registrarse</button>
       </div>
+
       <div v-if="user && user._nombre">
-        <div class="header__actions__usuario-logo">
-          <p>{{ user._nombre.charAt(0) }}</p>
-        </div>
+        <v-menu open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn
+          color="red"
+          v-bind="props"
+          class="header__actions__usuario-logo"
+        >{{ user._nombre.charAt(0) }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item >
+              <v-list-item-title class="header__actions__usuario-item">Perfil</v-list-item-title>
+              <v-list-item-title class="header__actions__usuario-item"><RouterLink to="/PrivateHomeView"> Zona Privada</RouterLink></v-list-item-title>
+              <v-list-item-title class="header__actions__usuario-item" @click="store.logOut">Cerrar sesión</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </div>
   </header>
@@ -144,16 +144,27 @@ onMounted(() => {
 
   &__actions {
     margin-top: 1rem;
-    &__usuario{
-      &-logo{
-        height: 40px;
-        width: 40px;
+
+    &__usuario {
+      &-logo {
+        height: 64px;
+        width: 64px;
         display: flex;
         place-items: center;
         justify-content: center;
         background-color: red;
         border-radius: 100%;
         color: black;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      &-item, &-item a{
+        padding: 10px;
+        text-align: center;
+        color: #aaa;
+        text-decoration: none;
         &:hover{
           cursor: pointer;
         }
@@ -210,7 +221,7 @@ onMounted(() => {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: red;
     color: white;
 
     &--close {

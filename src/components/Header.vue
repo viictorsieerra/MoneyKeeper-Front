@@ -1,3 +1,47 @@
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
+import { useJWTStore } from '@/stores/JWT';
+import { useUsuarioStore } from '@/stores/Usuario';
+import LoginDTO from '@/stores/DTO/LoginDTO';
+import RegisterDTO from '@/stores/DTO/RegistroDTO';
+import LogoCanvas from './LogoCanvas.vue'
+
+const store = useJWTStore();
+const loginDTO = ref(new LoginDTO());
+const registerDTO = ref(new RegisterDTO());
+console.log(store)
+
+const user = computed(() => store.usuario);
+
+const isModalOpen = ref(false);
+const modalType = ref<'login' | 'register'>('login');
+
+const openModal = (type: 'login' | 'register') => {
+  modalType.value = type;
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+};
+
+const submitForm = () => {
+  if (modalType.value === 'login') {
+    store.loginUser(loginDTO.value);
+  } else {
+    store.registerUser(registerDTO.value);
+  }
+  closeModal();
+};
+
+const items = [
+  { title: 'Perfil' },
+  { title: 'Zona Privada' },
+  { title: 'Cerrar Sesión' }
+]
+
+</script>
+
 <template>
   <header class="header">
     <!-- Logo en canvas -->
@@ -47,59 +91,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useJWTStore } from '@/stores/JWT';
-import LoginDTO from '@/stores/DTO/LoginDTO';
-import RegisterDTO from '@/stores/DTO/RegistroDTO';
-
-const store = useJWTStore();
-const loginDTO = ref(new LoginDTO());
-const registerDTO = ref(new RegisterDTO());
-
-const isModalOpen = ref(false);
-const modalType = ref<'login' | 'register'>('login');
-
-const openModal = (type: 'login' | 'register') => {
-  modalType.value = type;
-  isModalOpen.value = true;
-};
-
-const closeModal = () => {
-  isModalOpen.value = false;
-};
-
-const submitForm = () => {
-  if (modalType.value === 'login') {
-    store.loginUser(loginDTO.value);
-  } else {
-    store.registerUser(registerDTO.value);
-  }
-  closeModal();
-};
-
-// Dibuja el logo en el canvas
-onMounted(() => {
-  const canvas = document.getElementById('logoCanvas') as HTMLCanvasElement;
-  if (!canvas) return;
-
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  canvas.width = 120;
-  canvas.height = 50;
-
-  ctx.fillStyle = '#FF0000';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.font = 'bold 20px Arial';
-  ctx.fillStyle = 'white';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('MiLogo', canvas.width / 2, canvas.height / 2);
-});
-</script>
-
 <style scoped lang="scss">
 @import '@/assets/styles/_variables.scss';
 @import '@/assets/styles/_mixins.scss';
@@ -133,6 +124,32 @@ onMounted(() => {
 
   &__actions {
     margin-top: 1rem;
+
+    &__usuario {
+      &-logo {
+        height: 64px;
+        width: 64px;
+        display: flex;
+        place-items: center;
+        justify-content: center;
+        background-color: red;
+        border-radius: 100%;
+        color: black;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      &-item, &-item a{
+        padding: 10px;
+        text-align: center;
+        color: #aaa;
+        text-decoration: none;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
   }
 
   &__button {
@@ -185,8 +202,8 @@ onMounted(() => {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: $primary-color;
-    color: $background-color;
+    background-color: #007bff;
+    color: white;
 
     &--close {
       background-color: #ccc;

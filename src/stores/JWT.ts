@@ -2,10 +2,12 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import LoginDTO from './DTO/LoginDTO'
 import RegistroDTO from './DTO/RegistroDTO'
+import UsuarioDTO from './DTO/UsuarioDTO'
 
 export const useJWTStore = defineStore('jwt', () => {
   var jwt = ref('')
-  
+  var usuario = ref(new UsuarioDTO())
+
   function loginUser(loginUser: LoginDTO) {
     console.log(loginUser._contrasena)
     fetch("https://localhost:7053/JWT/Login", {
@@ -23,6 +25,7 @@ export const useJWTStore = defineStore('jwt', () => {
         console.log(data)
         jwt.value = data
         console.log(`Token: ${jwt}`)
+        getUser()
       })
       .catch(error => console.log(error))
   }
@@ -48,9 +51,28 @@ export const useJWTStore = defineStore('jwt', () => {
         console.log(data)
         jwt.value = data
         console.log(`Token: ${jwt}`)
+        getUser()
       })
       .catch(error => console.log(error))
   }
+  function getUser() {
 
-  return { jwt, loginUser, registerUser }
-}, {persist: true})
+    let token = jwt.value
+    console.log(`Token guardado: ${token}`)
+    fetch("https://localhost:7053/Usuario/Auth",
+      { headers: { 'Authorization': `Bearer ${token}` } })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        Object.assign(usuario.value, data)
+        usuario.value._token = token;
+      })
+      .catch(error => console.log(error))
+  }
+  function logOut(){
+    usuario.value = new UsuarioDTO()
+    jwt.value = ""
+  }
+
+  return { jwt, usuario, loginUser, registerUser, getUser, logOut }
+}, { persist: true })

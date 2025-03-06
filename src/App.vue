@@ -1,17 +1,17 @@
-<template>
-  <div>
-    <header class="header">
-      <Header />
-    </header>
-<RouterView />
-    <Footer />
-  </div>
-</template>
+<script setup lang="ts">
 
-<script setup>
+
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 </script>
+
+<template>
+  <div>
+    <Header />
+    <RouterView />
+    <Footer />
+  </div>
+</template>
 
 <style>
 body {

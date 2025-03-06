@@ -64,6 +64,7 @@ export const useJWTStore = defineStore('jwt', () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
+        data._fecNacimiento = new Date(data._fecNacimiento).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
         Object.assign(usuario.value, data)
         usuario.value._token = token;
       })

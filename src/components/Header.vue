@@ -71,7 +71,7 @@ const items = [
           </template>
           <v-list>
             <v-list-item >
-              <v-list-item-title class="header__actions__usuario-item">Perfil</v-list-item-title>
+              <v-list-item-title class="header__actions__usuario-item"><RouterLink to="/Profile">Perfil</RouterLink></v-list-item-title>
               <v-list-item-title class="header__actions__usuario-item"><RouterLink to="/PrivateHomeView"> Zona Privada</RouterLink></v-list-item-title>
               <v-list-item-title class="header__actions__usuario-item" @click="store.logOut">Cerrar sesión</v-list-item-title>
             </v-list-item>

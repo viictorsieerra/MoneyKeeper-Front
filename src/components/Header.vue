@@ -48,7 +48,7 @@ const items = [
     <LogoCanvas />
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
-      <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
+      <router-link to="/button-container" class="header__nav-link">Cómo funciona</router-link>
       <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
       <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
     </nav>
@@ -72,7 +72,7 @@ const items = [
           <v-list>
             <v-list-item >
               <v-list-item-title class="header__actions__usuario-item">Perfil</v-list-item-title>
-              <v-list-item-title class="header__actions__usuario-item"><RouterLink to="/PrivateHomeView"> Zona Privada</RouterLink></v-list-item-title>
+              <v-list-item-title class="header__actions__usuario-item"><RouterLink to="/Private"> Zona Privada</RouterLink></v-list-item-title>
               <v-list-item-title class="header__actions__usuario-item" @click="store.logOut">Cerrar sesión</v-list-item-title>
             </v-list-item>
           </v-list>

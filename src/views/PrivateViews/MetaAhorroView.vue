@@ -53,7 +53,8 @@ console.log(store)
             border-radius: 8px;
             box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease-in-out;
-
+            margin: 1%;
+            
             &:hover {
                 transform: translateY(-3px);
             }

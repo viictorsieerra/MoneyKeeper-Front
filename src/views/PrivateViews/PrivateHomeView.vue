@@ -29,10 +29,11 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useUsersStore } from '@/stores/users.ts';  
+// import { useUsersStore } from '@/stores/users.ts';  
 
-const usersStore = useUsersStore();
-const userName = computed(() => usersStore.user?.name || 'Usuario');
+/*const usersStore = useUsersStore();
+const userName = computed(() => usersStore.user?.name || 'Usuario');*/
+const userName = "Benchaa"
 </script>
 
 <style scoped>

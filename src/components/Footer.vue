@@ -60,7 +60,7 @@
   .footer {
     bottom: 0;
     width: 100%;
-    height: 40px;
+    // height: 40px;
     text-align: center;
   }
 

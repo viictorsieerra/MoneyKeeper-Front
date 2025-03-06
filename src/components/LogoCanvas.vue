@@ -1,5 +1,5 @@
 <template>
-  <canvas id="canvas"></canvas>
+  <canvas id="logocanvas" z-index="1000000"></canvas>
 </template>
 
 <script setup lang="ts">
@@ -7,7 +7,7 @@ import { onMounted } from 'vue';
 
 onMounted(() => {
 
-var canvas = document.getElementById('canvas') as HTMLCanvasElement;
+var canvas = document.getElementById('logocanvas') as HTMLCanvasElement;
 var ctx = canvas.getContext('2d');
 let raton = { x: undefined, y: undefined };
 window.addEventListener('mousemove', function (event) {
@@ -207,7 +207,7 @@ dibujar();
 </script>
 
 <style scoped lang="scss">
-#canvas{
+#logocanvas{
   display: grid;
   height: 80px;
   &:hover{

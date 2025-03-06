@@ -74,7 +74,7 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 canvas {
   display: block;
   pointer-events: none;

@@ -6,7 +6,7 @@ import Footer from './components/Footer.vue';
 </script>
 
 <template>
-  <div>
+  <div class="app">
     <Header />
     <RouterView />
     <Footer />
@@ -14,8 +14,12 @@ import Footer from './components/Footer.vue';
 </template>
 
 <style>
+.app{
+  position: relative;
+}
 body {
   margin: 0;
+  
   font-family: Arial, sans-serif;
 }
 .header {

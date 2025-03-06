@@ -45,8 +45,7 @@ const items = [
 <template>
   <header class="header">
     <!-- Logo en canvas -->
-    <canvas id="logoCanvas" class="header__logo"></canvas>
-
+    <LogoCanvas />
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
       <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
@@ -55,8 +54,30 @@ const items = [
     </nav>
 
     <div class="header__actions">
-      <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
-      <button @click="openModal('register')" class="header__button">Registrarse</button>
+      <div v-if="user._nombre === undefined">
+        <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
+        <button @click="openModal('register')" class="header__button">Registrarse</button>
+      </div>
+
+      <div v-if="user && user._nombre">
+        <v-menu open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn
+          color="red"
+          v-bind="props"
+          class="header__actions__usuario-logo"
+        >{{ user._nombre.charAt(0) }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item >
+              <v-list-item-title class="header__actions__usuario-item">Perfil</v-list-item-title>
+              <v-list-item-title class="header__actions__usuario-item"><RouterLink to="/PrivateHomeView"> Zona Privada</RouterLink></v-list-item-title>
+              <v-list-item-title class="header__actions__usuario-item" @click="store.logOut">Cerrar sesión</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
     </div>
   </header>
 
@@ -68,13 +89,17 @@ const items = [
 
         <!-- L O G I N -->
         <template v-if="modalType === 'login'">
-          <input type="email" v-model="loginDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
-          <input type="password" v-model="loginDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
+          <input type="email" v-model="loginDTO._correo" class="modal__input" placeholder="Correo electrónico"
+            required />
+          <input type="password" v-model="loginDTO._contrasena" class="modal__input" placeholder="Contraseña"
+            required />
         </template>
         <!-- R E G I S T R O -->
         <template v-if="modalType === 'register'">
-          <input type="email" v-model="registerDTO._correo" class="modal__input" placeholder="Correo electrónico" required />
-          <input type="password" v-model="registerDTO._contrasena" class="modal__input" placeholder="Contraseña" required />
+          <input type="email" v-model="registerDTO._correo" class="modal__input" placeholder="Correo electrónico"
+            required />
+          <input type="password" v-model="registerDTO._contrasena" class="modal__input" placeholder="Contraseña"
+            required />
           <input type="text" v-model="registerDTO._nombre" class="modal__input" placeholder="Nombre" required />
           <input type="text" v-model="registerDTO._apellido" class="modal__input" placeholder="Apellido" required />
           <input type="date" v-model="registerDTO._fechaNacimiento" class="modal__input" required />
@@ -92,18 +117,15 @@ const items = [
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/styles/_variables.scss';
-@import '@/assets/styles/_mixins.scss';
-
 .header {
   display: flex;
   flex-direction: column;
-  z-index: 1000;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background-color: $header-background-color;
-  width: 100%;
+  background-color: #f8f9fa;
+  z-index: 100;
+  position: relative;
 
   &__logo {
     width: 120px;
@@ -118,7 +140,7 @@ const items = [
     &-link {
       margin: 0.5rem 0;
       text-decoration: none;
-      color: $text-color;
+      color: #333;
     }
   }
 
@@ -156,14 +178,14 @@ const items = [
     margin: 0.5rem 0;
     padding: 0.5rem 1rem;
     border: none;
-    background-color: $primary-color;
-    color: $background-color;
+    background-color: #FF0000;
+    color: white;
     cursor: pointer;
   }
 }
 
 .modal {
-  background: $background-color;
+  background: white;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -174,7 +196,7 @@ const items = [
     position: fixed;
     top: 0;
     left: 0;
-    width: 97%;
+    width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
@@ -191,7 +213,7 @@ const items = [
     width: 100%;
     padding: 0.5rem;
     margin-bottom: 1rem;
-    border: 1px solid $border-color;
+    border: 1px solid #ccc;
     border-radius: 4px;
   }
 
@@ -202,7 +224,7 @@ const items = [
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: red;
     color: white;
 
     &--close {
@@ -220,14 +242,7 @@ const items = [
     flex-direction: row;
     justify-content: space-between;
   }
-  .modal {
- 
 
-  &-overlay {
-   
-    width: 100%;
-   
-  }
   .header__nav {
     margin-top: 0;
   }
@@ -244,6 +259,5 @@ const items = [
     margin-left: 1rem;
     margin-top: 0;
   }
-}
 }
 </style>

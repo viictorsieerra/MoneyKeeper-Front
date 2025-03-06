@@ -112,6 +112,7 @@ onMounted(() => {
   align-items: center;
   padding: 1rem;
   background-color: $header-background-color;
+  width: 100%;
 
   &__logo {
     width: 120px;
@@ -156,7 +157,7 @@ onMounted(() => {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 97%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
@@ -202,7 +203,14 @@ onMounted(() => {
     flex-direction: row;
     justify-content: space-between;
   }
+  .modal {
+ 
 
+  &-overlay {
+   
+    width: 100%;
+   
+  }
   .header__nav {
     margin-top: 0;
   }
@@ -219,5 +227,6 @@ onMounted(() => {
     margin-left: 1rem;
     margin-top: 0;
   }
+}
 }
 </style>

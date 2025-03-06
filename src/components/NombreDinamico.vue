@@ -58,9 +58,9 @@ onUnmounted(() => {
   padding: 2rem;
   background-color: $hero-background-color;
   border-radius: 10px;
-  max-width: 100%;
+  max-width: 80%;
   margin: 75px auto;
-  margin-left: 5%;
+ 
 
   @media (min-width: 768px) {
     max-width: 80%; 

@@ -55,7 +55,7 @@ export default {};
   max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
-
+  margin-bottom: 10%;
   @media (min-width: 768px) {
     max-width: 1200px;
   }
@@ -81,6 +81,7 @@ export default {};
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   background-color: $background-color;
+  width: 23%;
 
   @media (min-width: 768px) {
     padding: 2rem;

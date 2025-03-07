@@ -51,4 +51,10 @@ p {
   color: #777;
   margin-top: 20px;
 }
+
+@media (min-width: 1024px) {
+  .sobre-nosotros{
+    width: 30%;
+  }
+}
 </style>

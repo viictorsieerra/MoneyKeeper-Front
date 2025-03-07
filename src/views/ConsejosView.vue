@@ -48,7 +48,10 @@
       </ul>
     </div>
   </template>
-  
+  <script>
+  import FondoCanvas from '@/components/FondoCanvas.vue';
+
+</script>
   <style scoped lang="scss">
   .how-it-works {
     padding: 1rem;

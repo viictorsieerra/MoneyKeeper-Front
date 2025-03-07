@@ -33,6 +33,8 @@ console.log(store)
     background-color: #f8f9fa;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 2%;
+    margin-bottom: 2%;
 
     &__titulo {
         text-align: center;
@@ -53,7 +55,8 @@ console.log(store)
             border-radius: 8px;
             box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease-in-out;
-            margin: 1%;
+            margin-top: 2%;
+            margin-bottom: 2%;
 
             &:hover {
                 transform: translateY(-3px);

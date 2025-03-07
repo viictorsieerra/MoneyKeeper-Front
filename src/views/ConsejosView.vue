@@ -49,12 +49,12 @@
     </div>
   </template>
   
-  <style scoped>
+  <style scoped lang="scss">
   .how-it-works {
     padding: 1rem;
     background-color: #f8f9fa;
     border-radius: 10px;
-    max-width: 100%;
+    max-width: 90%;
     margin: 2rem auto;
   }
   
@@ -83,8 +83,8 @@
   }
   
   .advice-bubble {
-    background-color:  #c9c9c9;
-    color: white;
+    background-color: #c9c9c92b;
+    color: black;
     padding: 1rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

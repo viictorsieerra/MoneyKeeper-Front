@@ -27,7 +27,7 @@
 
 <style scoped lang="scss">
 .sobre-nosotros {
-  max-width: 600px;
+  width: 90%;
   margin: 20px auto;
   padding: 20px;
   border-radius: 8px;

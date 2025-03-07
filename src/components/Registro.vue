@@ -81,7 +81,7 @@ export default {};
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   background-color: $background-color;
-  width: 23%;
+  width: 35%;
 
   @media (min-width: 768px) {
     padding: 2rem;

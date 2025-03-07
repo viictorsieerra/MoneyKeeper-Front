@@ -64,16 +64,38 @@ export const useJWTStore = defineStore('jwt', () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        data._fecNacimiento = new Date(data._fecNacimiento).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
         Object.assign(usuario.value, data)
         usuario.value._token = token;
+        usuario.value._fecNacimiento = data._fecNacimiento.split('T')[0]
       })
       .catch(error => console.log(error))
   }
-  function logOut(){
+  function logOut() {
     usuario.value = new UsuarioDTO()
     jwt.value = ""
   }
+  function putUser() {
+    let token = jwt.value
+    fetch(`https://localhost:7053/Usuario/${usuario.value._idUsuario}`,
+      {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          {
+            _nombre: usuario.value._nombre,
+            _apellido: usuario.value._apellido,
+            _correo: usuario.value._correo,
+            _contrasena: usuario.value._contrasena,
+            _dni: usuario.value._dni,
+            _fecNacimiento: usuario.value._fecNacimiento
+          }
+        )
+      }
+    )
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error))
+  }
 
-  return { jwt, usuario, loginUser, registerUser, getUser, logOut }
+  return { jwt, usuario, loginUser, registerUser, getUser, logOut, putUser }
 }, { persist: true })

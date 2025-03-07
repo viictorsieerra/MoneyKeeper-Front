@@ -5,10 +5,12 @@ import { useJWTStore } from '@/stores/JWT';
 const store = useJWTStore();
 store.getUser()
 const usuario = computed(() => store.usuario);
-console.log("Fecha Nacimiento "+ usuario._fecNacimiento)
+console.log(usuario)
+console.log("Contraseña " + usuario._contrasena + " Fecha Nacimiento "+ usuario._fecNacimiento)
 var contrasena = ""
 const submitForm = () => {
   usuario._contrasena = contrasena
+  store.putUser()
 };
 </script>
 
@@ -48,7 +50,7 @@ const submitForm = () => {
 .usuario {
   margin: 0 auto;
   padding: 20px;
-  max-width: 100%; // Ajuste para dispositivos móviles
+  max-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,9 +58,9 @@ const submitForm = () => {
 
 .form {
   background-color: #f8f9fa;
-  max-width: 500px; // Limita el tamaño en pantallas más grandes
-  padding: 20px; // Tamaño ajustado para pantallas pequeñas
-  margin: 0 15px; // Añadir margen lateral para evitar bordes duros en móviles
+  max-width: 500px;
+  padding: 20px;
+  margin: 0 15px;
   display: flex;
   flex-direction: column;
 
@@ -72,7 +74,7 @@ const submitForm = () => {
     }
 
     &-input {
-      width: 100%; // Asegura que los campos llenen el ancho disponible
+      width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -93,15 +95,15 @@ const submitForm = () => {
   }
 }
 
-// Añadir consulta para pantallas más grandes
+
 @media (min-width: 768px) {
   .usuario {
-    max-width: 700px; // Ampliar el contenedor en pantallas más grandes
+    max-width: 900px;
   }
 
   .form {
-    padding: 30px; // Añadir más espacio interno
-    margin: 30px auto; // Centrar formulario
+    padding: 30px;
+    margin: 30px auto;
   }
 }
 </style>

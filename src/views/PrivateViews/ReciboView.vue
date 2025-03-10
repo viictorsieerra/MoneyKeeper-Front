@@ -31,6 +31,7 @@ console.log(store)
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     margin-top: 2%;
     margin-bottom: 2%;
+    height: fit-content;
 
     &__titulo {
         text-align: center;

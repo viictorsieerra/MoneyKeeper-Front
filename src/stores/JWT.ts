@@ -6,7 +6,7 @@ import UsuarioDTO from './DTO/UsuarioDTO'
 
 export const useJWTStore = defineStore('jwt', () => {
   var jwt = ref('')
-  var usuario = ref(new UsuarioDTO())
+  var usuario = ref(new UsuarioDTO(0,"","", "", "", "", new Date(), ""))
 
   function loginUser(loginUser: LoginDTO) {
     console.log(loginUser._contrasena)
@@ -71,7 +71,7 @@ export const useJWTStore = defineStore('jwt', () => {
       .catch(error => console.log(error))
   }
   function logOut() {
-    usuario.value = new UsuarioDTO()
+    usuario.value = new UsuarioDTO(0,"","", "", "", "", new Date(), "")
     jwt.value = ""
   }
   function putUser() {

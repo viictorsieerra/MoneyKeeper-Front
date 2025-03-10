@@ -21,8 +21,8 @@ export const useReciboStore = defineStore('recibo', () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        data.forEach(recibos => {
-          recibos._fecRecibo = new Date(recibos._fecRecibo).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+        data.forEach((recibo:any) => {
+          recibo._fecRecibo = new Date(recibo._fecRecibo).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
         });
         recibos.value.splice(0, recibos.value.length, ...data)
       })

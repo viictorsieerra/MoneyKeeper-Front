@@ -6,10 +6,10 @@ const store = useJWTStore();
 store.getUser()
 const usuario = computed(() => store.usuario);
 console.log(usuario)
-console.log("Contraseña " + usuario._contrasena + " Fecha Nacimiento "+ usuario._fecNacimiento)
+// console.log("Contraseña " + usuario._contrasena + " Fecha Nacimiento "+ usuario._fecNacimiento)
 var contrasena = ""
 const submitForm = () => {
-  usuario._contrasena = contrasena
+  store.usuario._contrasena = contrasena
   store.putUser()
 };
 </script>

@@ -29,7 +29,7 @@ const userDescription = ref(descripcion[0]);
 
 const greetingMessage = computed(() => userOptions.value);
 
-let optionInterval = null;
+let optionInterval: number | undefined;
 
 const changeOptions = () => {
   let index = 0;

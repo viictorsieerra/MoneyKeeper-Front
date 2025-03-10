@@ -21,8 +21,8 @@ export const useMetaAhorroStore = defineStore('cuenta', () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        data.forEach(metas => {
-          metas._fechaCreacionMeta = new Date(metas._fechaCreacionMeta).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+        data.forEach((meta:any) => {
+          meta._fechaCreacionMeta = new Date(meta._fechaCreacionMeta).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
         });
         metas.value.splice(0, metas.value.length, ...data)
       })

@@ -22,7 +22,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        data.forEach(transaccion => {
+        data.forEach((transaccion:any) => {
           transaccion._fecTransaccion = new Date(transaccion._fecTransaccion).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
           transacciones.value.push(transaccion)
         });

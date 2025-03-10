@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useJWTStore } from '@/stores/JWT';
-import { useUsuarioStore } from '@/stores/Usuario';
 import LoginDTO from '@/stores/DTO/LoginDTO';
 import RegisterDTO from '@/stores/DTO/RegistroDTO';
 import LogoCanvas from './LogoCanvas.vue'
 
 const store = useJWTStore();
-const loginDTO = ref(new LoginDTO());
-const registerDTO = ref(new RegisterDTO());
+const loginDTO = ref(new LoginDTO("", ""));
+const registerDTO = ref(new RegisterDTO("", "", "", "", "", new Date()));
 console.log(store)
 
 const user = computed(() => store.usuario);

@@ -8,8 +8,21 @@ import { onMounted } from 'vue';
 onMounted(() => {
 
 var canvas = document.getElementById('logocanvas') as HTMLCanvasElement;
-var ctx = canvas.getContext('2d');
-let raton = { x: undefined, y: undefined };
+
+if(!canvas){
+  console.error("No se encontró el canvas")
+  return
+}
+
+var ctx = canvas.getContext('2d')!;
+
+if(!ctx){
+  console.error("No se pudo obtener el contexto")
+  return;
+}
+
+let raton = { x: 0, y: 0 };
+
 window.addEventListener('mousemove', function (event) {
   const rect = canvas.getBoundingClientRect();
   raton.x = event.clientX - rect.left;

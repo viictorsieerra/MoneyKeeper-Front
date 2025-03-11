@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import { useCuentaBancariaStore } from '@/stores/CuentaBancaria'
+import { ref } from 'vue'
 
 const store = useCuentaBancariaStore()
 
 store.findByUser()
 
-console.log(store)
+const eliminarCuenta = async (id: number) => {
+  console.log('Eliminar cuenta con id:', id) 
+  try {
+    await store.DeleteById(id)
+    
+    await store.findByUser()
+  } catch (error) {
+    console.error('Error al eliminar la cuenta:', error)
+  }
+}
 </script>
 
 <template>
@@ -13,11 +23,14 @@ console.log(store)
         <h2 class="cuentas__titulo">Listado de Cuentas Bancarias</h2>
         <div class="cuentas__views" v-for="cuenta in store.cuentas" :key="cuenta.id">
             <div class="cuentas__views-card">
+                <p><span>Id de la cuenta:</span>{{ cuenta._idCuenta }}</p>
                 <p><span>Nombre de la cuenta:</span> {{ cuenta._nombreCuenta }}</p>
                 <p><span>Saldo:</span> {{ cuenta._dineroCuenta }}€</p>
                 <p><span>Estado:</span> {{ cuenta._activa ? 'Activa' : 'Inactiva' }}</p>
                 <p><span>Fecha de creación:</span> {{ cuenta._fechaCreacion }}</p>
+                <button @click="eliminarCuenta(cuenta._idCuenta)">Eliminar</button>
             </div>
+            <pre>{{ cuenta }}</pre> <!-- Agrega este pre para mostrar el objeto cuenta -->
         </div>
     </main>
 </template>
@@ -68,6 +81,20 @@ console.log(store)
                 span {
                     font-weight: bold;
                     color: #222;
+                }
+            }
+
+            button {
+                background-color: #ff4d4d;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: #ff1a1a;
                 }
             }
         }

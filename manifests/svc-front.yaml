@@ -9,7 +9,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
 spec:
   selector:
-    app: api-app
+    app: front-app
   ports:
   - name: http
     port: 80

@@ -15,7 +15,7 @@ console.log(store)
             <div class="metas__views-card">
                 <p><span>Nombre de la meta:</span> {{ meta._nombremeta }}</p>
                 <p><span>Descripción:</span> {{ meta._descripcionMeta }}</p>
-                <p><span>Dinero objetivo:</span> {{ meta.dineroObjetivo }}€</p>
+                <p><span>Dinero objetivo:</span> {{ meta._dineroObjetivo }}€</p>
                 <p><span>Dinero actual:</span> {{ meta._dineroActual }}€</p>
                 <p><span>Estado:</span> {{ meta._activoMeta ? 'Activa' : 'Inactiva' }}</p>
                 <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>

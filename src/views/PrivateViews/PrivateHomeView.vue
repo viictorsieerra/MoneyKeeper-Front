@@ -48,6 +48,9 @@ const userName = "Benchaa"
 </script>
 
 <style scoped lang="scss">
+.footer{
+  display: none;
+}
 .private-home {
   display: flex;
   height: 100vh;

@@ -277,6 +277,7 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
   }
 
   .header__nav-link {
+    font-size: 20px;
     margin: 0 1rem;
   }
 

@@ -30,16 +30,12 @@
         </nav>
       </aside>
 
-      
       <main class="private-home__content">
         <RouterView /> 
       </main>
     </div>
   </div>
 </template>
-
-
-
 
 <script setup lang="ts">
 import FondoCanvas from '@/components/FondoCanvas.vue';
@@ -55,42 +51,85 @@ const userName = "Benchaa"
 .private-home {
   display: flex;
   height: 100vh;
+  flex-direction: column; 
 }
 
 .private-home__layout {
   display: flex;
+  flex-direction: column; 
   width: 100%;
 }
 
 .private-home__sidebar {
-  width: 250px;
+  width: 100%; 
   background: #20232a;
-  padding: 20px;
+  padding: 10px 0; 
   color: white;
-  min-height: 100vh;
+  min-height: auto; 
 }
-.private-home__content{
-  display: contents;
+
+.private-home__content {
+  width: 100%; 
 }
+
 .private-home__nav-list {
   list-style: none;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  overflow-x: auto; 
 }
 
 .private-home__nav-item {
-  margin-bottom: 10px;
+  margin-bottom: 0;
+  flex: 0 0 auto; 
 }
 
 .private-home__nav-link {
   color: white;
   text-decoration: none;
   display: block;
-  padding: 10px;
+  padding: 10px 5px;
 }
 
 .active-link {
-  background:$primary-color;
+  background: $primary-color;
   color: black;
 }
 
+
+@media (min-width: 768px) {
+  .private-home {
+    flex-direction: row;
+  }
+
+  .private-home__layout {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .private-home__sidebar {
+    width: 250px; 
+    padding: 20px; 
+    min-height: 100vh;
+  }
+
+  .private-home__content {
+    width: 85%; 
+  }
+
+  .private-home__nav-list {
+    flex-direction: column;
+    overflow-x: visible;
+  }
+
+  .private-home__nav-item {
+    margin-bottom: 10px; 
+  }
+
+  .private-home__nav-link {
+    padding: 10px; 
+  }
+}
 </style>

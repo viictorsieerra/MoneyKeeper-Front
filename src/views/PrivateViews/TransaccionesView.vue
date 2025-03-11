@@ -27,14 +27,15 @@ console.log(store)
 
 <style lang="scss" scoped>
 .transacciones {
-    max-width: 800px;
+    width: 85%;
     margin: 0 auto;
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 2%;
+    margin-top: 5%;
     margin-bottom: 2%;
+    margin-left: 7%;
     height: fit-content;
 
     &__titulo {
@@ -75,5 +76,11 @@ console.log(store)
             }
         }
     }
+    @media (max-width: 768px) {
+  .transacciones {
+    width: 20%;
+  }
+    }
 }
+
 </style>

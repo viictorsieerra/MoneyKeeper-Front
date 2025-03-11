@@ -24,6 +24,8 @@
   background-color: $hero-background-color;
   margin: 1%;
   border-radius: 10px;
+  width: 89%;
+  margin-left: 5%;
 }
 
 .hero__content {

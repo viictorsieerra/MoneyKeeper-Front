@@ -27,7 +27,7 @@
 
 <style scoped lang="scss">
 .sobre-nosotros {
-  max-width: 600px;
+  width: 90%;
   margin: 20px auto;
   padding: 20px;
   border-radius: 8px;
@@ -50,5 +50,11 @@ p {
   font-style: italic;
   color: #777;
   margin-top: 20px;
+}
+
+@media (min-width: 1024px) {
+  .sobre-nosotros{
+    width: 30%;
+  }
 }
 </style>

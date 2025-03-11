@@ -16,6 +16,10 @@ const eliminarCuenta = async (id: number) => {
     console.error('Error al eliminar la cuenta:', error)
   }
 }
+
+const editarCuenta = 
+
+
 </script>
 
 <template>
@@ -29,6 +33,7 @@ const eliminarCuenta = async (id: number) => {
                 <p><span>Estado:</span> {{ cuenta._activa ? 'Activa' : 'Inactiva' }}</p>
                 <p><span>Fecha de creación:</span> {{ cuenta._fechaCreacion }}</p>
                 <button @click="eliminarCuenta(cuenta._idCuenta)">Eliminar</button>
+                <button @click="editarCuenta(cuenta)">Editar</button>
             </div>
             
         </div>

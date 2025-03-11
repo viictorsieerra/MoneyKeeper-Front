@@ -127,7 +127,7 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
             required />
           <input type="text" v-model="registerDTO._nombre" class="modal__input" placeholder="Nombre" required />
           <input type="text" v-model="registerDTO._apellido" class="modal__input" placeholder="Apellido" required />
-          <input type="date" v-model="registerDTO._fechaNacimiento" class="modal__input" required />
+          <input type="date" v-model="registerDTO._fecNacimiento" class="modal__input" required />
           <input type="date" v-model="registerDTO._fecNacimiento" class="modal__input" required />
           <input type="text" v-model="registerDTO._dni" class="modal__input" placeholder="DNI" required />
         </template>

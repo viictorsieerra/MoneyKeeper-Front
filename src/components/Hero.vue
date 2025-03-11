@@ -3,7 +3,6 @@
     <div class="hero__content">
       <h1 class="hero__title">Controla tus finanzas de forma fácil</h1>
       <p class="hero__description">La mejor herramienta para gestionar tu dinero.</p>
-      <div class="hero__div">Empieza gratis</div>
     </div>
     <img src="/FinanzasPersonales.jpg" alt="Imagen principal" class="hero__image">
   </section>

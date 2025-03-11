@@ -95,7 +95,7 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
                 <RouterLink to="/Profile">Perfil</RouterLink>
               </v-list-item-title>
               <v-list-item-title class="header__actions__usuario-item">
-                <RouterLink to="/PrivateHomeView"> Zona Privada</RouterLink>
+                <RouterLink to="/Private"> Zona Privada</RouterLink>
               </v-list-item-title>
               <v-list-item-title class="header__actions__usuario-item" @click="store.logOut">Cerrar
                 sesión</v-list-item-title>

@@ -30,7 +30,7 @@ const eliminarCuenta = async (id: number) => {
                 <p><span>Fecha de creación:</span> {{ cuenta._fechaCreacion }}</p>
                 <button @click="eliminarCuenta(cuenta._idCuenta)">Eliminar</button>
             </div>
-            <pre>{{ cuenta }}</pre> <!-- Agrega este pre para mostrar el objeto cuenta -->
+            
         </div>
     </main>
 </template>

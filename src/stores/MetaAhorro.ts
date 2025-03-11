@@ -10,7 +10,7 @@ export const useMetaAhorroStore = defineStore('cuenta', () => {
   function findByUser() {
     console.log("DDD " +jwtStore.jwt)
     const strToken = jwtStore.jwt
-    
+     metas.value = []
     if (strToken != ""){
     console.log("PRUEBA" + jwtStore.jwt)
     }

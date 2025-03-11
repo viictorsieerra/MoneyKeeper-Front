@@ -17,10 +17,6 @@
       </div>
     </div>
     
-    <div class="button-container">
-      <button class="start-button">Empezar</button>
-    </div>
-    
     <h2 class="subtitle">¿Quién puede hacerse cliente?</h2>
     
     <div class="client-types">

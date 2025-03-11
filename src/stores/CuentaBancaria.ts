@@ -10,7 +10,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
 
   function findByUser() {
     const strToken = jwtStore.jwt
-    
+    cuentas.value = []
     if (strToken != ""){
       console.log("PRUEBA" + jwtStore.jwt)
     } else {

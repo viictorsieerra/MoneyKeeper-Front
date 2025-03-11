@@ -6,8 +6,8 @@ import RegisterDTO from '@/stores/DTO/RegistroDTO';
 import LogoCanvas from './LogoCanvas.vue'
 
 const store = useJWTStore();
-const loginDTO = ref(new LoginDTO("", ""));
-const registerDTO = ref(new RegisterDTO("", "", "", "", "", new Date()));
+const loginDTO = ref(new LoginDTO());
+const registerDTO = ref(new RegisterDTO());
 console.log(store)
 
 const user = computed(() => store.usuario);
@@ -33,12 +33,43 @@ const submitForm = () => {
   closeModal();
 };
 
+const isDrawerOpen = ref(false); // Controla si el menú desplegable está abierto
+
 </script>
 
 <template>
   <header class="header">
+
     <!-- Logo en canvas -->
-    <LogoCanvas />
+    <v-menu open-on-click>
+      <template v-slot:activator="{ props }">
+        <LogoCanvas v-bind="props" />
+      </template>
+      <v-list>
+        <v-list-item>
+          <v-list-item-title>
+            <router-link to="/" class="header__nav-link">Inicio</router-link>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
       <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
@@ -55,18 +86,19 @@ const submitForm = () => {
       <div v-if="user && user._nombre">
         <v-menu open-on-hover>
           <template v-slot:activator="{ props }">
-            <v-btn
-          color="red"
-          v-bind="props"
-          class="header__actions__usuario-logo"
-        >{{ user._nombre.charAt(0) }}
+            <v-btn color="red" v-bind="props" class="header__actions__usuario-logo">{{ user._nombre.charAt(0) }}
             </v-btn>
           </template>
           <v-list>
-            <v-list-item >
-              <v-list-item-title class="header__actions__usuario-item"><RouterLink to="/Profile">Perfil</RouterLink></v-list-item-title>
-              <v-list-item-title class="header__actions__usuario-item"><RouterLink to="/PrivateHomeView"> Zona Privada</RouterLink></v-list-item-title>
-              <v-list-item-title class="header__actions__usuario-item" @click="store.logOut">Cerrar sesión</v-list-item-title>
+            <v-list-item>
+              <v-list-item-title class="header__actions__usuario-item">
+                <RouterLink to="/Profile">Perfil</RouterLink>
+              </v-list-item-title>
+              <v-list-item-title class="header__actions__usuario-item">
+                <RouterLink to="/PrivateHomeView"> Zona Privada</RouterLink>
+              </v-list-item-title>
+              <v-list-item-title class="header__actions__usuario-item" @click="store.logOut">Cerrar
+                sesión</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -95,6 +127,7 @@ const submitForm = () => {
             required />
           <input type="text" v-model="registerDTO._nombre" class="modal__input" placeholder="Nombre" required />
           <input type="text" v-model="registerDTO._apellido" class="modal__input" placeholder="Apellido" required />
+          <input type="date" v-model="registerDTO._fechaNacimiento" class="modal__input" required />
           <input type="date" v-model="registerDTO._fecNacimiento" class="modal__input" required />
           <input type="text" v-model="registerDTO._dni" class="modal__input" placeholder="DNI" required />
         </template>
@@ -128,6 +161,7 @@ const submitForm = () => {
   }
 
   &__nav {
+    display: none;
     margin-top: 1rem;
 
     &-link {
@@ -155,12 +189,15 @@ const submitForm = () => {
           cursor: pointer;
         }
       }
-      &-item, &-item a{
+
+      &-item,
+      &-item a {
         padding: 10px;
         text-align: center;
         color: #aaa;
         text-decoration: none;
-        &:hover{
+
+        &:hover {
           cursor: pointer;
         }
       }
@@ -168,7 +205,7 @@ const submitForm = () => {
   }
 
   &__button {
-    margin: 0.5rem 0;
+    margin: 10px;
     padding: 0.5rem 1rem;
     border: none;
     background-color: #FF0000;
@@ -237,6 +274,7 @@ const submitForm = () => {
   }
 
   .header__nav {
+    display: flex ;
     margin-top: 0;
   }
 

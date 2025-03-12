@@ -17,10 +17,6 @@
       </div>
     </div>
     
-    <div class="button-container">
-      <button class="start-button">Empezar</button>
-    </div>
-    
     <h2 class="subtitle">¿Quién puede hacerse cliente?</h2>
     
     <div class="client-types">
@@ -68,10 +64,14 @@ export default {};
 }
 
 .steps-container {
-  display: flex;
+  display: grid;
   justify-content: center;
+  justify-items: center;
   margin-top: 1.5rem;
   gap: 1.5rem;
+  @media (min-width: 768px) {
+    display: flex;
+  }
 }
 
 .step {
@@ -81,10 +81,11 @@ export default {};
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   background-color: $background-color;
-  width: 35%;
+  width: 80%;
 
   @media (min-width: 768px) {
     padding: 2rem;
+    width: 35%;
   }
 }
 

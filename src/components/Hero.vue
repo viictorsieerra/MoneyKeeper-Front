@@ -3,7 +3,6 @@
     <div class="hero__content">
       <h1 class="hero__title">Controla tus finanzas de forma fácil</h1>
       <p class="hero__description">La mejor herramienta para gestionar tu dinero.</p>
-      <button class="hero__button">Empieza gratis</button>
     </div>
     <img src="/FinanzasPersonales.jpg" alt="Imagen principal" class="hero__image">
   </section>
@@ -45,8 +44,11 @@
   color: $text-color;
 }
 
-.hero__button {
-  padding: 0.75rem 1.5rem;
+.hero__div {
+  padding: 20px;
+  display: flex;
+  width: 220px;
+  justify-content: center;
   background-color: $primary-color;
   color: $background-color;
   border: none;

@@ -10,6 +10,7 @@ export const useReciboStore = defineStore('recibo', () => {
   function findByUser() {
     console.log("DDD " +jwtStore.jwt)
     const strToken = jwtStore.jwt
+    recibos.value = []
     
     if (strToken != ""){
     console.log("PRUEBA" + jwtStore.jwt)

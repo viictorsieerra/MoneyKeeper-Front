@@ -53,11 +53,6 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
         </v-list-item>
         <v-list-item>
           <v-list-item-title>
-            <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
-          </v-list-item-title>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-title>
             <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
           </v-list-item-title>
         </v-list-item>
@@ -72,13 +67,12 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
 
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
-      <router-link to="/button-container" class="header__nav-link">Cómo funciona</router-link>
       <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
       <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
     </nav>
 
     <div class="header__actions">
-      <div v-if="user._nombre === undefined">
+      <div class="header__actions-buttons" v-if="user._nombre === undefined">
         <button @click="openModal('login')" class="header__button">Iniciar sesión</button>
         <button @click="openModal('register')" class="header__button">Registrarse</button>
       </div>
@@ -145,12 +139,12 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
 <style scoped lang="scss">
 .header {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 1rem;
   background-color: #f8f9fa;
   z-index: 100;
+  height: 120px;
   position: relative;
 
   &__logo {
@@ -173,6 +167,10 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
 
   &__actions {
     margin-top: 1rem;
+    &-buttons{
+      display: grid;
+
+    }
 
     &__usuario {
       &-logo {
@@ -207,6 +205,7 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
   &__button {
     margin: 10px;
     padding: 0.5rem 1rem;
+    border-radius: 10px;
     border: none;
     background-color: #FF0000;
     color: white;
@@ -270,7 +269,6 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
 @media (min-width: 768px) {
   .header {
     flex-direction: row;
-    justify-content: space-between;
   }
 
   .header__nav {
@@ -279,6 +277,7 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
   }
 
   .header__nav-link {
+    font-size: 20px;
     margin: 0 1rem;
   }
 
@@ -289,6 +288,14 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
   .header__button {
     margin-left: 1rem;
     margin-top: 0;
+  }
+}
+@media (min-width: 994px){
+  .header__actions {
+    margin-top: 0;
+    &-buttons{
+      display: flex;
+    }
   }
 }
 </style>

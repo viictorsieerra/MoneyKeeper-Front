@@ -28,6 +28,57 @@ export const useReciboStore = defineStore('recibo', () => {
       })
       .catch(error => console.log(error))
   }
+  // Función para crear un recibo
+const createRecibo = async (nuevoRecibo: { _nombreRecibo: string, _dineroRecibo: number, _activa: boolean, _fecRecibo: string }) => {
+  const strToken = jwtStore.jwt
+  try {
+    const response = await fetch('https://localhost:7053/Recibo', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${strToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        _idUsuario: jwtStore.usuario._idUsuario,
+        _nombreRecibo: nuevoRecibo._nombreRecibo,
+        _dineroRecibo: nuevoRecibo._dineroRecibo,
+        _activa: nuevoRecibo._activa,
+        _fecRecibo: nuevoRecibo._fecRecibo
+      })
+    })
 
-  return { recibos, findByUser }
+    if (!response.ok) {
+      throw new Error('Error al crear el recibo')
+    }
+
+    const data = await response.json()
+    recibos.value.push(data) 
+  } catch (error) {
+    console.error('Error al crear el recibo:', error)
+    throw error
+  }
+}
+const deleteRecibo = async (idRecibo: number) => {
+  const strToken = jwtStore.jwt;
+  try {
+    const response = await fetch(`https://localhost:7053/Recibo/${idRecibo}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${strToken}`,
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al eliminar el recibo');
+    }
+
+    // Eliminar el recibo de la lista local
+    recibos.value = recibos.value.filter((recibo: any) => recibo._idRecibo !== idRecibo);
+  } catch (error) {
+    console.error('Error al eliminar el recibo:', error);
+    throw error;
+  }
+}
+
+  return { recibos, findByUser,createRecibo,deleteRecibo }
 }, {persist: true})

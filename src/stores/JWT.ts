@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useRouter } from 'vue-router';
 import LoginDTO from './DTO/LoginDTO'
 import RegistroDTO from './DTO/RegistroDTO'
 import UsuarioDTO from './DTO/UsuarioDTO'
@@ -7,6 +8,7 @@ import UsuarioDTO from './DTO/UsuarioDTO'
 export const useJWTStore = defineStore('jwt', () => {
   var jwt = ref('')
   var usuario = ref(new UsuarioDTO())
+  const router = useRouter()
 
   function loginUser(loginUser: LoginDTO) {
     console.log(loginUser._contrasena)
@@ -73,6 +75,7 @@ export const useJWTStore = defineStore('jwt', () => {
   function logOut() {
     usuario.value = new UsuarioDTO()
     jwt.value = ""
+    router.push('/')
   }
   function putUser() {
     let token = jwt.value

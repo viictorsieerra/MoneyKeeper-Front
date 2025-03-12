@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
+import type { Cuenta } from './DTO/CuentaBancariaDTO';
 export const useCuentaBancariaStore = defineStore('cuenta', () => {
 
   const cuentas = ref(new Array())

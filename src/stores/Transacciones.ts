@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
-import filtradoDTO from '@/stores/DTO/filtradoDTO'
+import filtradoDTO from '@/stores/DTO/FiltradoDTO'
 
 export const useTransaccionStore = defineStore('transaccion', () => {
 

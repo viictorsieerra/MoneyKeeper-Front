@@ -16,7 +16,7 @@ const newRecibo = ref({
 const store = useReciboStore()
 
 const recibos = computed(() => store.recibos)
-
+/*
 async function crearRecibo() {
   try {
     await store.createRecibo(newRecibo.value) 
@@ -28,7 +28,7 @@ async function crearRecibo() {
     console.error('Error al agregar el recibo:', error)
   }
 }
-
+*/
 async function eliminarRecibo(idRecibo: number) {
   try {
     console.log(`ID a eliminar: ${idRecibo}`)
@@ -48,7 +48,7 @@ store.findByUser()
   
     <div v-if="showForm" class="recibos__form">
       <h3>Nuevo Recibo</h3>
-      <form @submit.prevent="crearRecibo">
+      <form >
         <div>
           <label for="nombreRecibo">Nombre del Recibo:</label>
           <input type="text" id="nombreRecibo" v-model="newRecibo._nombreRecibo" required />

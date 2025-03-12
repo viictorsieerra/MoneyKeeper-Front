@@ -43,7 +43,7 @@ const validarRecibo = () => {
   }
   return true;
 };
-
+/*
 async function crearRecibo() {
   if (!validarRecibo()) return;
   try {
@@ -55,7 +55,7 @@ async function crearRecibo() {
   } catch (error) {
     console.error("Error al agregar el recibo:", error);
   }
-}
+}*/
 
 const eliminarCuenta = async (id: number) => {
   console.log('Eliminar cuenta con id:', id)

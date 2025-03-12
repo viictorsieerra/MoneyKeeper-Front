@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useTransaccionStore } from '@/stores/Transacciones'
-import filtradoDTO from '@/stores/DTO/filtradoDTO';
+import filtradoDTO from '@/stores/DTO/FiltradoDTO';
 const store = useTransaccionStore()
 
 const transacciones = computed(() => store.transacciones)

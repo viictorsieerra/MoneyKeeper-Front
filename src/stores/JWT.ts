@@ -10,7 +10,7 @@ export const useJWTStore = defineStore('jwt', () => {
 
   function loginUser(loginUser: LoginDTO) {
     console.log(loginUser._contrasena)
-    fetch("https://localhost:7053/JWT/Login", {
+    fetch("https://moneykeeper.retocsv.es/JWT/Login", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(
@@ -31,7 +31,7 @@ export const useJWTStore = defineStore('jwt', () => {
   }
 
   function registerUser(registroUser: RegistroDTO) {
-    fetch("https://localhost:7053/JWT/Register", {
+    fetch("https://moneykeeper.retocsv.es/JWT/Register", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(
@@ -59,7 +59,7 @@ export const useJWTStore = defineStore('jwt', () => {
 
     let token = jwt.value
     console.log(`Token guardado: ${token}`)
-    fetch("https://localhost:7053/Usuario/Auth",
+    fetch("https://moneykeeper.retocsv.es/Usuario/Auth",
       { headers: { 'Authorization': `Bearer ${token}` } })
       .then(res => res.json())
       .then(data => {
@@ -76,7 +76,7 @@ export const useJWTStore = defineStore('jwt', () => {
   }
   function putUser() {
     let token = jwt.value
-    fetch(`https://localhost:7053/Usuario/${usuario.value._idUsuario}`,
+    fetch(`https://moneykeeper.retocsv.es/Usuario/${usuario.value._idUsuario}`,
       {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },

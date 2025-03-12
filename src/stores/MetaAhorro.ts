@@ -55,12 +55,12 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
     }
   }
 
-  async function deleteMetaAhorro(metaId: number) {
+  async function deleteMetaAhorro(idMeta: number) {
     const strToken = jwtStore.jwt;
   
     if (strToken) {
       try {
-        const response = await fetch(`https://localhost:7053/MetaAhorro/${metaId}`, {
+        const response = await fetch(`https://localhost:7053/MetaAhorro/${idMeta}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${strToken}`,
@@ -76,11 +76,13 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
           throw new Error(`Error al eliminar la meta de ahorro: ${errorData}`);
         }
   
-        // ✅ Mostrar mensaje si todo fue bien
-        console.log(`Meta con id ${metaId} eliminada correctamente.`);
+      
+        const index = metas.value.findIndex(meta => meta._idMeta === idMeta); 
+        if (index !== -1) {
+          metas.value.splice(index, 1); 
+        }
   
-        // Eliminar la meta localmente
-        metas.value = metas.value.filter(meta => meta._idMeta !== metaId);
+        console.log(`Meta con id ${idMeta} eliminada correctamente.`);
       } catch (error) {
         console.error('Error al eliminar la meta de ahorro:', error);
         throw error;
@@ -89,6 +91,8 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
       console.error('Token no encontrado');
     }
   }
+  
+  
 
   return { metas, findByUser, createMetaAhorro, deleteMetaAhorro }
 }, { persist: true })

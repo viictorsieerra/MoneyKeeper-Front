@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useReciboStore } from '@/stores/Recibos'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const showForm = ref(false)
 
@@ -15,6 +15,8 @@ const newRecibo = ref({
 
 const store = useReciboStore()
 
+const recibos = computed(() => store.recibos)
+
 async function crearRecibo() {
   try {
     await store.createRecibo(newRecibo.value) 
@@ -27,16 +29,22 @@ async function crearRecibo() {
   }
 }
 
+async function eliminarRecibo(idRecibo: number) {
+  try {
+    console.log(`ID a eliminar: ${idRecibo}`)
+    await store.deleteRecibo(idRecibo)
+    console.log('Recibo eliminado')
+  } catch (error) {
+    console.error('Error al eliminar el recibo:', error)
+  }
+}
+
 store.findByUser() 
 </script>
 
 <template>
   <main class="recibos">
     <h2 class="recibos__titulo">Listado de Recibos</h2>
-
-    <!-- Botón para mostrar el formulario de añadir recibo -->
-    <button @click="showForm = !showForm" class="btn-add">Añadir Recibo</button>
-
     <!-- Formulario para añadir un nuevo recibo -->
     <div v-if="showForm" class="recibos__form">
       <h3>Nuevo Recibo</h3>
@@ -62,12 +70,14 @@ store.findByUser()
     </div>
 
     <!-- Listado de recibos -->
-    <div class="recibos__views" v-for="meta in store.recibos" :key="meta._idRecibo">
+    <div class="recibos__views" v-for="recibo in recibos" :key="recibo._idRecibo">
       <div class="recibos__views-card">
-        <p><span>Nombre del recibo:</span> {{ meta._nombreRecibo }}</p>
-        <p><span>Dinero del recibo:</span> {{ meta._dineroRecibo }}€</p>
-        <p><span>Activo:</span> {{ meta._activa ? 'Sí' : 'No' }}</p>
-        <p><span>Fecha del recibo:</span> {{ meta._fecRecibo }}</p>
+        <p><span>Nombre del recibo:</span> {{ recibo._nombreRecibo }}</p>
+        <p><span>Dinero del recibo:</span> {{ recibo._dineroRecibo }}€</p>
+        <p><span>Activo:</span> {{ recibo._activa ? 'Sí' : 'No' }}</p>
+        <p><span>Fecha del recibo:</span> {{ recibo._fecRecibo }}</p>
+        <!-- Botón de eliminar -->
+        <button @click="eliminarRecibo(recibo._idRecibo)" class="recibos__btn-delete">Eliminar</button>
       </div>
     </div>
   </main>
@@ -119,6 +129,20 @@ store.findByUser()
         span {
           font-weight: bold;
           color: #222;
+        }
+      }
+
+      .recibos__btn-delete {
+        background-color: #e74c3c;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+
+        &:hover {
+          background-color: #c0392b;
         }
       }
     }

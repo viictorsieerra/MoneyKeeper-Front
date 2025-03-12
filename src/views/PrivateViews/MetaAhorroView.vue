@@ -162,8 +162,11 @@ onMounted(async () => {
         <p><span>Estado:</span> {{ meta._activoMeta ? 'Activa' : 'Inactiva' }}</p>
         <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>
         <p><span>Fecha objetivo:</span> {{ meta._fechaObjetivoMeta }}</p>
-        <button @click="editarMeta(meta)">Editar</button>
-        <button @click="eliminarMeta(meta.idMeta || meta._idMeta)">Eliminar</button>
+          <button @click="editarMeta(meta)">Editar</button>
+          <button @click="eliminarMeta(meta.idMeta || meta._idMeta)">Eliminar</button>
+
+      
+        
       </div>
     </div>
   </main>
@@ -320,6 +323,9 @@ onMounted(async () => {
         background-color: #218838;
       }
     }
+
+   
+
   }
 }
 </style>

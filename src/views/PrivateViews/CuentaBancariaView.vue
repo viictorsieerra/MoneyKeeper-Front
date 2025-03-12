@@ -101,7 +101,9 @@ const crearCuenta = async () => {
 
     <div class="cuentas__add-button">
       <button @click="mostrarFormulario = true" class="btn-add">Añadir Cuenta</button>
+      <button @click="showForm = !showForm" class="btn-add">Añadir Recibo</button>
     </div>
+    
 
     <!-- Modal para añadir un nuevo recibo -->
     <div v-if="showForm" class="modal">
@@ -109,27 +111,27 @@ const crearCuenta = async () => {
         <h3>Nuevo Recibo</h3>
         <label>
           Nombre del Recibo:
-          <input type="text" id="nombreRecibo" v-model="newRecibo._nombreRecibo" :key="newRecibo._nombreRecibo" required />
+          <input type="text" id="nombreRecibo" v-model="newRecibo._nombreRecibo"  required />
         </label>
         <label>
           Dinero del Recibo (€):
-          <input type="number" id="dineroRecibo" v-model="newRecibo._dineroRecibo" :key="newRecibo._dineroRecibo" required />
+          <input type="number" id="dineroRecibo" v-model="newRecibo._dineroRecibo"  required />
         </label>
         <label>
           Fecha del Recibo:
-          <input type="date" id="fecRecibo" v-model="newRecibo._fecRecibo" :key="newRecibo._fecRecibo" required />
+          <input type="date" id="fecRecibo" v-model="newRecibo._fecRecibo"  required />
         </label>
         <label>
           Selecciona una Cuenta:
           <select v-model="newRecibo._idCuenta" required>
-            <option v-for="cuenta in store.cuentas" :key="cuenta._idCuenta" :value="cuenta._idCuenta">
+            <option v-for="cuenta in store.cuentas" :key="cuenta._idCuenta" >
               {{ cuenta._nombreCuenta }} - {{ cuenta._dineroCuenta }}€
             </option>
           </select>
         </label>
         <label>
           Activo:
-          <input type="checkbox" id="activo" v-model="newRecibo._activa" :value="newRecibo._activa" />
+          <input type="checkbox" id="activo" v-model="newRecibo._activa"  />
         </label>
         <div class="modal-buttons">
           <button @click="reciboStore.createRecibo(newRecibo)">Crear Recibo</button>
@@ -173,7 +175,6 @@ const crearCuenta = async () => {
         <div class="cuentas__views-actions">
           <button @click="eliminarCuenta(cuenta._idCuenta)">Eliminar</button>
           <button @click="editarCuenta(cuenta)">Editar</button>
-          <button @click="showForm = !showForm" class="btn-add">Añadir Recibo</button>
         </div>
       </div>
     </div>
@@ -283,7 +284,7 @@ const crearCuenta = async () => {
 
   .cuentas__add-button {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     margin-bottom: 20px; 
   }
 

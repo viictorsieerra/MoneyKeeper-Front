@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useCuentaBancariaStore } from '@/stores/CuentaBancaria'
+import { useReciboStore } from '@/stores/Recibos'
 
+const showForm = ref(false)
 const store = useCuentaBancariaStore()
+const reciboStore = useReciboStore()
 store.findByUser()
-
 const cuentaSeleccionada = ref<any>(null)
 const mostrarModal = ref(false)
 const mostrarFormulario = ref(false)
@@ -15,6 +17,43 @@ const nuevaCuenta = ref({
   _activa: true
 })
 
+const newRecibo = ref({
+  _nombreRecibo: '',
+  _idUsuario: store.usuarioActual?.id || 1, // Obtener ID de usuario dinámicamente
+  _idCuenta: null,  // Seleccionar cuenta al crear
+  _dineroRecibo: 0,
+  _activa: true,
+  _fecRecibo: new Date().toISOString().split('T')[0]
+});
+
+const validarRecibo = () => {
+  if (!newRecibo.value._nombreRecibo.trim()) {
+    alert("El nombre del recibo es obligatorio");
+    return false;
+  }
+  if (newRecibo.value._dineroRecibo <= 0) {
+    alert("El monto del recibo debe ser mayor a 0");
+    return false;
+  }
+  if (!newRecibo.value._idCuenta) {
+    alert("Selecciona una cuenta válida");
+    return false;
+  }
+  return true;
+};
+
+async function crearRecibo() {
+  if (!validarRecibo()) return;
+  try {
+    await store.createRecibo(newRecibo.value);
+    showForm.value = false;
+    newRecibo.value = { _nombreRecibo: '', _dineroRecibo: 0, _activa: true, _fecRecibo: new Date().toISOString().split('T')[0] };
+    await store.findByUser();
+    console.log("Recibo agregado");
+  } catch (error) {
+    console.error("Error al agregar el recibo:", error);
+  }
+}
 
 const eliminarCuenta = async (id: number) => {
   console.log('Eliminar cuenta con id:', id)
@@ -61,8 +100,43 @@ const crearCuenta = async () => {
     <h2 class="cuentas__titulo">Listado de Cuentas Bancarias</h2>
 
     <div class="cuentas__add-button">
-  <button @click="mostrarFormulario = true" class="btn-add">Añadir Cuenta</button>
-</div>
+      <button @click="mostrarFormulario = true" class="btn-add">Añadir Cuenta</button>
+    </div>
+
+    <!-- Modal para añadir un nuevo recibo -->
+    <div v-if="showForm" class="modal">
+      <div class="modal-content">
+        <h3>Nuevo Recibo</h3>
+        <label>
+          Nombre del Recibo:
+          <input type="text" id="nombreRecibo" v-model="newRecibo._nombreRecibo" :key="newRecibo._nombreRecibo" required />
+        </label>
+        <label>
+          Dinero del Recibo (€):
+          <input type="number" id="dineroRecibo" v-model="newRecibo._dineroRecibo" :key="newRecibo._dineroRecibo" required />
+        </label>
+        <label>
+          Fecha del Recibo:
+          <input type="date" id="fecRecibo" v-model="newRecibo._fecRecibo" :key="newRecibo._fecRecibo" required />
+        </label>
+        <label>
+          Selecciona una Cuenta:
+          <select v-model="newRecibo._idCuenta" required>
+            <option v-for="cuenta in store.cuentas" :key="cuenta._idCuenta" :value="cuenta._idCuenta">
+              {{ cuenta._nombreCuenta }} - {{ cuenta._dineroCuenta }}€
+            </option>
+          </select>
+        </label>
+        <label>
+          Activo:
+          <input type="checkbox" id="activo" v-model="newRecibo._activa" :value="newRecibo._activa" />
+        </label>
+        <div class="modal-buttons">
+          <button @click="reciboStore.createRecibo(newRecibo)">Crear Recibo</button>
+          <button @click="showForm = false">Cancelar</button>
+        </div>
+      </div>
+    </div>
 
     <div v-if="mostrarFormulario" class="modal">
       <div class="modal-content">
@@ -96,12 +170,15 @@ const crearCuenta = async () => {
         <p><span>Saldo:</span> {{ cuenta._dineroCuenta }}€</p>
         <p><span>Estado:</span> {{ cuenta._activa ? 'Activa' : 'Inactiva' }}</p>
         <p><span>Fecha de creación:</span> {{ cuenta._fechaCreacion }}</p>
-        <button @click="eliminarCuenta(cuenta._idCuenta)">Eliminar</button>
-        <button @click="editarCuenta(cuenta)">Editar</button>
+        <div class="cuentas__views-actions">
+          <button @click="eliminarCuenta(cuenta._idCuenta)">Eliminar</button>
+          <button @click="editarCuenta(cuenta)">Editar</button>
+          <button @click="showForm = !showForm" class="btn-add">Añadir Recibo</button>
+        </div>
       </div>
     </div>
 
-
+    <!-- Modal de editar cuenta -->
     <div v-if="mostrarModal" class="modal">
       <div class="modal-content">
         <h3>Editar Cuenta</h3>
@@ -128,6 +205,7 @@ const crearCuenta = async () => {
     </div>
   </main>
 </template>
+
 
 <style lang="scss" scoped>
 .cuentas {
@@ -202,31 +280,32 @@ const crearCuenta = async () => {
       }
     }
   }
+
   .cuentas__add-button {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px; 
-}
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; 
+  }
+
   .btn-add {
-  background-color: #4caf50; 
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #4caf50; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 
-  &:hover {
-    background-color: #45a049; 
-    transform: scale(1.05);
+    &:hover {
+      background-color: #45a049; 
+      transform: scale(1.05);
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
-
-  &:focus {
-    outline: none;
-  }
-}
-
 
   .modal {
     position: fixed;
@@ -299,6 +378,35 @@ const crearCuenta = async () => {
           }
         }
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cuentas {
+      width: 100%;
+      padding: 10px;
+    }
+
+    .cuentas__titulo {
+      font-size: 1.5rem;
+    }
+
+    .cuentas__views {
+      gap: 10px;
+    }
+
+    .cuentas__views-card {
+      padding: 12px;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .btn-add {
+      font-size: 0.9rem;
+      padding: 8px 16px;
     }
   }
 }

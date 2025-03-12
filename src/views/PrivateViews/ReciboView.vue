@@ -64,6 +64,7 @@ store.findByUser()
     <!-- Listado de recibos -->
     <div class="recibos__views" v-for="meta in store.recibos" :key="meta._idRecibo">
       <div class="recibos__views-card">
+        <p><span>Nombre del recibo:</span> {{ meta._nombreRecibo }}</p>
         <p><span>Dinero del recibo:</span> {{ meta._dineroRecibo }}€</p>
         <p><span>Activo:</span> {{ meta._activa ? 'Sí' : 'No' }}</p>
         <p><span>Fecha del recibo:</span> {{ meta._fecRecibo }}</p>

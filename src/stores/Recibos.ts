@@ -30,8 +30,9 @@ export const useReciboStore = defineStore('recibo', () => {
       .catch(error => console.log(error))
   }
   // Función para crear un recibo
-const createRecibo = async (nuevoRecibo: { _nombreRecibo: string, _dineroRecibo: number, _activa: boolean, _fecRecibo: string }) => {
+const createRecibo = async (nuevoRecibo: {_idCuenta:number, _nombreRecibo: string, _dineroRecibo: number, _activa: boolean, _fecRecibo: string }) => {
   const strToken = jwtStore.jwt
+  console.log(nuevoRecibo)
   try {
     const response = await fetch('https://localhost:7053/Recibo', {
       method: 'POST',
@@ -40,6 +41,7 @@ const createRecibo = async (nuevoRecibo: { _nombreRecibo: string, _dineroRecibo:
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        _idCuenta: nuevoRecibo._idCuenta,
         _idUsuario: jwtStore.usuario._idUsuario,
         _nombreRecibo: nuevoRecibo._nombreRecibo,
         _dineroRecibo: nuevoRecibo._dineroRecibo,
@@ -54,6 +56,7 @@ const createRecibo = async (nuevoRecibo: { _nombreRecibo: string, _dineroRecibo:
 
     const data = await response.json()
     recibos.value.push(data) 
+    findByUser()
   } catch (error) {
     console.error('Error al crear el recibo:', error)
     throw error

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useMetaAhorroStore } from '@/stores/MetaAhorro'
+import { useMetaAhorroStore } from '@/stores/MetaAhorro';
 
 const store = useMetaAhorroStore()
 const isLoading = ref(true) 
 const showForm = ref(false) 
+const showEditForm = ref(false)  // Nueva variable para el formulario de edición
 const newMeta = ref({
   _nombremeta: '',
   _descripcionMeta: '',
@@ -14,6 +15,15 @@ const newMeta = ref({
   _fechaObjetivoMeta: new Date().toISOString().split('T')[0], 
 })
 
+const metaEditada = ref({ // Nueva variable para la meta que estamos editando
+  _idMeta: 0,
+  _nombremeta: '',
+  _descripcionMeta: '',
+  dineroObjetivo: 0,
+  _dineroActual: 0,
+  _activoMeta: true,
+  _fechaObjetivoMeta: new Date().toISOString().split('T')[0],
+})
 
 const crearMeta = async () => {
   try {
@@ -33,7 +43,6 @@ const crearMeta = async () => {
   }
 }
 
-
 const eliminarMeta = async (metaId: number | undefined) => {
   if (!metaId) {
     console.error('ID de meta inválido:', metaId)
@@ -47,6 +56,22 @@ const eliminarMeta = async (metaId: number | undefined) => {
   }
 }
 
+const editarMeta = (meta: any) => {
+  // Llenamos los datos del formulario con los valores de la meta seleccionada
+  metaEditada.value = { ...meta }
+  showEditForm.value = true // Mostramos el formulario de edición
+}
+
+const actualizarMeta = async () => {
+  try {
+    await store.UpdateMetaAhorro(metaEditada.value._idMeta, metaEditada.value);
+
+    showEditForm.value = false;  // Ocultamos el formulario de edición
+    await store.findByUser();  // Volvemos a obtener las metas actualizadas
+  } catch (error) {
+    console.error('Error al actualizar la meta:', error);
+  }
+}
 
 onMounted(async () => {
   await store.findByUser() 
@@ -61,6 +86,7 @@ onMounted(async () => {
 
     <button @click="showForm = !showForm" v-if="!showForm" class="btn-add">Añadir Meta de Ahorro</button>
 
+    <!-- Formulario de crear nueva meta -->
     <div v-if="showForm" class="metas__form">
       <button @click="showForm = false" class="btn-close">×</button>
       <h3>Crear Nueva Meta de Ahorro</h3>
@@ -93,6 +119,40 @@ onMounted(async () => {
       </form>
     </div>
 
+    <!-- Formulario de editar meta -->
+    <div v-if="showEditForm" class="metas__form">
+      <button @click="showEditForm = false" class="btn-close">×</button>
+      <h3>Editar Meta de Ahorro</h3>
+      <form @submit.prevent="actualizarMeta">
+        <div>
+          <label for="nombremeta">Nombre de la Meta:</label>
+          <input type="text" id="nombremeta" v-model="metaEditada._nombremeta" required />
+        </div>
+        <div>
+          <label for="descripcionMeta">Descripción:</label>
+          <input type="text" id="descripcionMeta" v-model="metaEditada._descripcionMeta" required />
+        </div>
+        <div>
+          <label for="dineroObjetivo">Dinero Objetivo (€):</label>
+          <input type="number" id="dineroObjetivo" v-model="metaEditada.dineroObjetivo" required />
+        </div>
+        <div>
+          <label for="dineroActual">Dinero Actual (€):</label>
+          <input type="number" id="dineroActual" v-model="metaEditada._dineroActual" required />
+        </div>
+        <div>
+          <label for="activoMeta">Estado:</label>
+          <input type="checkbox" id="activoMeta" v-model="metaEditada._activoMeta" />
+        </div>
+        <div>
+          <label for="fechaObjetivoMeta">Fecha Objetivo:</label>
+          <input type="date" id="fechaObjetivoMeta" v-model="metaEditada._fechaObjetivoMeta" required />
+        </div>
+        <button type="submit">Actualizar Meta</button>
+      </form>
+    </div>
+
+    <!-- Vista de las metas -->
     <div v-if="!isLoading" class="metas__views" v-for="meta in store.metas" :key="meta.idMeta || meta._idMeta">
       <div class="metas__views-card">
         <p><span>Nombre de la meta:</span> {{ meta._nombremeta }}</p>
@@ -102,12 +162,13 @@ onMounted(async () => {
         <p><span>Estado:</span> {{ meta._activoMeta ? 'Activa' : 'Inactiva' }}</p>
         <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>
         <p><span>Fecha objetivo:</span> {{ meta._fechaObjetivoMeta }}</p>
-       
+        <button @click="editarMeta(meta)">Editar</button>
         <button @click="eliminarMeta(meta.idMeta || meta._idMeta)">Eliminar</button>
       </div>
     </div>
   </main>
 </template>
+
 
 
 <style lang="scss" scoped>

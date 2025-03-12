@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
 
+
 export const useMetaAhorroStore = defineStore('metaAhorro', () => {
   const metas = ref(new Array())
   const jwtStore = useJWTStore()  
@@ -92,7 +93,54 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
     }
   }
   
+  async function UpdateMetaAhorro(idMeta: number, updatedMeta: any) {
+    const strToken = jwtStore.jwt;
   
+    if (strToken) {
+      try {
+        // Aquí añadimos el campo `updatedMetaAhorro` (si es requerido por el backend)
+        const metaData = {
+          updatedMetaAhorro: updatedMeta.updatedMetaAhorro, // Asegúrate de incluir esto
+          _fechaCreacionMeta: updatedMeta._fechaCreacionMeta, // Mantén la fecha (si es necesario)
+          // Puedes añadir otros campos que sean necesarios para la actualización
+          ...updatedMeta
+        };
+        console.log('Datos que se enviarán al backend:', metaData);
+        const response = await fetch(`https://localhost:7053/MetaAhorro/${idMeta}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${strToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(metaData) // Asegúrate de enviar `metaData` que incluye `updatedMetaAhorro` y `_fechaCreacionMeta`
+        });
+  
+        if (!response.ok) {
+          const errorData = await response.text();
+          console.error(`Error al editar la meta de ahorro: ${errorData}`);
+          throw new Error(`Error al editar la meta de ahorro: ${errorData}`);
+        }
+  
+        // Aquí actualizas la meta localmente si la actualización fue exitosa
+        const index = metas.value.findIndex(meta => meta._idMeta === idMeta);
+        if (index !== -1) {
+          metas.value[index] = { ...metas.value[index], ...updatedMeta };
+        }
+  
+        console.log(`Meta con id ${idMeta} actualizada correctamente.`);
+      } catch (error) {
+        console.error('Error al editar la meta de ahorro:', error);
+        throw error;
+      }
+    } else {
+      console.error('Token no encontrado');
+    }
+    const metaData = {
+      updatedMetaAhorro: updatedMeta.updatedMetaAhorro, 
+      _fechaCreacionMeta: new Date(updatedMeta._fechaCreacionMeta).toISOString(), // Convertir la fecha a formato ISO
+      ...updatedMeta // Añadir otros campos si es necesario
+    };
+  }
 
-  return { metas, findByUser, createMetaAhorro, deleteMetaAhorro }
-}, { persist: true })
+  return { metas, findByUser, createMetaAhorro, deleteMetaAhorro, UpdateMetaAhorro}
+})

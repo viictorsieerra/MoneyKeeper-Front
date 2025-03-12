@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
-import filtradoDTO from './DTO/filtradoDTO'
+import filtradoDTO from '@/stores/DTO/filtradoDTO'
 
 export const useTransaccionStore = defineStore('transaccion', () => {
 
@@ -18,7 +18,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     }
     else (console.log("Token no pillado correctamente"))
 
-    fetch("https://localhost:7053/Transaccion/transacciones",
+    fetch("https://moneykeeper-api.retocsv.es/Transaccion/transacciones",
       { headers: { 'Authorization': `Bearer ${strToken}` } })
       .then(res => res.json())
       .then(data => {
@@ -35,7 +35,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
   function getTransaccionesFilters(filtrado: filtradoDTO) {
     const token = jwtStore.jwt
     transacciones.value = []
-    fetch(`https://localhost:7053/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}`,
+    fetch(`https://moneykeeper-api.retocsv.es/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}`,
       { headers: { 'Authorization': `Bearer ${token}` } }
     )
       .then(res => res.json())

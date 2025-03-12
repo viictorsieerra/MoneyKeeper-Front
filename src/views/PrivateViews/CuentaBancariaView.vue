@@ -21,8 +21,8 @@ const nuevaCuenta = ref({
 
 const newRecibo = ref({
   _nombreRecibo: '',
-  _idUsuario: jwtStore.usuario._idUsuario || 1, 
-  _idCuenta: 0,  
+  _idUsuario: jwtStore.usuario._idUsuario || 1,
+  _idCuenta: 0,
   _dineroRecibo: 0,
   _activa: true,
   _fecRecibo: new Date().toISOString().split('T')[0]
@@ -69,7 +69,7 @@ const eliminarCuenta = async (id: number) => {
 
 
 const editarCuenta = (cuenta: any) => {
-  cuentaSeleccionada.value = { ...cuenta } 
+  cuentaSeleccionada.value = { ...cuenta }
   mostrarModal.value = true
 }
 
@@ -89,7 +89,7 @@ const crearCuenta = async () => {
   try {
     await store.crearCuenta(nuevaCuenta.value)
     mostrarFormulario.value = false
-    nuevaCuenta.value = { _nombreCuenta: '', _dineroCuenta: 0, _activa: true } 
+    nuevaCuenta.value = { _nombreCuenta: '', _dineroCuenta: 0, _activa: true }
     await store.findByUser()
   } catch (error) {
     console.error('Error al crear la cuenta:', error)
@@ -105,7 +105,7 @@ const crearCuenta = async () => {
       <button @click="mostrarFormulario = true" class="btn-add">Añadir Cuenta</button>
       <button @click="showForm = !showForm" class="btn-add">Añadir Recibo</button>
     </div>
-    
+
 
 
     <div v-if="showForm" class="modal">
@@ -113,27 +113,28 @@ const crearCuenta = async () => {
         <h3>Nuevo Recibo</h3>
         <label>
           Nombre del Recibo:
-          <input type="text" id="nombreRecibo" v-model="newRecibo._nombreRecibo"  required />
+          <input type="text" id="nombreRecibo" v-model="newRecibo._nombreRecibo" required />
         </label>
         <label>
           Dinero del Recibo (€):
-          <input type="number" id="dineroRecibo" v-model="newRecibo._dineroRecibo"  required />
+          <input type="number" id="dineroRecibo" v-model="newRecibo._dineroRecibo" required />
         </label>
         <label>
           Fecha del Recibo:
-          <input type="date" id="fecRecibo" v-model="newRecibo._fecRecibo"  required />
+          <input type="date" id="fecRecibo" v-model="newRecibo._fecRecibo" required />
         </label>
         <label>
           Selecciona una Cuenta:
           <select v-model="newRecibo._idCuenta" required>
-            <option v-for="cuenta in store.cuentas" :key="cuenta._idCuenta" >
+            <option v-for="cuenta in store.cuentas" :key="cuenta._idCuenta" :value="cuenta._idCuenta">
               {{ cuenta._nombreCuenta }} - {{ cuenta._dineroCuenta }}€
             </option>
           </select>
+
         </label>
         <label>
           Activo:
-          <input type="checkbox" id="activo" v-model="newRecibo._activa"  />
+          <input type="checkbox" id="activo" v-model="newRecibo._activa" />
         </label>
         <div class="modal-buttons">
           <button @click="reciboStore.createRecibo(newRecibo)">Crear Recibo</button>
@@ -181,7 +182,7 @@ const crearCuenta = async () => {
       </div>
     </div>
 
-    
+
     <div v-if="mostrarModal" class="modal">
       <div class="modal-content">
         <h3>Editar Cuenta</h3>
@@ -273,7 +274,7 @@ const crearCuenta = async () => {
         }
       }
 
-      button + button {
+      button+button {
         background-color: #4d79ff;
         margin-left: 10px;
 
@@ -287,11 +288,11 @@ const crearCuenta = async () => {
   .cuentas__add-button {
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
   }
 
   .btn-add {
-    background-color: #4caf50; 
+    background-color: #4caf50;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -301,7 +302,7 @@ const crearCuenta = async () => {
     transition: background-color 0.3s ease, transform 0.2s ease;
 
     &:hover {
-      background-color: #45a049; 
+      background-color: #45a049;
       transform: scale(1.05);
     }
 
@@ -342,7 +343,8 @@ const crearCuenta = async () => {
         font-weight: bold;
         color: #333;
 
-        input, select {
+        input,
+        select {
           margin-top: 5px;
           padding: 8px;
           border: 1px solid #ccc;

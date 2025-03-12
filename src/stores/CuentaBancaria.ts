@@ -16,7 +16,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
       console.log("Token no pillado correctamente")
     }
 
-    fetch("https://localhost:7053/Cuenta/cuentas", {
+    fetch("https://moneykeeper-api.retocsv.es/Cuenta/cuentas", {
       headers: { 'Authorization': `Bearer ${strToken}` }
     })
     .then(res => res.json())
@@ -33,7 +33,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
     const strToken = jwtStore.jwt
 
     try {
-      const response = await fetch(`https://localhost:7053/Cuenta/${id}`, {
+      const response = await fetch(`https://moneykeeper-api.retocsv.es/Cuenta/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${strToken}` }
       })
@@ -55,7 +55,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
    
   
     try {
-      const response = await fetch(`https://localhost:7053/Cuenta/${cuenta._idCuenta}`, {
+      const response = await fetch(`https://moneykeeper-api.retocsv.es/Cuenta/${cuenta._idCuenta}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${strToken}`,
@@ -89,7 +89,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
     const crearCuenta = async (nuevaCuenta: { _nombreCuenta: string, _dineroCuenta: number, _activa: boolean }) => {
       const strToken = jwtStore.jwt
       try {
-        const response = await fetch('https://localhost:7053/Cuenta', {
+        const response = await fetch('https://moneykeeper-api.retocsv.es/Cuenta', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${strToken}`,

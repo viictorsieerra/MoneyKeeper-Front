@@ -19,7 +19,7 @@ export const useReciboStore = defineStore('recibo', () => {
       console.log("Token no pillado correctamente")
     }
 
-    fetch("https://localhost:7053/Recibo/recibos", {
+    fetch("https://moneykeeper-api.retocsv.es/Recibo/recibos", {
       headers: { 'Authorization': `Bearer ${strToken}` }
     })
       .then(res => res.json())
@@ -37,13 +37,15 @@ export const useReciboStore = defineStore('recibo', () => {
     const strToken = jwtStore.jwt
     console.log(nuevoRecibo)
     try {
-      const response = await fetch('https://localhost:7053/Recibo', {
+      
+      const response = await fetch('https://moneykeeper-api.retocsv.es/Recibo', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${strToken}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          
           _idCuenta: nuevoRecibo._idCuenta,
           _idUsuario: jwtStore.usuario._idUsuario,
           _nombreRecibo: nuevoRecibo._nombreRecibo,
@@ -59,6 +61,7 @@ export const useReciboStore = defineStore('recibo', () => {
 
       const data = await response.json()
       recibos.value.push(data)
+      window.location.reload()
       findByUser()
     } catch (error) {
       console.error('Error al crear el recibo:', error)
@@ -70,7 +73,7 @@ export const useReciboStore = defineStore('recibo', () => {
     const strToken = jwtStore.jwt;
     try {
    
-      const response = await fetch(`https://localhost:7053/Recibo/${idRecibo}`, {
+      const response = await fetch(`https://moneykeeper-api.retocsv.es/Recibo/${idRecibo}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${strToken}`,

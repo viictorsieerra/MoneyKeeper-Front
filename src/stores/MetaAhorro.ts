@@ -19,6 +19,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
           data.forEach((meta: any) => {
             meta._fechaCreacionMeta = new Date(meta._fechaCreacionMeta).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
           })
+          console.log(data)
           metas.value.splice(0, metas.value.length, ...data) 
         })
         .catch(error => console.error('Error al obtener las metas:', error))
@@ -27,7 +28,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
     }
   }
 
-  async function createMetaAhorro(metaData) {
+  async function createMetaAhorro(metaData: any) {
     const strToken = jwtStore.jwt
     const usuarioId = jwtStore.usuario._idUsuario  
   

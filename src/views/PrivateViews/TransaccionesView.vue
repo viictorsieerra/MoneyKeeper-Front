@@ -1,19 +1,38 @@
 <script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
 import { useTransaccionStore } from '@/stores/Transacciones'
-
+import filtradoDTO from '@/stores/DTO/filtradoDTO';
 const store = useTransaccionStore()
+
+const transacciones = computed(() => store.transacciones)
+
+const fechasFilter = new filtradoDTO
 
 console.log(store)
 
 store.findByUser()
 
+function filtrar(filtrado : filtradoDTO)
+{
+    store.getTransaccionesFilters(filtrado)
+}
 console.log(store)
 </script>
 
 <template>
     <main class="transacciones">
         <h2 class="transacciones__titulo">Listado de transacciones</h2>
-        <div class="transacciones__views" v-for="transaccion in store.transacciones" :key="transaccion.id">
+        <div class="transacciones__fechas">
+            <input type="date" v-model="fechasFilter._fechaInicio" />
+            <input type="date" v-model="fechasFilter._fechaFin" />
+            <svg @click="filtrar(fechasFilter)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" height="30px" width="30px">
+                <circle cx="40" cy="40" r="25" stroke="black" stroke-width="3" fill="none" />
+
+                <!-- Línea (mango de la lupa) -->
+                <line x1="58" y1="58" x2="80" y2="80" stroke="black" stroke-width="5" stroke-linecap="round" />
+            </svg>
+        </div>
+        <div class="transacciones__views" v-for="transaccion in transacciones" :key="transaccion.id">
             <div class="transacciones__views-card">
                 <p><span>Categoria:</span> {{ transaccion._nombreCategoria }}</p>
                 <p><span>Cantidad:</span> {{ transaccion._cantidad }}€</p>
@@ -26,6 +45,16 @@ console.log(store)
 </template>
 
 <style lang="scss" scoped>
+.transacciones__fechas--input {
+    .v-picker-title {
+        display: none;
+    }
+}
+
+.v-picker-title {
+    display: none;
+}
+
 .transacciones {
     width: 85%;
     margin: 0 auto;
@@ -37,6 +66,20 @@ console.log(store)
     margin-bottom: 2%;
     margin-left: 7%;
     height: fit-content;
+
+    &__fechas {
+        display: grid;
+        justify-content: center;
+
+        @media (min-width: 992px) {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &--input {
+            margin: 15px;
+        }
+    }
 
     &__titulo {
         text-align: center;
@@ -76,11 +119,11 @@ console.log(store)
             }
         }
     }
-    @media (max-width: 768px) {
-  .transacciones {
-    width: 20%;
-  }
+
+    @media (min-width: 768px) {
+        .transacciones {
+            width: 20%;
+        }
     }
 }
-
 </style>

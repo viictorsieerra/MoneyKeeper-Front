@@ -20,7 +20,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
     })
     .then(res => res.json())
     .then(data => {
-      data.forEach(cuenta => {
+      data.forEach((cuenta: any )=> {
         cuenta._fechaCreacion = new Date(cuenta._fechaCreacion).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
       })
       cuentas.value.splice(0, cuentas.value.length, ...data)
@@ -47,7 +47,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
       throw error
     }
   }
-  const UpdateCuenta = async (cuenta: Cuenta) => {
+  const UpdateCuenta = async (cuenta: any) => {
     const strToken = jwtStore.jwt;
     console.log("CUENTA A ENVIAR: ", cuenta);
   

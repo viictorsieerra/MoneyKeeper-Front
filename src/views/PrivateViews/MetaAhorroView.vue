@@ -9,7 +9,7 @@ const showEditForm = ref(false)  // Nueva variable para el formulario de edició
 const newMeta = ref({
   _nombremeta: '',
   _descripcionMeta: '',
-  dineroObjetivo: 0,
+  _dineroObjetivo: 0,
   _dineroActual: 0,
   _activoMeta: true,
   _fechaObjetivoMeta: new Date().toISOString().split('T')[0], 
@@ -19,7 +19,7 @@ const metaEditada = ref({ // Nueva variable para la meta que estamos editando
   _idMeta: 0,
   _nombremeta: '',
   _descripcionMeta: '',
-  dineroObjetivo: 0,
+  _dineroObjetivo: 0,
   _dineroActual: 0,
   _activoMeta: true,
   _fechaObjetivoMeta: new Date().toISOString().split('T')[0],
@@ -27,12 +27,13 @@ const metaEditada = ref({ // Nueva variable para la meta que estamos editando
 
 const crearMeta = async () => {
   try {
+    console.log(newMeta.value)
     await store.createMetaAhorro(newMeta.value) 
     showForm.value = false 
     newMeta.value = { 
       _nombremeta: '',
       _descripcionMeta: '',
-      dineroObjetivo: 0,
+      _dineroObjetivo: 0,
       _dineroActual: 0,
       _activoMeta: true,
       _fechaObjetivoMeta: new Date().toISOString().split('T')[0], 
@@ -101,7 +102,7 @@ onMounted(async () => {
         </div>
         <div>
           <label for="dineroObjetivo">Dinero Objetivo (€):</label>
-          <input type="number" id="dineroObjetivo" v-model="newMeta.dineroObjetivo" required />
+          <input type="number" id="dineroObjetivo" v-model="newMeta._dineroObjetivo" required />
         </div>
         <div>
           <label for="dineroActual">Dinero Actual (€):</label>
@@ -134,7 +135,7 @@ onMounted(async () => {
         </div>
         <div>
           <label for="dineroObjetivo">Dinero Objetivo (€):</label>
-          <input type="number" id="dineroObjetivo" v-model="metaEditada.dineroObjetivo" required />
+          <input type="number" id="dineroObjetivo" v-model="metaEditada._dineroObjetivo" required />
         </div>
         <div>
           <label for="dineroActual">Dinero Actual (€):</label>
@@ -155,9 +156,9 @@ onMounted(async () => {
     <!-- Vista de las metas -->
     <div v-if="!isLoading" class="metas__views" v-for="meta in store.metas" :key="meta.idMeta || meta._idMeta">
       <div class="metas__views-card">
-        <p><span>Nombre de la meta:</span> {{ meta._nombremeta }}</p>
+        <p><span>Nombre de la meta:</span> {{ meta._nombreMeta }}</p>
         <p><span>Descripción:</span> {{ meta._descripcionMeta }}</p>
-        <p><span>Dinero objetivo:</span> {{ meta.dineroObjetivo }}€</p>
+        <p><span>Dinero objetivo:</span> {{ meta._dineroObjetivo }}€</p>
         <p><span>Dinero actual:</span> {{ meta._dineroActual }}€</p>
         <p><span>Estado:</span> {{ meta._activoMeta ? 'Activa' : 'Inactiva' }}</p>
         <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>

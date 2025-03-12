@@ -6,8 +6,8 @@ const showForm = ref(false)
 
 const newRecibo = ref({
   _nombreRecibo: '',
-  _idUsuario: 1, // Puedes obtenerlo de la tienda o algún contexto si es necesario
-  _idCuenta: 1,  // Lo mismo para esto
+  _idUsuario: 1, 
+  _idCuenta: 1,  
   _dineroRecibo: 0,
   _activa: true,
   _fecRecibo: new Date().toISOString().split('T')[0] 
@@ -45,7 +45,7 @@ store.findByUser()
 <template>
   <main class="recibos">
     <h2 class="recibos__titulo">Listado de Recibos</h2>
-    <!-- Formulario para añadir un nuevo recibo -->
+  
     <div v-if="showForm" class="recibos__form">
       <h3>Nuevo Recibo</h3>
       <form @submit.prevent="crearRecibo">
@@ -69,14 +69,14 @@ store.findByUser()
       </form>
     </div>
 
-    <!-- Listado de recibos -->
+    
     <div class="recibos__views" v-for="recibo in recibos" :key="recibo._idRecibo">
       <div class="recibos__views-card">
         <p><span>Nombre del recibo:</span> {{ recibo._nombreRecibo }}</p>
         <p><span>Dinero del recibo:</span> {{ recibo._dineroRecibo }}€</p>
         <p><span>Activo:</span> {{ recibo._activa ? 'Sí' : 'No' }}</p>
         <p><span>Fecha del recibo:</span> {{ recibo._fecRecibo }}</p>
-        <!-- Botón de eliminar -->
+        
         <button @click="eliminarRecibo(recibo._idRecibo)" class="recibos__btn-delete">Eliminar</button>
       </div>
     </div>

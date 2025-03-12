@@ -33,7 +33,6 @@ export const useReciboStore = defineStore('recibo', () => {
       .catch(error => console.log(error))
   }
 
-  // Método para crear un recibo
   const createRecibo = async (nuevoRecibo: { _idCuenta: number, _nombreRecibo: string, _dineroRecibo: number, _activa: boolean, _fecRecibo: string }) => {
     const strToken = jwtStore.jwt
     console.log(nuevoRecibo)
@@ -67,11 +66,10 @@ export const useReciboStore = defineStore('recibo', () => {
     }
   }
 
-  // Método para eliminar un recibo
   const deleteRecibo = async (idRecibo: number) => {
     const strToken = jwtStore.jwt;
     try {
-      // Eliminar el recibo desde el servidor
+   
       const response = await fetch(`https://localhost:7053/Recibo/${idRecibo}`, {
         method: 'DELETE',
         headers: {
@@ -83,7 +81,7 @@ export const useReciboStore = defineStore('recibo', () => {
         throw new Error('Error al eliminar el recibo');
       }
 
-      // Eliminar el recibo de la lista local
+    
       recibos.value = recibos.value.filter((recibo: any) => recibo._idRecibo !== idRecibo);
     } catch (error) {
       console.error('Error al eliminar el recibo:', error);

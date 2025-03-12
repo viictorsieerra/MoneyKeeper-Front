@@ -85,7 +85,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
     }
   };
 
-    // Función para crear una cuenta
+
     const crearCuenta = async (nuevaCuenta: { _nombreCuenta: string, _dineroCuenta: number, _activa: boolean }) => {
       const strToken = jwtStore.jwt
       try {
@@ -108,7 +108,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
         }
   
         const data = await response.json()
-        cuentas.value.push(data) // Añadir la nueva cuenta a la lista
+        cuentas.value.push(data) 
       } catch (error) {
         console.error('Error al crear la cuenta:', error)
         throw error

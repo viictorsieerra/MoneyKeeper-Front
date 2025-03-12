@@ -19,8 +19,8 @@ const nuevaCuenta = ref({
 
 const newRecibo = ref({
   _nombreRecibo: '',
-  _idUsuario: store.usuarioActual?.id || 1, // Obtener ID de usuario dinámicamente
-  _idCuenta: null,  // Seleccionar cuenta al crear
+  _idUsuario: store.usuarioActual?.id || 1, 
+  _idCuenta: null,  
   _dineroRecibo: 0,
   _activa: true,
   _fecRecibo: new Date().toISOString().split('T')[0]
@@ -105,7 +105,7 @@ const crearCuenta = async () => {
     </div>
     
 
-    <!-- Modal para añadir un nuevo recibo -->
+
     <div v-if="showForm" class="modal">
       <div class="modal-content">
         <h3>Nuevo Recibo</h3>
@@ -179,7 +179,7 @@ const crearCuenta = async () => {
       </div>
     </div>
 
-    <!-- Modal de editar cuenta -->
+    
     <div v-if="mostrarModal" class="modal">
       <div class="modal-content">
         <h3>Editar Cuenta</h3>

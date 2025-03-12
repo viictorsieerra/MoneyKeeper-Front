@@ -5,7 +5,7 @@ import { useMetaAhorroStore } from '@/stores/MetaAhorro';
 const store = useMetaAhorroStore()
 const isLoading = ref(true) 
 const showForm = ref(false) 
-const showEditForm = ref(false)  // Nueva variable para el formulario de edición
+const showEditForm = ref(false)  
 const newMeta = ref({
   _nombremeta: '',
   _descripcionMeta: '',
@@ -15,7 +15,7 @@ const newMeta = ref({
   _fechaObjetivoMeta: new Date().toISOString().split('T')[0], 
 })
 
-const metaEditada = ref({ // Nueva variable para la meta que estamos editando
+const metaEditada = ref({ 
   _idMeta: 0,
   _nombremeta: '',
   _descripcionMeta: '',
@@ -57,17 +57,17 @@ const eliminarMeta = async (metaId: number | undefined) => {
 }
 
 const editarMeta = (meta: any) => {
-  // Llenamos los datos del formulario con los valores de la meta seleccionada
+  
   metaEditada.value = { ...meta }
-  showEditForm.value = true // Mostramos el formulario de edición
+  showEditForm.value = true 
 }
 
 const actualizarMeta = async () => {
   try {
     await store.UpdateMetaAhorro(metaEditada.value._idMeta, metaEditada.value);
 
-    showEditForm.value = false;  // Ocultamos el formulario de edición
-    await store.findByUser();  // Volvemos a obtener las metas actualizadas
+    showEditForm.value = false;  
+    await store.findByUser();  
   } catch (error) {
     console.error('Error al actualizar la meta:', error);
   }
@@ -86,7 +86,7 @@ onMounted(async () => {
 
     <button @click="showForm = !showForm" v-if="!showForm" class="btn-add">Añadir Meta de Ahorro</button>
 
-    <!-- Formulario de crear nueva meta -->
+
     <div v-if="showForm" class="metas__form">
       <button @click="showForm = false" class="btn-close">×</button>
       <h3>Crear Nueva Meta de Ahorro</h3>
@@ -119,7 +119,7 @@ onMounted(async () => {
       </form>
     </div>
 
-    <!-- Formulario de editar meta -->
+  
     <div v-if="showEditForm" class="metas__form">
       <button @click="showEditForm = false" class="btn-close">×</button>
       <h3>Editar Meta de Ahorro</h3>
@@ -152,7 +152,7 @@ onMounted(async () => {
       </form>
     </div>
 
-    <!-- Vista de las metas -->
+
     <div v-if="!isLoading" class="metas__views" v-for="meta in store.metas" :key="meta.idMeta || meta._idMeta">
       <div class="metas__views-card">
         <p><span>Nombre de la meta:</span> {{ meta._nombremeta }}</p>

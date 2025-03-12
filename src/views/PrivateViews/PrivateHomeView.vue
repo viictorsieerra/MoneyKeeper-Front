@@ -2,7 +2,7 @@
   <div class="private-home">
     <FondoCanvas class="private-home__fondo" />
     <div class="private-home__layout">
-      <!-- Barra lateral fija -->
+  
       <aside class="private-home__sidebar">
         <nav class="private-home__navbar">
           <ul class="private-home__nav-list">

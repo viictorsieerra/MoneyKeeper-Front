@@ -1,4 +1,6 @@
 <template>
+  <div class="private-home">
+    <FondoCanvas class="private-home__fondo" />
     <div class="how-it-works">
       <h2 class="how-it-works__title">Consejos para ahorrar</h2>
       <p class="how-it-works__description">Sigue estos consejos para mejorar tu salud financiera y alcanzar tus objetivos de ahorro.</p>
@@ -47,101 +49,126 @@
         </li>
       </ul>
     </div>
-  </template>
-  <script>
-  import FondoCanvas from '@/components/FondoCanvas.vue';
+  </div>
+</template>
 
+<script>
+import FondoCanvas from '@/components/FondoCanvas.vue';
+
+export default {
+  components: {
+    FondoCanvas,
+  },
+};
 </script>
-  <style scoped lang="scss">
-  .how-it-works {
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    max-width: 90%;
-    margin: 2rem auto;
-  }
-  
-  .how-it-works__title {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #1E2A39;
-    text-align: center;
-  }
-  
-  .how-it-works__description {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-  
-  .how-it-works__list {
-    list-style-type: none;
-    padding: 0;
-    text-align: left;
-  }
-  
-  .how-it-works__item {
-    font-size: 1rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  .advice-bubble {
-    background-color: #c9c9c92b;
-    color: black;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-  }
-  
-  .advice-bubble strong {
-    font-weight: bold;
-  }
-  
-  .advice-bubble p {
-    margin-top: 0.5rem;
-    font-size: 1rem;
-  }
-  
 
-  @media (min-width: 600px) {
-    .how-it-works {
-      padding: 2rem;
-      max-width: 800px;
-    }
-  
-    .how-it-works__title {
-      font-size: 2rem;
-    }
-  
-    .how-it-works__description {
-      font-size: 1.2rem;
-    }
-  
-    .advice-bubble {
-      padding: 1.5rem;
-    }
-  
-    .how-it-works__item {
-      font-size: 1.1rem;
-    }
+<style scoped lang="scss">
+.private-home {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.private-home__fondo {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.how-it-works {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  max-width: 90%;
+  margin: 2rem auto;
+  position: relative;
+  z-index: 1;
+}
+
+.how-it-works__title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #1E2A39;
+  text-align: center;
+}
+
+.how-it-works__description {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.how-it-works__list {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+}
+
+.how-it-works__item {
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.advice-bubble {
+  background-color: #c9c9c92b;
+  color: black;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.advice-bubble strong {
+  font-weight: bold;
+}
+
+.advice-bubble p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+@media (min-width: 600px) {
+  .how-it-works {
+    padding: 2rem;
+    max-width: 800px;
   }
-  
-  @media (min-width: 1024px) {
-    .how-it-works__title {
-      font-size: 2.5rem;
-    }
-  
-    .how-it-works__description {
-      font-size: 1.3rem;
-    }
-  
-    .advice-bubble {
-      padding: 2rem;
-    }
-  
-    .how-it-works__item {
-      font-size: 1.2rem;
-    }
+
+  .how-it-works__title {
+    font-size: 2rem;
   }
-  </style>
+
+  .how-it-works__description {
+    font-size: 1.2rem;
+  }
+
+  .advice-bubble {
+    padding: 1.5rem;
+  }
+
+  .how-it-works__item {
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .how-it-works__title {
+    font-size: 2.5rem;
+  }
+
+  .how-it-works__description {
+    font-size: 1.3rem;
+  }
+
+  .advice-bubble {
+    padding: 2rem;
+  }
+
+  .how-it-works__item {
+    font-size: 1.2rem;
+  }
+}
+</style>

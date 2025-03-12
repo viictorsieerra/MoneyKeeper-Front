@@ -2,10 +2,12 @@
 import { ref } from 'vue'
 import { useCuentaBancariaStore } from '@/stores/CuentaBancaria'
 import { useReciboStore } from '@/stores/Recibos'
+import { useJWTStore } from '@/stores/JWT'
 
 const showForm = ref(false)
 const store = useCuentaBancariaStore()
 const reciboStore = useReciboStore()
+const jwtStore = useJWTStore()
 store.findByUser()
 const cuentaSeleccionada = ref<any>(null)
 const mostrarModal = ref(false)
@@ -19,8 +21,8 @@ const nuevaCuenta = ref({
 
 const newRecibo = ref({
   _nombreRecibo: '',
-  _idUsuario: store.usuarioActual?.id || 1, 
-  _idCuenta: null,  
+  _idUsuario: jwtStore.usuario._idUsuario || 1, 
+  _idCuenta: 0,  
   _dineroRecibo: 0,
   _activa: true,
   _fecRecibo: new Date().toISOString().split('T')[0]
@@ -66,7 +68,7 @@ const eliminarCuenta = async (id: number) => {
 }
 
 
-const editarCuenta = (cuenta) => {
+const editarCuenta = (cuenta: any) => {
   cuentaSeleccionada.value = { ...cuenta } 
   mostrarModal.value = true
 }

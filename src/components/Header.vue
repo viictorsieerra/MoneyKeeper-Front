@@ -52,9 +52,6 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title>
-            <router-link to="/como-funciona" class="header__nav-link">Cómo funciona</router-link>
-          </v-list-item-title>
         </v-list-item>
         <v-list-item>
           <v-list-item-title>
@@ -72,7 +69,6 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
 
     <nav class="header__nav">
       <router-link to="/" class="header__nav-link">Inicio</router-link>
-      <router-link to="/button-container" class="header__nav-link">Cómo funciona</router-link>
       <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
       <router-link to="/sobre-nosotros" class="header__nav-link">Sobre Nosotros</router-link>
     </nav>
@@ -84,7 +80,7 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
       </div>
 
       <div v-if="user && user._nombre">
-        <v-menu open-on-hover>
+        <v-menu open-on-click>
           <template v-slot:activator="{ props }">
             <v-btn color="red" v-bind="props" class="header__actions__usuario-logo">{{ user._nombre.charAt(0) }}
             </v-btn>

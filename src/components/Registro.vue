@@ -5,7 +5,7 @@
     <div class="steps-container">
       <div class="step">
         <div class="step-number">1</div>
-        <p class="step-description">Pincha en 'Empezar'</p>
+        <p class="step-description">Pincha en 'Registrase'</p>
       </div>
       <div class="step">
         <div class="step-number">2</div>

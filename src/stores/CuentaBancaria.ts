@@ -26,7 +26,7 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
     const strToken = jwtStore.jwt
 
     try {
-      const response = await fetch(`https://localhost:7053/Cuenta/cuenta/${id}`, {
+      const response = await fetch(`https://localhost:7053/Cuenta/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${strToken}` }
       })

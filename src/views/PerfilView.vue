@@ -19,27 +19,27 @@ const submitForm = () => {
     <form @submit.prevent="submitForm" class="form">
       <div class="form-campo">
         <label for="nombre">Nombre</label>
-        <input type="text" v-model="usuario._nombre" class="form-campo-input" />
+        <input type="text" v-model="usuario._nombre" required class="form-campo-input" />
       </div>
       <div class="form-campo">
         <label for="apellido">Apellido</label>
-        <input type="text" v-model="usuario._apellido" class="form-campo-input" />
+        <input type="text" v-model="usuario._apellido" class="form-campo-input" required/>
       </div>
       <div class="form-campo">
         <label for="correo">Correo</label>
-        <input type="email" v-model="usuario._correo" readonly class="form-campo-input" />
+        <input type="email" v-model="usuario._correo" readonly class="form-campo-input" required/>
       </div>
       <div class="form-campo">
         <label for="contrasena">Nueva Contraseña</label>
-        <input type="password" v-model="contrasena" placeholder="" class="form-campo-input" />
+        <input type="password" v-model="contrasena" placeholder="" class="form-campo-input" required/>
       </div>
       <div class="form-campo">
         <label for="dni">DNI</label>
-        <input type="text" v-model="usuario._dni" class="form-campo-input" readonly />
+        <input type="text" v-model="usuario._dni" class="form-campo-input" requiredreadonly />
       </div>
       <div class="form-campo">
         <label for="fecNacimiento">Fecha de Nacimiento</label>
-        <input type="date" v-model="usuario._fecNacimiento" readonly class="form-campo-input" />
+        <input type="date" v-model="usuario._fecNacimiento" readonly class="form-campo-input" required/>
       </div>
       <button type="submit" class="form-enviar">Actualizar Datos</button>
     </form>

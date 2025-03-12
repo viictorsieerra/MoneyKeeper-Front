@@ -58,6 +58,10 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
 
   async function deleteMetaAhorro(idMeta: number) {
     const strToken = jwtStore.jwt;
+    const index = metas.value.findIndex(meta => meta._idMeta === idMeta); 
+    if (index !== -1) {
+      metas.value.splice(index, 1); 
+    }
   
     if (strToken) {
       try {
@@ -78,10 +82,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
         }
   
       
-        const index = metas.value.findIndex(meta => meta._idMeta === idMeta); 
-        if (index !== -1) {
-          metas.value.splice(index, 1); 
-        }
+
   
         console.log(`Meta con id ${idMeta} eliminada correctamente.`);
       } catch (error) {

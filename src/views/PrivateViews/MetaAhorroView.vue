@@ -261,11 +261,21 @@ onMounted(async () => {
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 20px;
+    
 
     &:hover {
       background-color: #0056b3;
     }
   }
+  .metas__views-card button{
+    padding: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 1%
+}
 
   .btn-close {
     position: absolute;

@@ -53,7 +53,7 @@ const userName = "Benchaa"
 }
 .private-home {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column; 
 }
 

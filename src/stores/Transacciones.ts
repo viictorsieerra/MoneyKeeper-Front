@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
+import filtradoDTO from './DTO/filtradoDTO'
 
 export const useTransaccionStore = defineStore('transaccion', () => {
 
@@ -11,9 +12,9 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     const strToken = jwtStore.jwt
 
     transacciones.value = []
-    
-    if (strToken != ""){
-    console.log("Token: " + jwtStore.jwt)
+
+    if (strToken != "") {
+      console.log("Token: " + jwtStore.jwt)
     }
     else (console.log("Token no pillado correctamente"))
 
@@ -22,7 +23,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        data.forEach((transaccion:any) => {
+        data.forEach((transaccion: any) => {
           transaccion._fecTransaccion = new Date(transaccion._fecTransaccion).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
           transacciones.value.push(transaccion)
         });
@@ -31,5 +32,21 @@ export const useTransaccionStore = defineStore('transaccion', () => {
       .catch(error => console.log(error))
   }
 
-  return { transacciones, findByUser }
-}, {persist: true})
+  function getTransaccionesFilters(filtrado: filtradoDTO) {
+    const token = jwtStore.jwt
+    transacciones.value = []
+    fetch(`https://localhost:7053/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}`,
+      { headers: { 'Authorization': `Bearer ${token}` } }
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        data.forEach((transaccion: any) => {
+          transaccion._fecTransaccion = new Date(transaccion._fecTransaccion).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+          transacciones.value.push(transaccion)
+        });
+      })
+  }
+
+  return { transacciones, findByUser, getTransaccionesFilters }
+}, { persist: true })

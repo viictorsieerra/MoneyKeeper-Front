@@ -52,8 +52,6 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
-        </v-list-item>
-        <v-list-item>
           <v-list-item-title>
             <router-link to="/consejos" class="header__nav-link">Consejos</router-link>
           </v-list-item-title>

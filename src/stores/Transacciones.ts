@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
 import filtradoDTO from '@/stores/DTO/FiltradoDTO'
+import TransaccionDTO from './DTO/TransaccionDTO'
 
 export const useTransaccionStore = defineStore('transaccion', () => {
 
@@ -47,6 +48,40 @@ export const useTransaccionStore = defineStore('transaccion', () => {
         });
       })
   }
+  function addTransaccion (transaccion : TransaccionDTO)
+  {
+    const token = jwtStore.jwt
+    transaccion._idUsuario = jwtStore.usuario._idUsuario
+    transaccion._idCategoria = 4
+    console.log("TRANSACCION A AÑADIR: ", transaccion)
+    fetch("https://localhost:7053/Transaccion", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization' : `Bearer ${token}` },
+      body: JSON.stringify(transaccion)
+    })
+      .then(res => res.text())
+      .then(data => {
+        console.log(data)
+      })
+      .catch(error => console.log(error))
+  }
 
-  return { transacciones, findByUser, getTransaccionesFilters }
+  function deleteTransaccion(id: number)
+  {
+    const token = jwtStore.jwt
+    fetch(`https://localhost:7053/Transaccion/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization' : `Bearer ${token}` }
+    }).then(res => {
+      if(res.status === 204)
+      {
+        findByUser()
+      }else{
+        console.log("ERROR AL ELIMINAR LA TRANSACCION: \t" + id)
+      }
+    })
+    .catch(error => console.error(error))
+  }
+
+  return { transacciones, findByUser, getTransaccionesFilters, addTransaccion, deleteTransaccion }
 }, { persist: true })

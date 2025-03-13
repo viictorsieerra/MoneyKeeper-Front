@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
+import ReciboDTO from './DTO/ReciboDTO'
 
 export const useReciboStore = defineStore('recibo', () => {
 
@@ -33,6 +34,34 @@ export const useReciboStore = defineStore('recibo', () => {
       .catch(error => console.log(error))
   }
 
+
+  function createRecibo (nuevoRecibo: ReciboDTO) {
+    const strToken = jwtStore.jwt
+    nuevoRecibo._idUsuario = jwtStore.usuario._idUsuario
+    console.log(nuevoRecibo)
+    try {
+      
+      fetch('https://localhost:7053/Recibo', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${strToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nuevoRecibo)
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Error al crear el recibo')
+        }
+        window.location.reload()
+      })
+
+    } catch (error) {
+      console.error('Error al crear el recibo:', error)
+    }
+  }
+
+/*
   const createRecibo = async (nuevoRecibo: { _idCuenta: number, _nombreRecibo: string, _dineroRecibo: number, _activa: boolean, _fecRecibo: string }) => {
     const strToken = jwtStore.jwt
     console.log(nuevoRecibo)
@@ -65,10 +94,9 @@ export const useReciboStore = defineStore('recibo', () => {
       findByUser()
     } catch (error) {
       console.error('Error al crear el recibo:', error)
-      throw error
     }
   }
-
+*/
   const deleteRecibo = async (idRecibo: number) => {
     const strToken = jwtStore.jwt;
     try {

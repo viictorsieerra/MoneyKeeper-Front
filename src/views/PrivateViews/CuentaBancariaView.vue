@@ -2,12 +2,17 @@
 import { ref } from 'vue'
 import { useCuentaBancariaStore } from '@/stores/CuentaBancaria'
 import { useReciboStore } from '@/stores/Recibos'
+import { useTransaccionStore } from '@/stores/Transacciones'
 import { useJWTStore } from '@/stores/JWT'
+import TransaccionDTO from '@/stores/DTO/TransaccionDTO'
+import ReciboDTO from '@/stores/DTO/ReciboDTO'
 
 const showForm = ref(false)
+const showFormTrans = ref(false)
 const store = useCuentaBancariaStore()
 const reciboStore = useReciboStore()
 const jwtStore = useJWTStore()
+const transaccionStore = useTransaccionStore()
 store.findByUser()
 const cuentaSeleccionada = ref<any>(null)
 const mostrarModal = ref(false)
@@ -19,53 +24,13 @@ const nuevaCuenta = ref({
   _activa: true
 })
 
-const newRecibo = ref({
-  _nombreRecibo: '',
-  _idUsuario: jwtStore.usuario._idUsuario || 1,
-  _idCuenta: 0,
-  _dineroRecibo: 0,
-  _activa: true,
-  _fecRecibo: new Date().toISOString().split('T')[0]
-});
+const newRecibo = ref(new ReciboDTO())
+const newTransaction = ref(new TransaccionDTO())
 
-const validarRecibo = () => {
-  if (!newRecibo.value._nombreRecibo.trim()) {
-    alert("El nombre del recibo es obligatorio");
-    return false;
-  }
-  if (newRecibo.value._dineroRecibo <= 0) {
-    alert("El monto del recibo debe ser mayor a 0");
-    return false;
-  }
-  if (!newRecibo.value._idCuenta) {
-    alert("Selecciona una cuenta válida");
-    return false;
-  }
-  return true;
-};
-/*
-async function crearRecibo() {
-  if (!validarRecibo()) return;
-  try {
-    await store.createRecibo(newRecibo.value);
-    showForm.value = false;
-    newRecibo.value = { _nombreRecibo: '', _dineroRecibo: 0, _activa: true, _fecRecibo: new Date().toISOString().split('T')[0] };
-    await store.findByUser();
-    console.log("Recibo agregado");
-  } catch (error) {
-    console.error("Error al agregar el recibo:", error);
-  }
-}*/
 
-const eliminarCuenta = async (id: number) => {
-  console.log('Eliminar cuenta con id:', id)
-  try {
-    await store.DeleteById(id)
-    await store.findByUser()
-  } catch (error) {
-    console.error('Error al eliminar la cuenta:', error)
-  }
-}
+
+
+
 
 
 const editarCuenta = (cuenta: any) => {
@@ -104,6 +69,7 @@ const crearCuenta = async () => {
     <div class="cuentas__add-button">
       <button @click="mostrarFormulario = true" class="btn-add">Añadir Cuenta</button>
       <button @click="showForm = !showForm" class="btn-add">Añadir Recibo</button>
+      <button @click="showFormTrans = !showFormTrans" class="btn-add">Añadir Transaccion</button>
     </div>
 
 
@@ -130,7 +96,6 @@ const crearCuenta = async () => {
               {{ cuenta._nombreCuenta }} - {{ cuenta._dineroCuenta }}€
             </option>
           </select>
-
         </label>
         <label>
           Activo:
@@ -139,6 +104,47 @@ const crearCuenta = async () => {
         <div class="modal-buttons">
           <button @click="reciboStore.createRecibo(newRecibo)">Crear Recibo</button>
           <button @click="showForm = false">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showFormTrans" class="modal">
+      <div class="modal-content">
+        <h3>Nueva Transaccion</h3>
+        <label>
+          Descripcion de la Transaccion:
+          <input type="text" id="descripcionTrans" v-model="newTransaction._descripcionTransaccion" required />
+        </label>
+        <label>
+          Dinero de la Transaccion (€):
+          <input type="number" id="dineroTrans" v-model="newTransaction._cantidad" required />
+        </label>
+        <label>
+          Fecha de la Transaccion:
+          <input type="date" id="fecTrans" v-model="newTransaction._fecTransaccion" required />
+        </label>
+        <label>
+          Selecciona un tipo de movimiento:
+          <select v-model="newTransaction._tipoMovimiento" required>
+            <option value="I">
+              Ingreso
+            </option>
+            <option value="G">
+              Gasto
+            </option>
+          </select>
+        </label>
+        <label>
+          Selecciona una Cuenta:
+          <select v-model="newTransaction._idCuenta" required>
+            <option v-for="cuenta in store.cuentas" :key="cuenta._idCuenta" :value="cuenta._idCuenta">
+              {{ cuenta._nombreCuenta }} - {{ cuenta._dineroCuenta }}€
+            </option>
+          </select>
+        </label>
+        <div class="modal-buttons">
+          <button @click="transaccionStore.addTransaccion(newTransaction)">Crear Transaccion</button>
+          <button @click="showFormTrans = false">Cancelar</button>
         </div>
       </div>
     </div>
@@ -176,7 +182,7 @@ const crearCuenta = async () => {
         <p><span>Estado:</span> {{ cuenta._activa ? 'Activa' : 'Inactiva' }}</p>
         <p><span>Fecha de creación:</span> {{ cuenta._fechaCreacion }}</p>
         <div class="cuentas__views-actions">
-          <button @click="eliminarCuenta(cuenta._idCuenta)">Eliminar</button>
+          <button @click="store.DeleteById(cuenta._idCuenta)">Eliminar</button>
           <button @click="editarCuenta(cuenta)">Editar</button>
         </div>
       </div>

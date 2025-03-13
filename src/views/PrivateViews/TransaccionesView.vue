@@ -6,14 +6,13 @@ const store = useTransaccionStore()
 
 const transacciones = computed(() => store.transacciones)
 
-const fechasFilter = new filtradoDTO
+const fechasFilter = ref(new filtradoDTO())
 
 console.log(store)
 
 store.findByUser()
 
-function filtrar(filtrado : filtradoDTO)
-{
+function filtrar(filtrado: filtradoDTO) {
     store.getTransaccionesFilters(filtrado)
 }
 console.log(store)
@@ -21,22 +20,24 @@ console.log(store)
 
 <template>
     <main class="transacciones">
-        <h2 class="transacciones__titulo">Listado de transacciones</h2>s
+        <h2 class="transacciones__titulo">Listado de transacciones</h2>
         <div class="transacciones__fechas">
             <input type="date" v-model="fechasFilter._fechaInicio" />
             <input type="date" v-model="fechasFilter._fechaFin" />
-            <svg @click="filtrar(fechasFilter)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" height="30px" width="30px">
+            <svg @click="filtrar(fechasFilter)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" height="30px"
+                width="30px">
                 <circle cx="40" cy="40" r="25" stroke="black" stroke-width="3" fill="none" />
                 <line x1="58" y1="58" x2="80" y2="80" stroke="black" stroke-width="5" stroke-linecap="round" />
             </svg>
         </div>
-        <div class="transacciones__views" v-for="transaccion in transacciones" :key="transaccion.id">
-            <div class="transacciones__views-card">
+        <div class="transacciones__views">
+            <div class="transacciones__views-card" v-for="transaccion in transacciones" :key="transaccion._idTransaccion">
+                <p><span>Descripción:</span> {{ transaccion._descripcionTransaccion }}</p>
                 <p><span>Categoria:</span> {{ transaccion._nombreCategoria }}</p>
                 <p><span>Cantidad:</span> {{ transaccion._cantidad }}€</p>
                 <p><span>Tipo:</span> {{ transaccion._tipoMovimiento }}</p>
-                <p><span>Descripción:</span> {{ transaccion._descripcionTransaccion }}</p>
                 <p><span>Fecha:</span> {{ transaccion._fecTransaccion }}</p>
+                <button class="transacciones__views-btn-delete" @click ="store.deleteTransaccion(transaccion._idTransaccion)">Eliminar</button>
             </div>
         </div>
     </main>
@@ -115,6 +116,11 @@ console.log(store)
                     color: #222;
                 }
             }
+        }
+        &-btn-delete{
+            padding: 10px;
+            background-color: red;
+            border-radius: 10px;
         }
     }
 

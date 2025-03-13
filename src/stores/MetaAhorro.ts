@@ -95,9 +95,9 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
     }
   }
   
-  async function UpdateMetaAhorro(idMeta: number, updatedMeta: any) {
+  async function UpdateMetaAhorro(_idMeta: number, updatedMeta: any) {
     const strToken = jwtStore.jwt;
-  
+  console.log("META A EDITAR ", updatedMeta)
     if (strToken) {
       try {
         // Aquí añadimos el campo `updatedMetaAhorro` (si es requerido por el backend)
@@ -108,7 +108,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
           ...updatedMeta
         };
         console.log('Datos que se enviarán al backend:', metaData);
-        const response = await fetch(`https://moneykeeper-api.retocsv.es/MetaAhorro/${metaData._idMeta}`, {
+        const response = await fetch(`https://moneykeeper-api.retocsv.es/${metaData._idMeta}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${strToken}`,
@@ -124,12 +124,12 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
         }
   
         // Aquí actualizas la meta localmente si la actualización fue exitosa
-        const index = metas.value.findIndex(meta => meta._idMeta === idMeta);
+        const index = metas.value.findIndex(meta => meta._idMeta === _idMeta);
         if (index !== -1) {
           metas.value[index] = { ...metas.value[index], ...updatedMeta };
         }
   
-        console.log(`Meta con id ${idMeta} actualizada correctamente.`);
+        console.log(`Meta con id ${_idMeta} actualizada correctamente.`);
       } catch (error) {
         console.error('Error al editar la meta de ahorro:', error);
         throw error;

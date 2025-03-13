@@ -7,7 +7,8 @@ const isLoading = ref(true)
 const showForm = ref(false) 
 const showEditForm = ref(false)  
 const newMeta = ref({
-  _nombremeta: '',
+  _idMeta: 0,
+  _nombreMeta: '',
   _descripcionMeta: '',
   _dineroObjetivo: 0,
   _dineroActual: 0,
@@ -17,7 +18,7 @@ const newMeta = ref({
 
 const metaEditada = ref({ 
   _idMeta: 0,
-  _nombremeta: '',
+  _nombreMeta: '',
   _descripcionMeta: '',
   _dineroObjetivo: 0,
   _dineroActual: 0,
@@ -30,8 +31,9 @@ const crearMeta = async () => {
     console.log(newMeta.value)
     await store.createMetaAhorro(newMeta.value) 
     showForm.value = false 
-    newMeta.value = { 
-      _nombremeta: '',
+    newMeta.value = {
+      _idMeta: 0, 
+      _nombreMeta: '',
       _descripcionMeta: '',
       _dineroObjetivo: 0,
       _dineroActual: 0,
@@ -65,6 +67,7 @@ const editarMeta = (meta: any) => {
 
 const actualizarMeta = async () => {
   try {
+    console.log("SI", metaEditada.value)
     await store.UpdateMetaAhorro(metaEditada.value._idMeta, metaEditada.value);
 
     showEditForm.value = false;  
@@ -94,7 +97,7 @@ onMounted(async () => {
       <form @submit.prevent="crearMeta">
         <div>
           <label for="nombremeta">Nombre de la Meta:</label>
-          <input type="text" id="nombremeta" v-model="newMeta._nombremeta" required />
+          <input type="text" id="nombremeta" v-model="newMeta._nombreMeta" required />
         </div>
         <div>
           <label for="descripcionMeta">Descripción:</label>
@@ -127,7 +130,7 @@ onMounted(async () => {
       <form @submit.prevent="actualizarMeta">
         <div>
           <label for="nombremeta">Nombre de la Meta:</label>
-          <input type="text" id="nombremeta" v-model="metaEditada._nombremeta" required />
+          <input type="text" id="nombremeta" v-model="metaEditada._nombreMeta" required />
         </div>
         <div>
           <label for="descripcionMeta">Descripción:</label>
@@ -161,7 +164,7 @@ onMounted(async () => {
         <p><span>Dinero objetivo:</span> {{ meta._dineroObjetivo }}€</p>
         <p><span>Dinero actual:</span> {{ meta._dineroActual }}€</p>
         <p><span>Estado:</span> {{ meta._activoMeta ? 'Activa' : 'Inactiva' }}</p>
-        <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>
+        <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>  
         <p><span>Fecha objetivo:</span> {{ meta._fechaObjetivoMeta }}</p>
           <button @click="editarMeta(meta)">Editar</button>
           <button @click="eliminarMeta(meta.idMeta || meta._idMeta)">Eliminar</button>

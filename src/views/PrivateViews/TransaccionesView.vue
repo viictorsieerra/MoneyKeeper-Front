@@ -21,14 +21,12 @@ console.log(store)
 
 <template>
     <main class="transacciones">
-        <h2 class="transacciones__titulo">Listado de transacciones</h2>
+        <h2 class="transacciones__titulo">Listado de transacciones</h2>s
         <div class="transacciones__fechas">
             <input type="date" v-model="fechasFilter._fechaInicio" />
             <input type="date" v-model="fechasFilter._fechaFin" />
             <svg @click="filtrar(fechasFilter)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" height="30px" width="30px">
                 <circle cx="40" cy="40" r="25" stroke="black" stroke-width="3" fill="none" />
-
-                <!-- Línea (mango de la lupa) -->
                 <line x1="58" y1="58" x2="80" y2="80" stroke="black" stroke-width="5" stroke-linecap="round" />
             </svg>
         </div>

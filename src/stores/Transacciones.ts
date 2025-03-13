@@ -18,7 +18,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     }
     else (console.log("Token no pillado correctamente"))
 
-    fetch("https://moneykeeper-api.retocsv.es/Transaccion/transacciones",
+    fetch("https://localhost:7053/Transaccion/transacciones",
       { headers: { 'Authorization': `Bearer ${strToken}` } })
       .then(res => res.json())
       .then(data => {
@@ -35,7 +35,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
   function getTransaccionesFilters(filtrado: filtradoDTO) {
     const token = jwtStore.jwt
     transacciones.value = []
-    fetch(`https://moneykeeper-api.retocsv.es/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}`,
+    fetch(`https://localhost:7053/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}`,
       { headers: { 'Authorization': `Bearer ${token}` } }
     )
       .then(res => res.json())

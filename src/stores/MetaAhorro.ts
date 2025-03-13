@@ -11,7 +11,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
     const strToken = jwtStore.jwt 
 
     if (strToken) {
-      fetch("https://moneykeeper-api.retocsv.es/MetaAhorro/metas", {
+      fetch("https://localhost:7053/MetaAhorro/metas", {
         headers: { 'Authorization': `Bearer ${strToken}` }
       })
         .then(res => res.json())
@@ -35,7 +35,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
     metaData._idUsuario = usuarioId
   
     try {
-      const response = await fetch("https://moneykeeper-api.retocsv.es/MetaAhorro", {
+      const response = await fetch("https://localhost:7053/MetaAhorro", {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${strToken}`,
@@ -66,7 +66,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
   
     if (strToken) {
       try {
-        const response = await fetch(`https://moneykeeper-api.retocsv.es/MetaAhorro/${idMeta}`, {
+        const response = await fetch(`https://localhost:7053/MetaAhorro/${idMeta}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${strToken}`,
@@ -108,7 +108,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
           ...updatedMeta
         };
         console.log('Datos que se enviarán al backend:', metaData);
-        const response = await fetch(`https://moneykeeper-api.retocsv.es/${metaData._idMeta}`, {
+        const response = await fetch(`https://localhost:7053/${metaData._idMeta}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${strToken}`,

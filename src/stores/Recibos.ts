@@ -19,7 +19,7 @@ export const useReciboStore = defineStore('recibo', () => {
       console.log("Token no pillado correctamente")
     }
 
-    fetch("https://moneykeeper-api.retocsv.es/Recibo/recibos", {
+    fetch("https://localhost:7053/Recibo/recibos", {
       headers: { 'Authorization': `Bearer ${strToken}` }
     })
       .then(res => res.json())
@@ -38,7 +38,7 @@ export const useReciboStore = defineStore('recibo', () => {
     console.log(nuevoRecibo)
     try {
       
-      const response = await fetch('https://moneykeeper-api.retocsv.es/Recibo', {
+      const response = await fetch('https://localhost:7053/Recibo', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${strToken}`,
@@ -73,7 +73,7 @@ export const useReciboStore = defineStore('recibo', () => {
     const strToken = jwtStore.jwt;
     try {
    
-      const response = await fetch(`https://moneykeeper-api.retocsv.es/Recibo/${idRecibo}`, {
+      const response = await fetch(`https://localhost:7053/Recibo/${idRecibo}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${strToken}`,

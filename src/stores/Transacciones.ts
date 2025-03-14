@@ -83,5 +83,46 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     .catch(error => console.error(error))
   }
 
-  return { transacciones, findByUser, getTransaccionesFilters, addTransaccion, deleteTransaccion }
-}, { persist: true })
+  function updateTransaccion(transaccion: TransaccionDTO): void {
+    const token = jwtStore.jwt;
+  
+    if (!token) {
+      console.error("Token no disponible");
+      return;
+    }
+  
+    console.log("ACTUALIZANDO TRANSACCION: ", transaccion);
+  
+    fetch(`https://localhost:7053/Transaccion/${transaccion._idTransaccion}`, {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(transaccion)
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.text().then(errorText => {
+            try {
+              // Intentamos parsear como JSON
+              const errorData = JSON.parse(errorText);
+              throw new Error(errorData.message || "Error al actualizar la transacción");
+            } catch (error) {
+              // Si no es JSON, simplemente mostramos el error de texto
+              throw new Error(errorText || "Error desconocido al actualizar la transacción");
+            }
+          });
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log("Transacción actualizada:", data);
+        findByUser();
+      })
+      .catch(error => {
+        console.error("Error al actualizar la transacción:", error);
+      });
+  }
+  return { transacciones, findByUser, getTransaccionesFilters, addTransaccion, deleteTransaccion, updateTransaccion }
+}, { persist: true })  

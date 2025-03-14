@@ -4,6 +4,8 @@ import Features from '../components/Features.vue';
 import NombreDinamico from '@/components/NombreDinamico.vue';
 import Registro from '@/components/Registro.vue';
 import FondoCanvas from '@/components/FondoCanvas.vue';
+import ComentariosView from './ComentariosView.vue';
+import OpinionesView from './OpinionesView.vue';
 </script>
 
 <template>
@@ -13,6 +15,8 @@ import FondoCanvas from '@/components/FondoCanvas.vue';
       <Hero />
       <NombreDinamico />
       <Registro />
+      <ComentariosView />
+      <OpinionesView />
     </div>
   </template>
   

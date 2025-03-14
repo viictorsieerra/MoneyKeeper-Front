@@ -6,6 +6,7 @@ import Registro from '@/components/Registro.vue';
 import FondoCanvas from '@/components/FondoCanvas.vue';
 import ComentariosView from './ComentariosView.vue';
 import OpinionesView from './OpinionesView.vue';
+import RecursosView from './RecursosView.vue';
 </script>
 
 <template>
@@ -17,6 +18,7 @@ import OpinionesView from './OpinionesView.vue';
       <Registro />
       <ComentariosView />
       <OpinionesView />
+      <RecursosView />
     </div>
   </template>
   

@@ -48,11 +48,12 @@ export const useTransaccionStore = defineStore('transaccion', () => {
         });
       })
   }
+
+
   function addTransaccion (transaccion : TransaccionDTO)
   {
     const token = jwtStore.jwt
     transaccion._idUsuario = jwtStore.usuario._idUsuario
-    transaccion._idCategoria = 4
     console.log("TRANSACCION A AÑADIR: ", transaccion)
     fetch("https://localhost:7053/Transaccion", {
       method: 'POST',
@@ -66,6 +67,24 @@ export const useTransaccionStore = defineStore('transaccion', () => {
       .catch(error => console.log(error))
   }
 
+  function updateTransaccion (transaccion : TransaccionDTO)
+  {
+    const token = jwtStore.jwt
+    transaccion._idUsuario = jwtStore.usuario._idUsuario
+    console.log("TRANSACCION A ACTUALIZAR: ", transaccion)
+    fetch("https://localhost:7053/Transaccion", {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization' : `Bearer ${token}` },
+      body: JSON.stringify(transaccion)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        findByUser()
+
+      })
+      .catch(error => console.log(error))
+  }
   function deleteTransaccion(id: number)
   {
     const token = jwtStore.jwt

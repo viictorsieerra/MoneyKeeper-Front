@@ -5,7 +5,7 @@ import filtradoDTO from '@/stores/DTO/FiltradoDTO';
 const store = useTransaccionStore()
 
 const transacciones = computed(() => store.transacciones)
-
+const mostrarModal = ref(false)
 const fechasFilter = ref(new filtradoDTO())
 
 console.log(store)
@@ -38,8 +38,33 @@ console.log(store)
                 <p><span>Tipo:</span> {{ transaccion._tipoMovimiento }}</p>
                 <p><span>Fecha:</span> {{ transaccion._fecTransaccion }}</p>
                 <button class="transacciones__views-btn-delete" @click ="store.deleteTransaccion(transaccion._idTransaccion)">Eliminar</button>
+                <button class="transacciones__views-btn-update" @click ="mostrarModal != mostrarModal">Actualizar</button>
             </div>
         </div>
+        <div v-if="mostrarModal" class="modal">
+      <div class="modal-content">
+        <h3>Editar Transaccion</h3>
+        <label>
+          Descripcion de la transaccion:
+          <input v-model="cuentaSeleccionada._nombreCuenta" type="text" />
+        </label>
+        <label>
+          Saldo:
+          <input v-model="cuentaSeleccionada._dineroCuenta" type="number" />
+        </label>
+        <label>
+          Estado:
+          <select v-model="cuentaSeleccionada._activa">
+            <option :value="true">Activa</option>
+            <option :value="false">Inactiva</option>
+          </select>
+        </label>
+        <div class="modal-buttons">
+          <button @click="actualizarCuenta">Guardar</button>
+          <button @click="mostrarModal = false">Cancelar</button>
+        </div>
+      </div>
+    </div>
     </main>
 </template>
 
@@ -117,9 +142,10 @@ console.log(store)
                 }
             }
         }
-        &-btn-delete{
+        &-btn-delete, &-btn-update{
             padding: 10px;
-            background-color: red;
+            margin: 10px;
+            background-color: #F44336;
             border-radius: 10px;
         }
     }

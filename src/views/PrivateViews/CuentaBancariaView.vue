@@ -4,6 +4,7 @@ import { useCuentaBancariaStore } from '@/stores/CuentaBancaria'
 import { useReciboStore } from '@/stores/Recibos'
 import { useTransaccionStore } from '@/stores/Transacciones'
 import { useJWTStore } from '@/stores/JWT'
+import { useCategoriaStore } from '@/stores/Categoria'
 import TransaccionDTO from '@/stores/DTO/TransaccionDTO'
 import ReciboDTO from '@/stores/DTO/ReciboDTO'
 
@@ -13,7 +14,9 @@ const store = useCuentaBancariaStore()
 const reciboStore = useReciboStore()
 const jwtStore = useJWTStore()
 const transaccionStore = useTransaccionStore()
+const categoriaStore = useCategoriaStore()
 store.findByUser()
+categoriaStore.getCategorias()
 const cuentaSeleccionada = ref<any>(null)
 const mostrarModal = ref(false)
 const mostrarFormulario = ref(false)
@@ -29,10 +32,6 @@ const newTransaction = ref(new TransaccionDTO())
 
 
 
-
-
-
-
 const editarCuenta = (cuenta: any) => {
   cuentaSeleccionada.value = { ...cuenta }
   mostrarModal.value = true
@@ -43,7 +42,8 @@ const actualizarCuenta = async () => {
   try {
     await store.UpdateCuenta(cuentaSeleccionada.value)
     mostrarModal.value = false
-    await store.findByUser()
+    window.location.reload()
+    // await store.findByUser()
   } catch (error) {
     console.error('Error al actualizar la cuenta:', error)
   }
@@ -131,6 +131,14 @@ const crearCuenta = async () => {
             </option>
             <option value="G">
               Gasto
+            </option>
+          </select>
+        </label>
+        <label>
+          Selecciona una Categoria:
+          <select v-model="newTransaction._idCategoria" required>
+            <option v-for="categoria in categoriaStore.categorias" :key="categoria._idCategoria" :value="categoria._idCategoria">
+              {{ categoria._nombre }} - {{ categoria._descripcion }}
             </option>
           </select>
         </label>

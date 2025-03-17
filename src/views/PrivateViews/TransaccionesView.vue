@@ -83,7 +83,7 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
                 </label>
                 <label>
                     Fecha de la transaccion:
-                    <input type="date" v-model="updtTransaccion._fecTransaccion" class="form-campo-input" required/>
+                    <input type="date" v-model="updtTransaccion._fecTransaccion" class="form-campo-input" required />
                 </label>
 
                 <div class="modal-buttons">
@@ -184,79 +184,80 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
             width: 20%;
         }
     }
+
     .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-
-    &-content {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      width: 350px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-
-      h3 {
-        margin-bottom: 10px;
-        text-align: center;
-      }
-
-      label {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
         display: flex;
-        flex-direction: column;
-        font-weight: bold;
-        color: #333;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
 
-        input,
-        select {
-          margin-top: 5px;
-          padding: 8px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-        }
-      }
+        &-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
 
-      .modal-buttons {
-        display: flex;
-        justify-content: space-between;
-
-        button {
-          flex: 1;
-          margin: 0 5px;
-          padding: 10px;
-          border: none;
-          border-radius: 5px;
-          color: white;
-          cursor: pointer;
-          transition: background 0.3s;
-
-          &:first-child {
-            background-color: #4caf50;
-
-            &:hover {
-              background-color: #45a049;
+            h3 {
+                margin-bottom: 10px;
+                text-align: center;
             }
-          }
 
-          &:last-child {
-            background-color: #f44336;
+            label {
+                display: flex;
+                flex-direction: column;
+                font-weight: bold;
+                color: #333;
 
-            &:hover {
-              background-color: #da190b;
+                input,
+                select {
+                    margin-top: 5px;
+                    padding: 8px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
             }
-          }
+
+            .modal-buttons {
+                display: flex;
+                justify-content: space-between;
+
+                button {
+                    flex: 1;
+                    margin: 0 5px;
+                    padding: 10px;
+                    border: none;
+                    border-radius: 5px;
+                    color: white;
+                    cursor: pointer;
+                    transition: background 0.3s;
+
+                    &:first-child {
+                        background-color: #4caf50;
+
+                        &:hover {
+                            background-color: #45a049;
+                        }
+                    }
+
+                    &:last-child {
+                        background-color: #f44336;
+
+                        &:hover {
+                            background-color: #da190b;
+                        }
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }
 </style>

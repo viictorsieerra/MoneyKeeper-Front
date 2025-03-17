@@ -11,7 +11,7 @@ export const useCategoriaStore = defineStore('categoria', () => {
   function getCategorias(){
     const token = jwtStore.jwt
     categorias.value = []
-    fetch("https://localhost:7053/Categoria", {
+    fetch("https://localhost:7053/api/Categoria", {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(res => res.json())

@@ -20,7 +20,7 @@ export const useReciboStore = defineStore('recibo', () => {
       console.log("Token no pillado correctamente")
     }
 
-    fetch("https://localhost:7053/Recibo/recibos", {
+    fetch("https://localhost:7053/api/Recibo/recibos", {
       headers: { 'Authorization': `Bearer ${strToken}` }
     })
       .then(res => res.json())
@@ -41,7 +41,7 @@ export const useReciboStore = defineStore('recibo', () => {
     console.log(nuevoRecibo)
     try {
       
-      fetch('https://localhost:7053/Recibo', {
+      fetch('https://localhost:7053/api/Recibo', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${strToken}`,
@@ -61,47 +61,12 @@ export const useReciboStore = defineStore('recibo', () => {
     }
   }
 
-/*
-  const createRecibo = async (nuevoRecibo: { _idCuenta: number, _nombreRecibo: string, _dineroRecibo: number, _activa: boolean, _fecRecibo: string }) => {
-    const strToken = jwtStore.jwt
-    console.log(nuevoRecibo)
-    try {
-      
-      const response = await fetch('https://localhost:7053/Recibo', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${strToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          
-          _idCuenta: nuevoRecibo._idCuenta,
-          _idUsuario: jwtStore.usuario._idUsuario,
-          _nombreRecibo: nuevoRecibo._nombreRecibo,
-          _dineroRecibo: nuevoRecibo._dineroRecibo,
-          _activa: nuevoRecibo._activa,
-          _fecRecibo: nuevoRecibo._fecRecibo
-        })
-      })
 
-      if (!response.ok) {
-        throw new Error('Error al crear el recibo')
-      }
-
-      const data = await response.json()
-      recibos.value.push(data)
-      window.location.reload()
-      findByUser()
-    } catch (error) {
-      console.error('Error al crear el recibo:', error)
-    }
-  }
-*/
   const deleteRecibo = async (idRecibo: number) => {
     const strToken = jwtStore.jwt;
     try {
    
-      const response = await fetch(`https://localhost:7053/Recibo/${idRecibo}`, {
+      const response = await fetch(`https://localhost:7053/api/Recibo/${idRecibo}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${strToken}`,
@@ -112,13 +77,32 @@ export const useReciboStore = defineStore('recibo', () => {
         throw new Error('Error al eliminar el recibo');
       }
 
-    
-      recibos.value = recibos.value.filter((recibo: any) => recibo._idRecibo !== idRecibo);
+    findByUser()
+      // recibos.value = recibos.value.filter((recibo: any) => recibo._idRecibo !== idRecibo);
     } catch (error) {
       console.error('Error al eliminar el recibo:', error);
       throw error;
     }
   }
 
-  return { recibos, findByUser, createRecibo, deleteRecibo }
+  function updateRecibo (recibo : ReciboDTO)
+  {
+    const token = jwtStore.jwt
+    recibo._idUsuario = jwtStore.usuario._idUsuario
+    console.log("RECIBO A ACTUALIZAR: ", recibo)
+    fetch(`https://localhost:7053/api/Recibo/${recibo._idRecibo}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization' : `Bearer ${token}` },
+      body: JSON.stringify(recibo)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        findByUser()
+
+      })
+      .catch(error => console.log(error))
+  }
+
+  return { recibos, findByUser, createRecibo, deleteRecibo, updateRecibo }
 }, { persist: true })

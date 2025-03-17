@@ -11,24 +11,24 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
     const strToken = jwtStore.jwt
     cuentas.value = []
 
-    fetch("https://localhost:7053/Cuenta/cuentas", {
+    fetch("https://localhost:7053/api/Cuenta/cuentas", {
       headers: { 'Authorization': `Bearer ${strToken}` }
     })
-    .then(res => res.json())
-    .then(data => {
-      data.forEach((cuenta: any )=> {
-        cuenta._fechaCreacion = new Date(cuenta._fechaCreacion).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+      .then(res => res.json())
+      .then(data => {
+        data.forEach((cuenta: any) => {
+          cuenta._fechaCreacion = new Date(cuenta._fechaCreacion).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+        })
+        cuentas.value.splice(0, cuentas.value.length, ...data)
       })
-      cuentas.value.splice(0, cuentas.value.length, ...data)
-    })
-    .catch(error => console.log(error))
+      .catch(error => console.log(error))
   }
 
   async function DeleteById(id: number) {
     const strToken = jwtStore.jwt
 
     try {
-      const response = await fetch(`https://localhost:7053/Cuenta/${id}`, {
+      const response = await fetch(`https://localhost:7053/api/Cuenta/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${strToken}` }
       })
@@ -46,11 +46,11 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
   const UpdateCuenta = async (cuenta: any) => {
     const strToken = jwtStore.jwt;
     console.log("CUENTA A ENVIAR: ", cuenta);
-  
-   
-  
+
+
+
     try {
-      const response = await fetch(`https://localhost:7053/Cuenta/${cuenta._idCuenta}`, {
+      const response = await fetch(`https://localhost:7053/api/Cuenta/${cuenta._idCuenta}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${strToken}`,
@@ -58,21 +58,21 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
         },
         body: JSON.stringify({
           _idCuenta: cuenta._idCuenta,
-          _idUsuario: cuenta._idUsuario, 
+          _idUsuario: cuenta._idUsuario,
           _dineroCuenta: cuenta._dineroCuenta,
           _activa: cuenta._activa,
           _fechaCreacion: new Date(cuenta._fechaCreacion).toISOString(),
           _nombreCuenta: cuenta._nombreCuenta
         })
       });
-  
+
       if (!response.ok) {
-        if(response.status === 404) {
+        if (response.status === 404) {
           location.reload();
         }
-        throw new Error('Error al actualizar la cuenta');
+        // throw new Error('Error al actualizar la cuenta');
       }
-      
+
       return await response.json();
     } catch (error) {
       console.error('Error al actualizar la cuenta:', error);
@@ -81,33 +81,33 @@ export const useCuentaBancariaStore = defineStore('cuenta', () => {
   };
 
 
-    const crearCuenta = async (nuevaCuenta: { _nombreCuenta: string, _dineroCuenta: number, _activa: boolean }) => {
-      const strToken = jwtStore.jwt
-      try {
-        const response = await fetch('https://localhost:7053/Cuenta', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${strToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            _idUsuario: jwtStore.usuario._idUsuario,
-            _nombreCuenta: nuevaCuenta._nombreCuenta,
-            _dineroCuenta: nuevaCuenta._dineroCuenta,
-            _activa: nuevaCuenta._activa
-          })
+  const crearCuenta = async (nuevaCuenta: { _nombreCuenta: string, _dineroCuenta: number, _activa: boolean }) => {
+    const strToken = jwtStore.jwt
+    try {
+      const response = await fetch('https://localhost:7053/api/Cuenta', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${strToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          _idUsuario: jwtStore.usuario._idUsuario,
+          _nombreCuenta: nuevaCuenta._nombreCuenta,
+          _dineroCuenta: nuevaCuenta._dineroCuenta,
+          _activa: nuevaCuenta._activa
         })
-  
-        if (!response.ok) {
-          throw new Error('Error al crear la cuenta')
-        }
-  
-        const data = await response.json()
-        cuentas.value.push(data) 
-      } catch (error) {
-        console.error('Error al crear la cuenta:', error)
-        throw error
+      })
+
+      if (!response.ok) {
+        throw new Error('Error al crear la cuenta')
       }
+
+      const data = await response.json()
+      cuentas.value.push(data)
+    } catch (error) {
+      console.error('Error al crear la cuenta:', error)
+      throw error
     }
-  return { cuentas, findByUser, DeleteById, UpdateCuenta,crearCuenta };
+  }
+  return { cuentas, findByUser, DeleteById, UpdateCuenta, crearCuenta };
 }, { persist: true });

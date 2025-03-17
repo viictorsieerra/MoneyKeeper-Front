@@ -1,87 +1,24 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useMetaAhorroStore } from '@/stores/MetaAhorro';
+import MetaAhorroDTO from '@/stores/DTO/MetaAhorroDTO';
+import MetaProgreso from '@/components/metaProgreso.vue';
 
 const store = useMetaAhorroStore()
-const isLoading = ref(true) 
-const showForm = ref(false) 
-const showEditForm = ref(false)  
-const newMeta = ref({
-  _idMeta: 0,
-  _nombreMeta: '',
-  _descripcionMeta: '',
-  _dineroObjetivo: 0,
-  _dineroActual: 0,
-  _activoMeta: true,
-  _fechaObjetivoMeta: new Date().toISOString().split('T')[0], 
-})
+const isLoading = ref(true)
+const showForm = ref(false)
+const showEditForm = ref(false)
+const metas = computed(() => store.metas)
+const newMeta = ref(new MetaAhorroDTO())
 
-const metaEditada = ref({ 
-  _idMeta: 0,
-  _nombreMeta: '',
-  _descripcionMeta: '',
-  _dineroObjetivo: 0,
-  _dineroActual: 0,
-  _activoMeta: true,
-  _fechaObjetivoMeta: new Date().toISOString().split('T')[0],
-})
+const metaEditada = ref(new MetaAhorroDTO())
+store.findByUser()
 
-const crearMeta = async () => {
-  try {
-    console.log(newMeta.value)
-    await store.createMetaAhorro(newMeta.value) 
-    showForm.value = false 
-    newMeta.value = {
-      _idMeta: 0, 
-      _nombreMeta: '',
-      _descripcionMeta: '',
-      _dineroObjetivo: 0,
-      _dineroActual: 0,
-      _activoMeta: true,
-      _fechaObjetivoMeta: new Date().toISOString().split('T')[0], 
-    }
-    await store.findByUser() 
-  } catch (error) {
-    console.error('Error al crear la meta:', error)
-  }
+function actualizarMeta(meta : MetaAhorroDTO)
+{
+  metaEditada.value = meta
+  showEditForm.value = !showEditForm.value
 }
-
-const eliminarMeta = async (metaId: number | undefined) => {
-  if (!metaId) {
-    console.error('ID de meta inválido:', metaId)
-    return
-  }
-  try {
-    await store.deleteMetaAhorro(metaId) 
-    await store.findByUser() 
-  } catch (error) {
-    console.error('Error al eliminar la meta:', error)
-  }
-}
-
-const editarMeta = (meta: any) => {
-  
-  metaEditada.value = { ...meta }
-  showEditForm.value = true 
-}
-
-const actualizarMeta = async () => {
-  try {
-    console.log("SI", metaEditada.value)
-    await store.UpdateMetaAhorro(metaEditada.value._idMeta, metaEditada.value);
-
-    showEditForm.value = false;  
-    await store.findByUser();  
-  } catch (error) {
-    console.error('Error al actualizar la meta:', error);
-  }
-}
-
-onMounted(async () => {
-  await store.findByUser() 
-  console.log('Datos crudos recibidos del backend:', store.metas)
-  isLoading.value = false 
-})
 </script>
 
 <template>
@@ -94,7 +31,7 @@ onMounted(async () => {
     <div v-if="showForm" class="metas__form">
       <button @click="showForm = false" class="btn-close">×</button>
       <h3>Crear Nueva Meta de Ahorro</h3>
-      <form @submit.prevent="crearMeta">
+      <form>
         <div>
           <label for="nombremeta">Nombre de la Meta:</label>
           <input type="text" id="nombremeta" v-model="newMeta._nombreMeta" required />
@@ -119,58 +56,51 @@ onMounted(async () => {
           <label for="fechaObjetivoMeta">Fecha Objetivo:</label>
           <input type="date" id="fechaObjetivoMeta" v-model="newMeta._fechaObjetivoMeta" required />
         </div>
-        <button type="submit">Crear Meta</button>
+        <button type="submit" @click="store.addMetaAhorro(newMeta); showForm = false">Crear Meta</button>
       </form>
     </div>
 
-  
-    <div v-if="showEditForm" class="metas__form">
-      <button @click="showEditForm = false" class="btn-close">×</button>
-      <h3>Editar Meta de Ahorro</h3>
-      <form @submit.prevent="actualizarMeta">
-        <div>
-          <label for="nombremeta">Nombre de la Meta:</label>
-          <input type="text" id="nombremeta" v-model="metaEditada._nombreMeta" required />
-        </div>
-        <div>
-          <label for="descripcionMeta">Descripción:</label>
-          <input type="text" id="descripcionMeta" v-model="metaEditada._descripcionMeta" required />
-        </div>
-        <div>
-          <label for="dineroObjetivo">Dinero Objetivo (€):</label>
-          <input type="number" id="dineroObjetivo" v-model="metaEditada._dineroObjetivo" required />
-        </div>
-        <div>
-          <label for="dineroActual">Dinero Actual (€):</label>
-          <input type="number" id="dineroActual" v-model="metaEditada._dineroActual" required />
-        </div>
-        <div>
-          <label for="activoMeta">Estado:</label>
-          <input type="checkbox" id="activoMeta" v-model="metaEditada._activoMeta" />
-        </div>
-        <div>
-          <label for="fechaObjetivoMeta">Fecha Objetivo:</label>
-          <input type="date" id="fechaObjetivoMeta" v-model="metaEditada._fechaObjetivoMeta" required />
-        </div>
-        <button type="submit">Actualizar Meta</button>
-      </form>
-    </div>
-
-
-    <div v-if="!isLoading" class="metas__views" v-for="meta in store.metas" :key="meta.idMeta || meta._idMeta">
+    <div class="metas__views" v-for="meta in metas" :key="meta._idMeta">
       <div class="metas__views-card">
         <p><span>Nombre de la meta:</span> {{ meta._nombreMeta }}</p>
         <p><span>Descripción:</span> {{ meta._descripcionMeta }}</p>
         <p><span>Dinero objetivo:</span> {{ meta._dineroObjetivo }}€</p>
         <p><span>Dinero actual:</span> {{ meta._dineroActual }}€</p>
         <p><span>Estado:</span> {{ meta._activoMeta ? 'Activa' : 'Inactiva' }}</p>
-        <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>  
+        <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>
         <p><span>Fecha objetivo:</span> {{ meta._fechaObjetivoMeta }}</p>
-          <button @click="editarMeta(meta)">Editar</button>
-          <button @click="eliminarMeta(meta.idMeta || meta._idMeta)">Eliminar</button>
+        <MetaProgreso 
+          :actual="meta._dineroActual" 
+          :objetivo="meta._dineroObjetivo" 
+        />
+        <button @click="actualizarMeta(meta)">Editar</button>
+        <button @click="store.deleteMetaAhorro(meta._idMeta)">Eliminar</button>
+      </div>
+    </div>
 
-      
-        
+    <div v-if="showEditForm" class="modal">
+          <h3>Editar Meta de Ahorro</h3>
+      <div class="modal-content">
+        <label for="nombremeta">Nombre de la Meta:
+          <input type="text" id="nombremeta" v-model="metaEditada._nombreMeta" required />
+        </label>
+        <label for="descripcionMeta">Descripción:
+          <input type="text" id="descripcionMeta" v-model="metaEditada._descripcionMeta" required />
+        </label>
+        <label for="dineroObjetivo">Dinero Objetivo (€):
+          <input type="number" id="dineroObjetivo" v-model="metaEditada._dineroObjetivo" required />
+        </label>
+        <label for="dineroActual">Dinero Actual (€):
+          <input type="number" id="dineroActual" v-model="metaEditada._dineroActual" required />
+        </label>
+        <label for="activoMeta">Estado:
+          <input type="checkbox" id="activoMeta" v-model="metaEditada._activoMeta" />
+        </label>
+        <label for="fechaObjetivoMeta">Fecha Objetivo:
+          <input type="date" id="fechaObjetivoMeta" v-model="metaEditada._fechaObjetivoMeta" required />
+        </label>
+        <button @click="store.UpdateMetaAhorro(metaEditada); showEditForm = false">Actualizar Meta</button>
+        <button @click="showEditForm = false">Cancelar</button>
       </div>
     </div>
   </main>
@@ -217,7 +147,7 @@ onMounted(async () => {
       transition: transform 0.2s ease-in-out;
       margin-top: 2%;
       margin-bottom: 2%;
-      
+
       &:hover {
         transform: translateY(-3px);
       }
@@ -265,13 +195,14 @@ onMounted(async () => {
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 20px;
-    
+
 
     &:hover {
       background-color: #0056b3;
     }
   }
-  .metas__views-card button{
+
+  .metas__views-card button {
     padding: 10px;
     background-color: #dc3545;
     color: white;
@@ -279,7 +210,7 @@ onMounted(async () => {
     border-radius: 5px;
     cursor: pointer;
     margin: 1%
-}
+  }
 
   .btn-close {
     position: absolute;
@@ -337,9 +268,80 @@ onMounted(async () => {
         background-color: #218838;
       }
     }
+  }
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 
-   
+    &-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
 
+      h3 {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      label {
+        display: flex;
+        flex-direction: column;
+        font-weight: bold;
+        color: #333;
+
+        input,
+        select {
+          margin-top: 5px;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+      }
+
+      .modal-buttons {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+          flex: 1;
+          margin: 0 5px;
+          padding: 10px;
+          border: none;
+          border-radius: 5px;
+          color: white;
+          cursor: pointer;
+          transition: background 0.3s;
+
+          &:first-child {
+            background-color: #4caf50;
+
+            &:hover {
+              background-color: #45a049;
+            }
+          }
+
+          &:last-child {
+            background-color: #f44336;
+
+            &:hover {
+              background-color: #da190b;
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>

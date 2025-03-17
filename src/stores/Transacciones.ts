@@ -72,7 +72,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     const token = jwtStore.jwt
     transaccion._idUsuario = jwtStore.usuario._idUsuario
     console.log("TRANSACCION A ACTUALIZAR: ", transaccion)
-    fetch("https://localhost:7053/Transaccion", {
+    fetch(`https://localhost:7053/Transaccion/${transaccion._idTransaccion}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization' : `Bearer ${token}` },
       body: JSON.stringify(transaccion)
@@ -102,5 +102,5 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     .catch(error => console.error(error))
   }
 
-  return { transacciones, findByUser, getTransaccionesFilters, addTransaccion, deleteTransaccion }
+  return { transacciones, findByUser, getTransaccionesFilters, addTransaccion, deleteTransaccion, updateTransaccion }
 }, { persist: true })

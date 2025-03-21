@@ -79,7 +79,6 @@ function actualizarMeta(meta : MetaAhorroDTO)
     </div>
 
     <div v-if="showEditForm" class="modal">
-          <h3>Editar Meta de Ahorro</h3>
       <div class="modal-content">
         <label for="nombremeta">Nombre de la Meta:
           <input type="text" id="nombremeta" v-model="metaEditada._nombreMeta" required />

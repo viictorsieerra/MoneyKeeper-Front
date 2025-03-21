@@ -18,7 +18,8 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
         .then(res => res.json())
         .then(data => {
           data.forEach((meta: any) => {
-            meta._fechaCreacionMeta = new Date(meta._fechaCreacionMeta).toLocaleString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+            meta._fechaCreacionMeta =meta._fechaCreacionMeta.split('T')[0]
+            meta._fechaObjetivoMeta = meta._fechaObjetivoMeta.split('T')[0]
           })
           console.log(data)
           metas.value.splice(0, metas.value.length, ...data)
@@ -68,7 +69,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
   function UpdateMetaAhorro(updatedMeta: MetaAhorroDTO) {
     const strToken = jwtStore.jwt;
     updatedMeta._idUsuario = jwtStore.usuario._idUsuario
-    updatedMeta._fechaCreacionMeta = new Date(updatedMeta._fechaCreacionMeta);
+    // updatedMeta._fechaCreacionMeta = new Date(updatedMeta._fechaCreacionMeta);
     console.log("META A EDITAR ", updatedMeta)
     fetch(`https://localhost:7053/api/MetaAhorro/${updatedMeta._idMeta}`, {
       method: 'PUT',

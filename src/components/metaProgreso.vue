@@ -98,6 +98,7 @@ function formatearDinero(valor: number): string {
     &__marcador {
       position: absolute;
       top: -4px;
+      display: none;
       width: 3px;
       height: 24px;
       background-color: #007bff;

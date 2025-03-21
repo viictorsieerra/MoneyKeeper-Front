@@ -143,7 +143,7 @@ const isDrawerOpen = ref(false); // Controla si el menú desplegable está abier
   align-items: center;
   padding: 1rem;
   background-color: #f8f9fa;
-  z-index: 100;
+  z-index: 8;
   position: relative;
 
   &__logo {

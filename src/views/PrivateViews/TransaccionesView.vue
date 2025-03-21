@@ -8,8 +8,9 @@ const store = useTransaccionStore()
 const categoriaStore = useCategoriaStore()
 
 const transacciones = computed(() => store.transacciones)
+const categorias = computed(() => categoriaStore.categorias)
 const mostrarModal = ref(false)
-const fechasFilter = ref(new filtradoDTO())
+const filtradoTrans = ref(new filtradoDTO())
 const updtTransaccion = ref(new TransaccionDTO())
 console.log(store)
 
@@ -32,9 +33,19 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
     <main class="transacciones">
         <h2 class="transacciones__titulo">Listado de transacciones</h2>
         <div class="transacciones__fechas">
-            <input type="date" v-model="fechasFilter._fechaInicio" />
-            <input type="date" v-model="fechasFilter._fechaFin" />
-            <svg @click="filtrar(fechasFilter)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" height="30px"
+            <input type="date" v-model="filtradoTrans._fechaInicio" />
+            <input type="date" v-model="filtradoTrans._fechaFin" />
+            <label>
+                Selecciona una Categoria:
+                <select v-model="filtradoTrans._idCategoria" required>
+                    <option v-for="categoria in categorias" :key="categoria._idCategoria"
+                        :value="categoria._idCategoria">
+                        {{ categoria._nombre }} - {{ categoria._descripcion }}
+                    </option>
+                </select>
+            </label>
+
+            <svg @click="filtrar(filtradoTrans)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" height="30px"
                 width="30px">
                 <circle cx="40" cy="40" r="25" stroke="black" stroke-width="3" fill="none" />
                 <line x1="58" y1="58" x2="80" y2="80" stroke="black" stroke-width="5" stroke-linecap="round" />
@@ -75,7 +86,7 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
                 <label>
                     Selecciona una Categoria:
                     <select v-model="updtTransaccion._idCategoria" required>
-                        <option v-for="categoria in categoriaStore.categorias" :key="categoria._idCategoria"
+                        <option v-for="categoria in categorias" :key="categoria._idCategoria"
                             :value="categoria._idCategoria">
                             {{ categoria._nombre }} - {{ categoria._descripcion }}
                         </option>

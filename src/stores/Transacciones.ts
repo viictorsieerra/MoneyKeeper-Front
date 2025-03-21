@@ -36,7 +36,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
   function getTransaccionesFilters(filtrado: filtradoDTO) {
     const token = jwtStore.jwt
     transacciones.value = []
-    fetch(`https://localhost:7053/api/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}`,
+    fetch(`https://localhost:7053/api/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}&idCategoria=${filtrado._idCategoria}`,
       { headers: { 'Authorization': `Bearer ${token}` } }
     )
       .then(res => res.json())

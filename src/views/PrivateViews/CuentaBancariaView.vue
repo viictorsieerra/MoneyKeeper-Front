@@ -40,9 +40,9 @@ const editarCuenta = (cuenta: any) => {
 
 const actualizarCuenta = async () => {
   try {
-    await store.UpdateCuenta(cuentaSeleccionada.value)
+    store.UpdateCuenta(cuentaSeleccionada.value)
     mostrarModal.value = false
-    window.location.reload()
+    store.findByUser()
     // await store.findByUser()
   } catch (error) {
     console.error('Error al actualizar la cuenta:', error)
@@ -137,7 +137,8 @@ const crearCuenta = async () => {
         <label>
           Selecciona una Categoria:
           <select v-model="newTransaction._idCategoria" required>
-            <option v-for="categoria in categoriaStore.categorias" :key="categoria._idCategoria" :value="categoria._idCategoria">
+            <option v-for="categoria in categoriaStore.categorias" :key="categoria._idCategoria"
+              :value="categoria._idCategoria">
               {{ categoria._nombre }} - {{ categoria._descripcion }}
             </option>
           </select>
@@ -275,7 +276,7 @@ const crearCuenta = async () => {
       }
 
       button {
-        background-color: #ff4d4d;
+        background-color: #272727;
         color: white;
         border: none;
         padding: 10px 15px;
@@ -284,32 +285,42 @@ const crearCuenta = async () => {
         transition: background-color 0.3s;
 
         &:hover {
-          background-color: #ff1a1a;
+          background-color: #000000;
         }
       }
 
       button+button {
-        background-color: #4d79ff;
+        background-color: #ff4d4d;
+        // background-color: #4d79ff;
         margin-left: 10px;
 
         &:hover {
-          background-color: #1a53ff;
+          background-color: #ff1a1a;
         }
       }
     }
   }
 
   .cuentas__add-button {
+
     display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 20px;
+    flex-direction: column;
+    align-items: center;
+    @media (min-width: 768px) {
+      justify-content: space-evenly;
+      flex-direction: row;
+      margin-bottom: 20px;
+    }
+
   }
 
   .btn-add {
-    background-color: #4caf50;
+    background-color: gray;
+    // background-color: #4caf50;
     color: white;
     border: none;
     padding: 10px 20px;
+    margin: 15px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;

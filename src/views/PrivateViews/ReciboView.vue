@@ -47,7 +47,7 @@ store.findByUser()
         <p><span>Fecha del recibo:</span> {{ recibo._fecRecibo }}</p>
 
         <button @click="eliminarRecibo(recibo._idRecibo)" class="recibos__btn-delete">Eliminar</button>
-        <button @click="actualizarRecibo(recibo)" class="recibos__btn-update">Actualizar</button>
+        <button @click="actualizarRecibo(recibo)" class="recibos__btn-update">Editar</button>
       </div>
     </div>
 
@@ -83,7 +83,7 @@ store.findByUser()
           <button @click="showForm = false">Cancelar</button>
         </div>
       </div>
-    </div>  
+    </div>
   </main>
 </template>
 
@@ -138,7 +138,6 @@ store.findByUser()
 
       .recibos__btn-delete,
       .recibos__btn-update {
-        background-color: #e74c3c;
         color: white;
         margin: 10px;
         padding: 8px 16px;
@@ -146,9 +145,22 @@ store.findByUser()
         border-radius: 5px;
         cursor: pointer;
         margin-top: 10px;
+      }
 
-        &:hover {
-          background-color: #c0392b;
+      .recibos__btn {
+        &-delete {
+          background-color: #272727;
+
+          &:hover {
+            background-color: #000000;
+          }
+        }
+        &-update {
+            background-color: #ff4d4d;
+
+            &:hover {
+                background-color: #ff1a1a;
+            }
         }
       }
     }

@@ -49,7 +49,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
       .catch(er => console.error("Error creando la meta " + er))
   }
 
-  function deleteMetaAhorro(idMeta: number) {
+  function deleteMetaAhorro(idMeta: number | undefined) {
     const strToken = jwtStore.jwt;
     fetch(`https://localhost:7053/api/MetaAhorro/${idMeta}`, {
       method: 'DELETE',

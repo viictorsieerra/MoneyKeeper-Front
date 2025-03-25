@@ -18,6 +18,7 @@ function actualizarMeta(meta : MetaAhorroDTO)
 {
   metaEditada.value = meta
   showEditForm.value = !showEditForm.value
+  store.findByUser()
 }
 </script>
 
@@ -69,10 +70,9 @@ function actualizarMeta(meta : MetaAhorroDTO)
         <p><span>Estado:</span> {{ meta._activoMeta ? 'Activa' : 'Inactiva' }}</p>
         <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>
         <p><span>Fecha objetivo:</span> {{ meta._fechaObjetivoMeta }}</p>
-        <MetaProgreso 
-          :actual="meta._dineroActual" 
-          :objetivo="meta._dineroObjetivo" 
-        />
+        <MetaProgreso
+        :actual="meta._dineroActual" 
+        :objetivo="meta._dineroObjetivo" />
         <button @click="actualizarMeta(meta)">Editar</button>
         <button @click="store.deleteMetaAhorro(meta._idMeta)">Eliminar</button>
       </div>

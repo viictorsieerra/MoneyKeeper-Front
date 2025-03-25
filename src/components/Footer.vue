@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <p class="footer__text">&copy; 2025 MiPágina. Todos los derechos reservados.</p>
+    <p class="footer__text">&copy; 2025 MoneyKeeper. Todos los derechos reservados.</p>
     <div class="footer__social-links">
       <a href="#" class="footer__social-link">Facebook</a>
       <a href="#" class="footer__social-link">Twitter</a>

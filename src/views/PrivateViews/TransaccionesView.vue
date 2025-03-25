@@ -11,14 +11,23 @@ const transacciones = computed(() => store.transacciones)
 const categorias = computed(() => categoriaStore.categorias)
 const mostrarModal = ref(false)
 const filtradoTrans = ref(new filtradoDTO())
+filtradoTrans.value._idCategoria = 0
 const updtTransaccion = ref(new TransaccionDTO())
 console.log(store)
 
 store.findByUser()
 
 function filtrar(filtrado: filtradoDTO) {
-    store.getTransaccionesFilters(filtrado)
+    console.log("SE VA A FILTRAR: ", filtrado)
+    if (filtrado._fechaFin == undefined && filtrado._fechaInicio === undefined && (filtrado._idCategoria === undefined || filtrado._idCategoria === 0)) {
+        store.findByUser()
+    }
+    else {
+        store.getTransaccionesFilters(filtrado)
+    }
 }
+
+
 console.log(store)
 
 function actualizarTransaccion(transaccion: TransaccionDTO) {
@@ -32,24 +41,28 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
 <template>
     <main class="transacciones">
         <h2 class="transacciones__titulo">Listado de transacciones</h2>
-        <div class="transacciones__fechas">
-            <input type="date" v-model="filtradoTrans._fechaInicio" />
-            <input type="date" v-model="filtradoTrans._fechaFin" />
-            <label>
-                Selecciona una Categoria:
-                <select v-model="filtradoTrans._idCategoria" required>
-                    <option v-for="categoria in categorias" :key="categoria._idCategoria"
-                        :value="categoria._idCategoria">
-                        {{ categoria._nombre }} - {{ categoria._descripcion }}
-                    </option>
-                </select>
-            </label>
+        <div class="transacciones__filtro">
+            <input class="transacciones__filtro-fecha" type="date" v-model="filtradoTrans._fechaInicio" />
+            <input class="transacciones__filtro-fecha" type="date" v-model="filtradoTrans._fechaFin" />
+            <div class="transacciones__filtro-buscar">
+                <label>
+                    <select v-model="filtradoTrans._idCategoria" class="transacciones__filtro-categoria" required>
+                        <option v-for="categoria in categorias" :key="categoria._idCategoria"
+                            :value="categoria._idCategoria">
+                            {{ categoria._nombre }}
+                        </option>
+                        <option :value="0">
+                            Todas
+                        </option>
+                    </select>
+                </label>
 
-            <svg @click="filtrar(filtradoTrans)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" height="30px"
-                width="30px">
-                <circle cx="40" cy="40" r="25" stroke="black" stroke-width="3" fill="none" />
-                <line x1="58" y1="58" x2="80" y2="80" stroke="black" stroke-width="5" stroke-linecap="round" />
-            </svg>
+                <svg @click="filtrar(filtradoTrans)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+                    height="30px" width="30px" class="transacciones__filtro-lupa">
+                    <circle cx="40" cy="40" r="25" stroke="black" stroke-width="3" fill="none" />
+                    <line x1="58" y1="58" x2="80" y2="80" stroke="black" stroke-width="5" stroke-linecap="round" />
+                </svg>
+            </div>
         </div>
         <div class="transacciones__views">
             <div class="transacciones__views-card" v-for="transaccion in transacciones"
@@ -62,7 +75,7 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
                 <button class="transacciones__views-btn-delete"
                     @click="store.deleteTransaccion(transaccion._idTransaccion)">Eliminar</button>
                 <button class="transacciones__views-btn-update"
-                    @click="actualizarTransaccion(transaccion)">Actualizar</button>
+                    @click="actualizarTransaccion(transaccion)">Editar</button>
             </div>
         </div>
         <div v-if="mostrarModal" class="modal">
@@ -107,16 +120,6 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
 </template>
 
 <style lang="scss" scoped>
-.transacciones__fechas--input {
-    .v-picker-title {
-        display: none;
-    }
-}
-
-.v-picker-title {
-    display: none;
-}
-
 .transacciones {
     width: 85%;
     margin: 0 auto;
@@ -129,9 +132,34 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
     margin-left: 7%;
     height: fit-content;
 
-    &__fechas {
+    &__filtro {
         display: grid;
         justify-content: center;
+
+        &-buscar {
+            display: flex;
+        }
+
+        input,
+        select {
+            background-color: #b6b6b6;
+            padding: 5px;
+            width: 200px;
+            border-radius: 10px;
+            // color: white;
+            // fill: white;
+        }
+
+        &-fecha,
+        &-categoria,
+        &-lupa {
+            margin: 15px;
+            cursor: pointer;
+        }
+
+        &-fecha {
+            width: 200px;
+        }
 
         @media (min-width: 992px) {
             display: flex;
@@ -183,10 +211,25 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
 
         &-btn-delete,
         &-btn-update {
-            padding: 10px;
+            color: white;
+            padding: 10px 15px;
             margin: 10px;
-            background-color: #F44336;
             border-radius: 10px;
+        }
+
+        &-btn-delete {
+            background-color: #272727;
+
+            &:hover {
+                background-color: #000000;
+            }
+        }
+        &-btn-update {
+            background-color: #ff4d4d;
+
+            &:hover {
+                background-color: #ff1a1a;
+            }
         }
     }
 

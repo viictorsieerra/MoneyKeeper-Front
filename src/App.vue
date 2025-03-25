@@ -16,7 +16,7 @@ import Footer from './components/Footer.vue';
 <style>
 .app{
   position: relative;
-  font-family: "Montserrat, sans-serif";
+  font-family: "Oswald, sans-serif";
 }
 body {
   margin: 0;

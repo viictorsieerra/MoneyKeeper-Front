@@ -1,26 +1,24 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps({
-  actual: {
-    type: Number,
-    required: true
-  },
-  objetivo: {
-    type: Number,
-    required: true
-  }
-});
+const props = defineProps<{
+  actual?: number;
+  objetivo?: number;
+}>();
 
 const porcentaje = computed(() => {
-  if (props.objetivo <= 0) return 100;
-  const porcentajeCalculado = (props.actual / props.objetivo) * 100;
+  if (!props.objetivo || props.objetivo <= 0) return 100; // Si objetivo es 0 o undefined, retorna 100
+  const porcentajeCalculado = (props.actual ?? 0) / props.objetivo * 100;
   return Math.min(100, Math.max(0, Math.round(porcentajeCalculado)));
 });
 
 const faltante = computed(() => {
-  return Math.max(0, props.objetivo - props.actual);
+  if (props.objetivo && props.actual !== undefined) {
+    return Math.max(0, props.objetivo - props.actual);
+  }
+  return 0;
 });
+
 
 const estiloProgreso = computed(() => {
   return {
@@ -53,7 +51,7 @@ function formatearDinero(valor: number): string {
         </div>
         <div class="medidor__etiquetas">
           <span class="medidor__etiqueta">0€</span>
-          <span class="medidor__etiqueta">{{ formatearDinero(objetivo) }}</span>
+          <span class="medidor__etiqueta">{{ formatearDinero(objetivo ?? 0) }}</span>
         </div>
       </div>
       <div class="meta-detalles">

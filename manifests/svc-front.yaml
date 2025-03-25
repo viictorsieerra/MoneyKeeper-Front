@@ -2,19 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: front-svc
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:209530367658:certificate/2a8e9305-bfe7-4a9d-a05f-14d95b8c0ee8"
-    # Only run TLS on the port named "https" below.
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
 spec:
   selector:
-    app: front-app
+    app: front
   ports:
   - name: http
     port: 80
-    targetPort: 80
-  - name: https
-    port: 443
     targetPort: 80
   type: LoadBalancer

@@ -1,10 +1,14 @@
 @import './variables';
 @import './mixins';
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+html, body, * {
+    font-family: 'Roboto', sans-serif !important;
+  }
 body {  
     background-color: $secondary-color;
     color: $primary-color;
-    font-family:"Oswald, sans-serif";
     margin: 0;
     padding: 0;
     width: 100%;

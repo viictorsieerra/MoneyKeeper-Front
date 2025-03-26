@@ -14,8 +14,7 @@ const newMeta = ref(new MetaAhorroDTO())
 const metaEditada = ref(new MetaAhorroDTO())
 store.findByUser()
 
-function actualizarMeta(meta : MetaAhorroDTO)
-{
+function actualizarMeta(meta: MetaAhorroDTO) {
   metaEditada.value = meta
   showEditForm.value = !showEditForm.value
   store.findByUser()
@@ -26,7 +25,8 @@ function actualizarMeta(meta : MetaAhorroDTO)
   <main class="metas">
     <h2 class="metas__titulo">Listado de Metas de Ahorro</h2>
 
-    <button @click="showForm = !showForm" v-if="!showForm" class="btn-add">Añadir Meta de Ahorro</button>
+    <div class="metas__boton"><button @click="showForm = !showForm" v-if="!showForm" class="btn-add">Añadir Meta de
+        Ahorro</button></div>
 
 
     <div v-if="showForm" class="metas__form">
@@ -70,11 +70,9 @@ function actualizarMeta(meta : MetaAhorroDTO)
         <p><span>Estado:</span> {{ meta._activoMeta ? 'Activa' : 'Inactiva' }}</p>
         <p><span>Fecha de creación:</span> {{ meta._fechaCreacionMeta }}</p>
         <p><span>Fecha objetivo:</span> {{ meta._fechaObjetivoMeta }}</p>
-        <MetaProgreso
-        :actual="meta._dineroActual" 
-        :objetivo="meta._dineroObjetivo" />
-        <button @click="actualizarMeta(meta)">Editar</button>
-        <button @click="store.deleteMetaAhorro(meta._idMeta)">Eliminar</button>
+        <MetaProgreso :actual="meta._dineroActual" :objetivo="meta._dineroObjetivo" />
+        <button class="metas__views-btn-delete" @click="store.deleteMetaAhorro(meta._idMeta)">Eliminar</button>
+        <button class="metas__views-btn-update" @click="actualizarMeta(meta)">Editar</button>
       </div>
     </div>
 
@@ -98,8 +96,10 @@ function actualizarMeta(meta : MetaAhorroDTO)
         <label for="fechaObjetivoMeta">Fecha Objetivo:
           <input type="date" id="fechaObjetivoMeta" v-model="metaEditada._fechaObjetivoMeta" required />
         </label>
-        <button @click="store.UpdateMetaAhorro(metaEditada); showEditForm = false">Actualizar Meta</button>
-        <button @click="showEditForm = false">Cancelar</button>
+        <div class="modal-buttons">
+          <button @click="store.UpdateMetaAhorro(metaEditada); showEditForm = false">Guardar</button>
+          <button @click="showEditForm = false">Cancelar</button>
+        </div>
       </div>
     </div>
   </main>
@@ -124,6 +124,11 @@ function actualizarMeta(meta : MetaAhorroDTO)
     font-weight: bold;
     margin-bottom: 20px;
     color: #333;
+  }
+
+  &__boton {
+    display: flex;
+    justify-content: center;
   }
 
   .loading-message {
@@ -162,16 +167,61 @@ function actualizarMeta(meta : MetaAhorroDTO)
         }
       }
 
-      button {
-        padding: 10px;
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+
+    }
+
+    &-btn-delete,
+    &-btn-update {
+      color: white;
+      padding: 10px 15px;
+      margin: 10px;
+      border-radius: 10px;
+    }
+
+    &-btn-delete {
+      background-color: #272727;
+
+      &:hover {
+        background-color: #000000;
+      }
+    }
+
+    &-btn-update {
+      background-color: #ff4d4d;
+
+      &:hover {
+        background-color: #ff1a1a;
+      }
+    }
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      flex: 1;
+      margin: 0 5px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:first-child {
+        background-color: #4caf50;
 
         &:hover {
-          background-color: #c82333;
+          background-color: #45a049;
+        }
+      }
+
+      &:last-child {
+        background-color: #f44336;
+
+        &:hover {
+          background-color: #da190b;
         }
       }
     }
@@ -188,7 +238,7 @@ function actualizarMeta(meta : MetaAhorroDTO)
 
   .btn-add {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: gray;
     color: white;
     border: none;
     border-radius: 5px;
@@ -197,19 +247,12 @@ function actualizarMeta(meta : MetaAhorroDTO)
 
 
     &:hover {
-      background-color: #0056b3;
+      background-color: rgb(102, 102, 102);
+      transform: scale(1.05);
     }
   }
 
-  .metas__views-card button {
-    padding: 10px;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 1%
-  }
+
 
   .btn-close {
     position: absolute;
@@ -268,6 +311,7 @@ function actualizarMeta(meta : MetaAhorroDTO)
       }
     }
   }
+
   .modal {
     position: fixed;
     top: 0;

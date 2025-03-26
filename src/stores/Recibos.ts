@@ -2,11 +2,13 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
 import ReciboDTO from './DTO/ReciboDTO'
+import { useRouter } from 'vue-router'
 
 export const useReciboStore = defineStore('recibo', () => {
 
   const recibos = ref(new Array())
   const jwtStore = useJWTStore()
+  const router = useRouter()
   console.log(jwtStore)
 
   function findByUser() {
@@ -20,7 +22,7 @@ export const useReciboStore = defineStore('recibo', () => {
       console.log("Token no pillado correctamente")
     }
 
-    fetch("https://localhost:7053/api/Recibo/recibos", {
+    fetch("https://moneykeeper-api.retocsv.es/api/Recibo/recibos", {
       headers: { 'Authorization': `Bearer ${strToken}` }
     })
       .then(res => res.json())
@@ -41,7 +43,7 @@ export const useReciboStore = defineStore('recibo', () => {
     console.log(nuevoRecibo)
     try {
       
-      fetch('https://localhost:7053/api/Recibo', {
+      fetch('https://moneykeeper-api.retocsv.es/api/Recibo', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${strToken}`,
@@ -53,7 +55,7 @@ export const useReciboStore = defineStore('recibo', () => {
         if (!res.ok) {
           throw new Error('Error al crear el recibo')
         }
-        window.location.reload()
+        router.push("/private/recibos")
       })
 
     } catch (error) {
@@ -66,7 +68,7 @@ export const useReciboStore = defineStore('recibo', () => {
     const strToken = jwtStore.jwt;
     try {
    
-      const response = await fetch(`https://localhost:7053/api/Recibo/${idRecibo}`, {
+      const response = await fetch(`https://moneykeeper-api.retocsv.es/api/Recibo/${idRecibo}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${strToken}`,
@@ -90,7 +92,7 @@ export const useReciboStore = defineStore('recibo', () => {
     const token = jwtStore.jwt
     recibo._idUsuario = jwtStore.usuario._idUsuario
     console.log("RECIBO A ACTUALIZAR: ", recibo)
-    fetch(`https://localhost:7053/api/Recibo/${recibo._idRecibo}`, {
+    fetch(`https://moneykeeper-api.retocsv.es/api/Recibo/${recibo._idRecibo}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization' : `Bearer ${token}` },
       body: JSON.stringify(recibo)

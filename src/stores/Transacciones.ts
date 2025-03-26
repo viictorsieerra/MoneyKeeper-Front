@@ -3,12 +3,14 @@ import { defineStore } from 'pinia'
 import { useJWTStore } from '@/stores/JWT'
 import filtradoDTO from '@/stores/DTO/FiltradoDTO'
 import TransaccionDTO from './DTO/TransaccionDTO'
+import { useRouter } from 'vue-router'
 
 export const useTransaccionStore = defineStore('transaccion', () => {
 
   var transacciones = ref(new Array())
   const jwtStore = useJWTStore()
   console.log(jwtStore)
+  const router = useRouter()
   function findByUser() {
     const strToken = jwtStore.jwt
 
@@ -19,7 +21,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     }
     else (console.log("Token no pillado correctamente"))
 
-    fetch("https://localhost:7053/api/Transaccion/transacciones",
+    fetch("https://moneykeeper-api.retocsv.es/api/Transaccion/transacciones",
       { headers: { 'Authorization': `Bearer ${strToken}` } })
       .then(res => res.json())
       .then(data => {
@@ -36,7 +38,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
   function getTransaccionesFilters(filtrado: filtradoDTO) {
     const token = jwtStore.jwt
     transacciones.value = []
-    fetch(`https://localhost:7053/api/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}&idCategoria=${filtrado._idCategoria}`,
+    fetch(`https://moneykeeper-api.retocsv.es/api/Transaccion/filtro?fechaInicio=${filtrado._fechaInicio}&fechaFin=${filtrado._fechaFin}&idCategoria=${filtrado._idCategoria}`,
       { headers: { 'Authorization': `Bearer ${token}` } }
     )
       .then(res => res.json())
@@ -55,13 +57,14 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     const token = jwtStore.jwt
     transaccion._idUsuario = jwtStore.usuario._idUsuario
     console.log("TRANSACCION A AÑADIR: ", transaccion)
-    fetch("https://localhost:7053/api/Transaccion", {
+    fetch("https://moneykeeper-api.retocsv.es/api/Transaccion", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization' : `Bearer ${token}` },
       body: JSON.stringify(transaccion)
     })
       .then(res => res.text())
       .then(data => {
+        router.push("/private/transacciones")
         console.log(data)
       })
       .catch(error => console.log(error))
@@ -72,7 +75,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
     const token = jwtStore.jwt
     transaccion._idUsuario = jwtStore.usuario._idUsuario
     console.log("TRANSACCION A ACTUALIZAR: ", transaccion)
-    fetch(`https://localhost:7053/api/Transaccion/${transaccion._idTransaccion}`, {
+    fetch(`https://moneykeeper-api.retocsv.es/api/Transaccion/${transaccion._idTransaccion}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization' : `Bearer ${token}` },
       body: JSON.stringify(transaccion)
@@ -88,7 +91,7 @@ export const useTransaccionStore = defineStore('transaccion', () => {
   function deleteTransaccion(id: number)
   {
     const token = jwtStore.jwt
-    fetch(`https://localhost:7053/api/Transaccion/${id}`, {
+    fetch(`https://moneykeeper-api.retocsv.es/api/Transaccion/${id}`, {
       method: 'DELETE',
       headers: { 'Authorization' : `Bearer ${token}` }
     }).then(res => {

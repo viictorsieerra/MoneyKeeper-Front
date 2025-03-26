@@ -4,6 +4,7 @@ import { useTransaccionStore } from '@/stores/Transacciones'
 import filtradoDTO from '@/stores/DTO/FiltradoDTO';
 import TransaccionDTO from '@/stores/DTO/TransaccionDTO';
 import { useCategoriaStore } from '@/stores/Categoria';
+import { fa } from 'vuetify/locale';
 const store = useTransaccionStore()
 const categoriaStore = useCategoriaStore()
 
@@ -15,16 +16,24 @@ filtradoTrans.value._idCategoria = 0
 const updtTransaccion = ref(new TransaccionDTO())
 console.log(store)
 
+categoriaStore.getCategorias()
 store.findByUser()
-
+const isLoading = ref(false);
+const isFiltrado = ref(false)
 function filtrar(filtrado: filtradoDTO) {
     console.log("SE VA A FILTRAR: ", filtrado)
+    isLoading.value = true;
     if (filtrado._fechaFin == undefined && filtrado._fechaInicio === undefined && (filtrado._idCategoria === undefined || filtrado._idCategoria === 0)) {
         store.findByUser()
+        isFiltrado.value = false
     }
     else {
         store.getTransaccionesFilters(filtrado)
+        isFiltrado.value = true
     }
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 1000);
 }
 
 
@@ -57,11 +66,20 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
                     </select>
                 </label>
 
-                <svg @click="filtrar(filtradoTrans)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
-                    height="30px" width="30px" class="transacciones__filtro-lupa">
-                    <circle cx="40" cy="40" r="25" stroke="black" stroke-width="3" fill="none" />
-                    <line x1="58" y1="58" x2="80" y2="80" stroke="black" stroke-width="5" stroke-linecap="round" />
+                <div v-if="isFiltrado">
+                    <svg @click="filtrar(filtradoTrans)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+                        height="30px" width="30px" class="transacciones__filtro-lupa" :class="{ 'loading': isLoading }">
+                        <circle cx="40" cy="40" r="25" stroke="red" stroke-width="5" fill="none" />
+                        <line x1="58" y1="58" x2="80" y2="80" stroke="red" stroke-width="7" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div v-else>
+                    <svg @click="filtrar(filtradoTrans)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"
+                    height="30px" width="30px" class="transacciones__filtro-lupa" :class="{ 'loading': isLoading }">
+                    <circle cx="40" cy="40" r="25" stroke="black" stroke-width="5" fill="none" />
+                    <line x1="58" y1="58" x2="80" y2="80" stroke="black" stroke-width="7" stroke-linecap="round" />
                 </svg>
+                </div>
             </div>
         </div>
         <div class="transacciones__views">
@@ -120,6 +138,20 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
 </template>
 
 <style lang="scss" scoped>
+.loading {
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .transacciones {
     width: 85%;
     margin: 0 auto;
@@ -224,6 +256,7 @@ function actualizarTransaccion(transaccion: TransaccionDTO) {
                 background-color: #000000;
             }
         }
+
         &-btn-update {
             background-color: #ff4d4d;
 

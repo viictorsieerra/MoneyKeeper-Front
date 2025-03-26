@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useCuentaBancariaStore } from '@/stores/CuentaBancaria'
 import { useReciboStore } from '@/stores/Recibos'
 import { useTransaccionStore } from '@/stores/Transacciones'
@@ -17,6 +17,7 @@ const transaccionStore = useTransaccionStore()
 const categoriaStore = useCategoriaStore()
 store.findByUser()
 categoriaStore.getCategorias()
+const categorias = computed(() => categoriaStore.categorias)
 const cuentaSeleccionada = ref<any>(null)
 const mostrarModal = ref(false)
 const mostrarFormulario = ref(false)
@@ -137,9 +138,9 @@ const crearCuenta = async () => {
         <label>
           Selecciona una Categoria:
           <select v-model="newTransaction._idCategoria" required>
-            <option v-for="categoria in categoriaStore.categorias" :key="categoria._idCategoria"
+            <option v-for="categoria in categorias" :key="categoria._idCategoria"
               :value="categoria._idCategoria">
-              {{ categoria._nombre }} - {{ categoria._descripcion }}
+              {{ categoria._nombre }}
             </option>
           </select>
         </label>
@@ -327,7 +328,7 @@ const crearCuenta = async () => {
     transition: background-color 0.3s ease, transform 0.2s ease;
 
     &:hover {
-      background-color: #45a049;
+      background-color: rgb(102, 102, 102);
       transform: scale(1.05);
     }
 

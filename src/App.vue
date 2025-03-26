@@ -16,12 +16,12 @@ import Footer from './components/Footer.vue';
 <style>
 .app{
   position: relative;
-  font-family: "Oswald, sans-serif";
+  /* font-family: "Oswald, sans-serif"; */
 }
 body {
   margin: 0;
   
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
 }
 .header {
  z-index: 1;

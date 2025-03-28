@@ -8,6 +8,7 @@ import ReciboView from '@/views/PrivateViews/ReciboView.vue'
 import SobreNosotrosView from '@/views/SobreNosotrosView.vue'
 import ConsejosView from '@/views/ConsejosView.vue'
 import PerfilView from '@/views/PerfilView.vue';
+import PresupuestosView from '@/views/PrivateViews/PresupuestosView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,7 @@ const router = createRouter({
         { path: 'cuenta-bancaria', component: CuentaBancariaView },
         { path: 'meta-ahorro', component: MetaAhorroView },
         { path: 'recibos', component: ReciboView },
+        { path: 'presupuestos', component: PresupuestosView },
       ],
     },
     {

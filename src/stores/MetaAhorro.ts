@@ -12,7 +12,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
     const strToken = jwtStore.jwt
 
     if (strToken) {
-      fetch("https://moneykeeper-api.retocsv.es/api/MetaAhorro/metas", {
+      fetch("https://localhost:7053/api/MetaAhorro/metas", {
         headers: { 'Authorization': `Bearer ${strToken}` }
       })
         .then(res => res.json())
@@ -36,7 +36,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
 
     metaData._idUsuario = jwtStore.usuario._idUsuario
 
-    fetch("https://moneykeeper-api.retocsv.es/api/MetaAhorro", {
+    fetch("https://localhost:7053/api/MetaAhorro", {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${strToken}`,
@@ -51,7 +51,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
 
   function deleteMetaAhorro(idMeta: number | undefined) {
     const strToken = jwtStore.jwt;
-    fetch(`https://moneykeeper-api.retocsv.es/api/MetaAhorro/${idMeta}`, {
+    fetch(`https://localhost:7053/api/MetaAhorro/${idMeta}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${strToken}`,
@@ -72,7 +72,7 @@ export const useMetaAhorroStore = defineStore('metaAhorro', () => {
     updatedMeta._idUsuario = jwtStore.usuario._idUsuario
     // updatedMeta._fechaCreacionMeta = new Date(updatedMeta._fechaCreacionMeta);
     console.log("META A EDITAR ", updatedMeta)
-    fetch(`https://moneykeeper-api.retocsv.es/api/MetaAhorro/${updatedMeta._idMeta}`, {
+    fetch(`https://localhost:7053/api/MetaAhorro/${updatedMeta._idMeta}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${strToken}`,

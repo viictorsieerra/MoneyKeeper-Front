@@ -26,6 +26,11 @@
                 Cuentas
               </router-link>
             </li>
+            <li class="private-home__nav-item">
+              <router-link to="/private/presupuestos" class="private-home__nav-link" active-class="active-link">
+                Presupuestos
+              </router-link>
+            </li>
           </ul>
         </nav>
       </aside>
